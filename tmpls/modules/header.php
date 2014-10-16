@@ -18,3 +18,11 @@
 		<div class="hedaer_right"></div>
 	</header>
 	<div class="content">
+	<div class="content_top_coll">
+		<ul class="main_menu">
+			<li><a href="/"><i class="fa fa-align-justify"></i>My Boards</a></li>
+			<li><i class="fa fa-users"></i>Friends</li>
+			<li><i class="fa fa-child"></i>Subscribers</li>
+			<li><a href="/profile"><i class="fa fa-cog"></i>Settings</a></li>
+		</ul>
+	</div>

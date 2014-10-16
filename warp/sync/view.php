@@ -18,8 +18,9 @@
 		}
 	
 		public function generate_page($page_name){
-			if (in_array(strtolower($page_name), $this->page_list)) $this->make_page($page_name);
-			elseif (empty($page_name)) $this->make_page('home');
+			$_PG = new Pages();
+			if (in_array(strtolower($page_name), $this->page_list)) $_PG->$page_name();
+			elseif (empty($page_name)) $_PG->home();
 			else{
 				$this->header = false; $this->footer = false;
 				$this->make_page('error/404');
