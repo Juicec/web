@@ -1,0 +1,155 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
+.error_body {
+  padding: 0px;
+  margin: 0px;
+  background: #c8d432;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.error_cont {
+  font-size: 5em;
+  text-align: center;
+  margin-top: 10%;
+}
+
+.error_cont .error_code {
+  display: block;
+  color: white;
+}
+
+.error_cont .error_text {
+  display: block;
+  font-size: 0.5em;
+  color: #393939;
+}
+
+body {
+  margin: 0px;
+  font-size: 16px;
+}
+
+header {
+  position: relative;
+  box-shadow: 0 1px 0px black, 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+header .hedaer_center,
+header .hedaer_left,
+header .hedaer_right {
+  color: #c8d432;
+  font-size: 1em;
+  background: #393939;
+  font-family: 'Oswald', sans-serif;
+  text-decoration: none;
+  height: 2em;
+}
+
+.hedaer_center {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.hedaer_left {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 15%;
+}
+
+.hedaer_right {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 15%;
+}
+
+header .header_info {
+  padding: 0.1em 1em;
+  height: 1.9em;
+  line-height: 1.9em;
+  text-align: center;
+}
+
+.user_menu {
+  font-size: 1.2em;
+  color: white;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.9);
+}
+
+.project_name {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 2em;
+  font-size: 1em;
+  line-height: 2em;
+  padding: 0 1em;
+  z-index: 1000;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1em;
+  font-family: 'Oswald', sans-serif;
+  text-decoration: none;
+}
+
+.project_name span {
+  font-size: 1em;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.page_body {
+  background: #F0F081;
+}
+
+.content {
+  width: 70%;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.9);
+  height: 30em;
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.4);
+  padding: 1px;
+  border-radius: 0 0 5px 5px;
+}
+
+.content_top_coll {
+  border-bottom: 1px solid #F0F081;
+}
+
+.main_menu {
+  width: 50%;
+  margin: 0 auto;
+  padding: 5px;
+  text-align: center;
+}
+
+.main_menu li {
+  font-size: 1em;
+  list-style: none;
+  display: inline-block;
+  padding: 0 10px;
+  color: #4D4D4D;
+  cursor: pointer;
+}
+.main_menu li i {
+  color: #727769;
+  padding: 0 5px;
+  font-size: 0.8em;
+}
+.main_menu li a{
+	text-decoration: none;
+	color: inherit;
+}
+.main_menu li:hover {
+  background: #efefac;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+}
+.profile_pic{
+	width: 100px;
+	height: 100px;
+}
