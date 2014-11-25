@@ -5,13 +5,13 @@
 </head>
 <body class="page_body">
 	<header>
-		<div class="project_name">DisBorad<span><i> My Hope</i></span></div>
+		<div class="project_name"><span><i>My Hope -//- Give Me Ruble :) </i></span></div>
 		<div class="hedaer_left">
 		</div>
 		<div class="hedaer_center">
 			<div class="header_info">
 				<div class="user_menu">
-					Vladimir Frolov
+					Владимир Фролов
 				</div>
 			</div>
 		</div>
@@ -20,9 +20,9 @@
 	<div class="content">
 	<div class="content_top_coll">
 		<ul class="main_menu">
-			<li><a href="/"><i class="fa fa-align-justify"></i>My Boards</a></li>
-			<li><i class="fa fa-users"></i>Friends</li>
-			<li><i class="fa fa-child"></i>Subscribers</li>
-			<li><a href="/profile"><i class="fa fa-cog"></i>Settings</a></li>
+			<li><a href="/"><i class="fa fa-align-justify"></i>Главная</a></li>
+			<li><i class="fa fa-users"></i>Друзья</li>
+			<li><i class="fa fa-child"></i>Моя лента</li>
+			<li><a href="/profile"><i class="fa fa-cog"></i>Настройки</a></li>
 		</ul>
 	</div>

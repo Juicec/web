@@ -126,7 +126,7 @@ header .header_info{
 	font-size: 1em;
 	list-style: none;
 	display: inline-block;
-	padding: 0 10px;
+	padding: 5px 10px;
 	color: #4D4D4D;
 	cursor: pointer;
 	
@@ -134,6 +134,12 @@ header .header_info{
 		color: #727769;
 		padding: 0 5px;
 		font-size: 0.8em;
+	}
+	
+	a{
+		color: #4D4D4D;
+		padding: 2px 5px;
+		text-decoration: none;
 	}
 	
 	:hover{
@@ -148,4 +154,7 @@ header .header_info{
 }
 
 .content_mid_coll{
+	img{
+		width: 150px;
+	}
 }
