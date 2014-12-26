@@ -1,3 +1,3 @@
 <div class="content_mid_coll">
-home page
+<? var_dump($_SESSION) ?>
 </div>

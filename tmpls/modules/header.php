@@ -1,28 +1,73 @@
 <html>
 <head>
 	<link rel="stylesheet" href="css/style.css" />
-	<link id="facss" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="js/main.js"></script>
 </head>
-<body class="page_body">
-	<header>
-		<div class="project_name"><span><i>My Hope -//- Give Me Ruble :) </i></span></div>
-		<div class="hedaer_left">
+<body>
+	<div id="head_menu">
+		<div class="head_col">
+			<div class="web_logo">task's book</div>
 		</div>
-		<div class="hedaer_center">
-			<div class="header_info">
+		<div class="user_name">
+			<span class="text_user_name">
+				<div class="full_menu_icon"></div>
+				Vladimir Frolov
 				<div class="user_menu">
-					Владимир Фролов
+					<ul>
+						<li class="edit_profile_btn">edit profile</li>
+						<li>my tasks</li>
+					</ul>
 				</div>
+			</span>
+		</div>
+		<div class="head_col">
+			<div class="search_block">
+				<input placeholder="Some text" class="search_input" type="text">
 			</div>
 		</div>
-		<div class="hedaer_right"></div>
-	</header>
-	<div class="content">
-	<div class="content_top_coll">
-		<ul class="main_menu">
-			<li><a href="/"><i class="fa fa-align-justify"></i>Главная</a></li>
-			<li><i class="fa fa-users"></i>Друзья</li>
-			<li><i class="fa fa-child"></i>Моя лента</li>
-			<li><a href="/profile"><i class="fa fa-cog"></i>Настройки</a></li>
-		</ul>
 	</div>
+	<div id="full_menu">
+		<div class="profile_info">
+			<div class="user_img"><img src="img/ava.png"><div class="edit_profile"><div class="edit_photo_text">Edit<br/>photo</div></div></div>
+			<div class="profile_col">
+				<div class="profile_user name">
+					<span>First name</span> 
+					<input type='text' id="user_first_name" value="Vladimir">
+				</div>
+				<div class="profile_user name">
+					<span>Last name</span> 
+					<input type='text' id="user_last_name" value="Frolov">
+				</div>
+			</div>
+			<div class="profile_col">
+				<div class="profile_user email">
+					<span>Email</span> 
+					<input type='email' id="user_email" value="frolad@gmail.com">
+				</div>
+				<div class="profile_user email">
+					<span>City</span> 
+					<input type='text' id="user_city" value="Moscow">
+				</div>
+			</div>
+			<div class="profile_col">
+				<div class="profile_user password">
+					<span>Enter new password</span> 
+					<input type='password' id="user_password" value="">
+				</div>
+				<div class="profile_user password">
+					<span>Confirm new password</span> 
+					<input type='password' id="user_conf_password" value="">
+				</div>
+			</div>
+			<div class="profile_col">
+				<div class="profile_user">
+				</div>
+				<div class="profile_user save_new">
+					<input type='button' id="save_new_profile" value="Save">
+				</div>
+			</div>
+			<div class="colse_profile_info"></div>
+		</div>
+	</div>
+	<div id="main_body">

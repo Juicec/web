@@ -1,156 +1,259 @@
-@import url(http://fonts.googleapis.com/css?family=Oswald);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+/* colors */
 @import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
-.error_body {
-  padding: 0px;
-  margin: 0px;
-  background: #c8d432;
-  font-family: 'Open Sans', sans-serif;
+@font-face {
+  font-family: 'Roboto';
+  src: url("../css/fonts/Roboto-Regular.ttf");
 }
 
-.error_cont {
-  font-size: 5em;
-  text-align: center;
-  margin-top: 10%;
-}
-
-.error_cont .error_code {
-  display: block;
-  color: white;
-}
-
-.error_cont .error_text {
-  display: block;
-  font-size: 0.5em;
-  color: #393939;
+@font-face {
+  font-family: 'Roboto-light';
+  src: url("../css/fonts/Roboto-Light.ttf");
 }
 
 body {
+  background: #cddc39;
+  font-family: 'Roboto';
+  padding: 0px;
   margin: 0px;
-  font-size: 16px;
 }
-
-header {
-  position: relative;
-  box-shadow: 0 1px 0px black, 0 1px 3px rgba(0, 0, 0, 0.8);
+body h1 {
+  font-size: 30px;
+  text-transform: uppercase;
+  margin: 0px;
 }
-
-header .hedaer_center,
-header .hedaer_left,
-header .hedaer_right {
-  color: #c8d432;
-  font-size: 1em;
-  background: #393939;
-  font-family: 'Oswald', sans-serif;
-  text-decoration: none;
-  height: 2em;
-}
-
-.hedaer_center {
-  width: 70%;
-  margin: 0 auto;
-}
-
-.hedaer_left {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 15%;
-}
-
-.hedaer_right {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 15%;
-}
-
-header .header_info {
-  padding: 0.1em 1em;
-  height: 1.9em;
-  line-height: 1.9em;
-  text-align: center;
-}
-
-.user_menu {
-  font-size: 1.2em;
+body #head_menu {
+  width: 100%;
+  height: 50px;
+  background: #0091ea;
   color: white;
-  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.9);
+  line-height: 3em;
+  box-shadow: inset 0 0 0 1px #0277bd;
 }
-
-.project_name {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 2em;
-  font-size: 1em;
-  line-height: 2em;
-  padding: 0 1em;
-  z-index: 1000;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1em;
-  font-family: 'Oswald', sans-serif;
-  text-decoration: none;
+body #head_menu .head_col {
+  height: 3em;
+  float: left;
+  width: 30%;
 }
-
-.project_name span {
-  font-size: 1em;
+body #head_menu .head_col .web_logo {
+  color: #b3e5fc;
+  margin-left: 0.3em;
+  width: 100%;
+  height: 100%;
+  font-size: 25px;
   font-family: 'Shadows Into Light', cursive;
 }
-
-.page_body {
-  background: #F0F081;
+body #head_menu .head_col .search_block {
+  width: 40px;
+  height: 3em;
+  background: url("../img/icons/ic_search_white_36dp.png") no-repeat;
+  background-position: 100% 50%;
+  margin-right: 0.3em;
+  cursor: pointer;
+  float: right;
+  margin-right: 0.3em;
 }
-
-.content {
-  width: 70%;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.9);
-  height: 30em;
-  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.4);
-  padding: 1px;
-  border-radius: 0 0 5px 5px;
-}
-
-.content_top_coll {
-  border-bottom: 1px solid #F0F081;
-}
-
-.main_menu {
-  width: 50%;
-  margin: 0 auto;
-  padding: 5px;
-  text-align: center;
-}
-
-.main_menu li {
+body #head_menu .head_col .search_block input {
+  width: 0px;
+  float: right;
+  margin-right: 40px;
+  margin-top: 13px;
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #cddc39;
+  color: white;
   font-size: 1em;
-  list-style: none;
-  display: inline-block;
-  padding: 5px 10px;
-  color: #4D4D4D;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+body #head_menu .head_col .search_block input::-webkit-input-placeholder {
+  color: #eeeeee;
+}
+body #head_menu .head_col .search_block:hover {
+  width: 100%;
+}
+body #head_menu .head_col .search_block:hover input {
+  width: 150px;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+body #head_menu .user_name {
+  float: left;
+  width: 40%;
+  color: white;
+  text-align: center;
+  font-size: 1.3em;
+  position: relative;
+}
+body #head_menu .user_name .text_user_name {
   cursor: pointer;
 }
-.main_menu li i {
-  color: #727769;
-  padding: 0 5px;
-  font-size: 0.8em;
+body #head_menu .user_name .text_user_name .user_menu {
+  display: none;
+  position: absolute;
+  width: 100px;
+  left: 50%;
+  margin-left: -50px;
+  top: 50px;
+  z-index: 99999;
 }
-.main_menu li a {
-  color: #4D4D4D;
+body #head_menu .user_name .text_user_name .user_menu ul {
+  border-radius: 0 0 5px 5px;
+  background: #eeeeee;
+  padding: 5px;
+  margin: 0;
+  list-style: none;
+  font-size: 13px;
+  color: #616161;
+}
+body #head_menu .user_name .text_user_name .user_menu ul li {
+  line-height: 15px;
   padding: 2px 5px;
-  text-decoration: none;
+  margin: 0;
 }
-.main_menu li :hover {
-  background: #efefac;
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-  -webkit-transition: all 0.1s linear;
-  -moz-transition: all 0.1s linear;
-  -o-transition: all 0.1s linear;
-  transition: all 0.1s linear;
+body #head_menu .user_name .text_user_name .user_menu ul li:hover {
+  background: #fafafa;
 }
-
-.content_mid_coll img {
-  width: 150px;
+body #head_menu .user_name .text_user_name .full_menu_icon {
+  position: absolute;
+  background: url("../img/icons/ic_arrow_drop_down_white_36dp.png") no-repeat;
+  background-position: 100% 0%;
+  width: 36px;
+  height: 36px;
+  left: 50%;
+  margin-left: -18px;
+  top: 23px;
+  border-radius: 18px;
+}
+body #full_menu {
+  display: none;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+body #full_menu .profile_info {
+  padding-top: 10px;
+  padding-bottom: 1px;
+  color: #616161;
+  background: #fafafa;
+  position: relative;
+}
+body #full_menu .profile_info .user_img {
+  text-align: center;
+  width: 100px;
+  margin: 20px auto;
+  position: relative;
+}
+body #full_menu .profile_info .user_img img {
+  width: 100px;
+  border-radius: 50px;
+  height: 100px;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+body #full_menu .profile_info .user_img .edit_profile {
+  width: 100px;
+  border-radius: 50px;
+  height: 100px;
+  cursor: pointer;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  background-position: 50% 50%;
+  bottom: 0px;
+  left: 0px;
+  margin-right: -18px;
+  opacity: 0;
+}
+body #full_menu .profile_info .user_img .edit_profile .edit_photo_text {
+  color: white;
+  line-height: 20px;
+  height: 70px;
+  padding-top: 30px;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.4);
+  font-size: 16px;
+}
+body #full_menu .profile_info .user_img:hover .edit_profile {
+  opacity: 1;
+}
+body #full_menu .profile_info .profile_col {
+  margin-bottom: 20px;
+}
+body #full_menu .profile_info .profile_col .profile_user {
+  display: inline-block;
+  width: 220px;
+  margin: 0 auto;
+}
+body #full_menu .profile_info .profile_col .profile_user span {
+  display: block;
+  padding-left: 10px;
+  font-size: 12px;
+  text-align: left;
+  color: #0277bd;
+}
+body #full_menu .profile_info .profile_col .profile_user input {
+  color: #616161;
+  width: 200px;
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #0277bd;
+}
+body #full_menu .profile_info .profile_col .name input {
+  font-size: 1.7em;
+}
+body #full_menu .profile_info .profile_col .email input {
+  font-size: 1.3em;
+}
+body #full_menu .profile_info .profile_col .save_new {
+  text-align: right;
+}
+body #full_menu .profile_info .profile_col .save_new input {
+  width: auto;
+  border: none;
+  color: #0277bd;
+  font-size: 1.1em;
+  cursor: pointer;
+  padding-right: 20px;
+}
+body #full_menu .profile_info .colse_profile_info {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  margin-left: -15px;
+  width: 30px;
+  height: 12px;
+  border-radius: 5px 5px 0 0;
+  background: #0091ea url("../img/icons/ic_expand_less_white_24dp.png") no-repeat;
+  background-position: 50% -4px;
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+}
+body #full_menu .profile_info .colse_profile_info:hover {
+  padding-top: 3px;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+}
+body #full_menu .menu_content {
+  font-family: 'Roboto-light';
+}
+body .error_cont {
+  text-align: center;
+  margin-top: 10%;
+}
+body .error_cont .error_code {
+  font-size: 5em;
+  color: white;
+  display: block;
 }

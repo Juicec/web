@@ -1,0 +1,257 @@
+body{
+	background: $lime;
+	font-family: 'Roboto';
+	padding: 0px;
+	margin: 0px;
+
+	h1{
+		font-size: 30px;
+		text-transform: uppercase;
+		margin: 0px;
+	}
+	
+	#head_menu{
+		width: 100%;
+		height: 50px;
+		background: $blue;
+		color: white;
+		line-height: 3em;
+		box-shadow: inset 0 0 0 1px $dark_blue;
+		.head_col{
+			height: 3em;
+			float: left;
+			width: 30%;
+			.web_logo{
+				color: $white_blue;
+				margin-left: 0.3em;
+				width: 100%;
+				height: 100%;
+				font-size: 25px;
+				font-family: 'Shadows Into Light', cursive;
+			}
+			.search_block{
+				width: 40px;
+				height: 3em;
+				background: url("../img/icons/ic_search_white_36dp.png") no-repeat;
+				background-position: 100% 50%;
+				margin-right: 0.3em;
+				cursor: pointer;
+				float: right;
+				margin-right: 0.3em;
+				input{
+					width: 0px;
+					float: right;
+					margin-right: 40px;
+					margin-top: 13px;
+					background: none;
+					outline: none;
+					border: none;
+					border-bottom: 2px solid $lime;
+					color: white;
+					font-size: 1em;
+					-webkit-transition: all 0.2s ease-out;
+					-moz-transition: all 0.2s ease-out;
+					-o-transition: all 0.2s ease-out;
+					transition: all 0.2s ease-out;
+				}
+				input::-webkit-input-placeholder {
+					color:$white_gray;
+				}
+			}
+			.search_block:hover {
+				width: 100%;
+				input{
+					width: 150px;
+					-webkit-transition: all 0.2s ease-out;
+					-moz-transition: all 0.2s ease-out;
+					-o-transition: all 0.2s ease-out;
+					transition: all 0.2s ease-out;
+				}
+			}
+		}
+		.user_name{
+			float: left;
+			width: 40%;
+			color: white;
+			text-align: center;
+			font-size: 1.3em;
+			position: relative;
+			.text_user_name{
+				cursor: pointer;
+				.user_menu{
+					display: none;
+					position: absolute;
+					width: 100px;
+					left: 50%;
+					margin-left: -50px;
+					top: 50px;
+					z-index: 99999;
+					ul{
+						border-radius: 0 0 5px 5px;
+						background: $white_gray;
+						padding: 5px;
+						margin: 0;
+						list-style: none;
+						font-size: 13px;
+						color: $dark_gray;
+						li{
+							line-height: 15px;
+							padding: 2px 5px;
+							margin: 0;
+						}
+						li:hover{
+							background: $gray;
+						}
+					}
+				}
+				.full_menu_icon{
+					position: absolute;
+					background: url("../img/icons/ic_arrow_drop_down_white_36dp.png") no-repeat;
+					background-position: 100% 0%;
+					width: 36px;
+					height: 36px;
+					left: 50%;
+					margin-left: -18px;
+					top: 23px;
+					border-radius: 18px;
+				}
+			}
+		}
+	}
+
+	#full_menu{
+		display: none;
+		width: 100%;
+		color: white;
+		text-align: center;
+		.profile_info{
+			padding-top: 10px;
+			padding-bottom: 1px;
+			color: $dark_gray;
+			background: $gray;
+			position: relative;
+			.user_img{
+				text-align: center;
+				width: 100px;
+				margin: 20px auto;
+				position: relative;
+				img {
+					width: 100px;
+					border-radius: 50px;
+					height: 100px;
+					-webkit-transition: all 0.2s ease-out;
+					-moz-transition: all 0.2s ease-out;
+					-o-transition: all 0.2s ease-out;
+					transition: all 0.2s ease-out;
+				}
+				.edit_profile{
+					width: 100px;
+					border-radius: 50px;
+					height: 100px;
+					cursor: pointer;
+					position: absolute;
+					background: rgba(0,0,0,0.3);
+					text-align: center;
+					background-position: 50% 50%;
+					bottom: 0px;
+					left: 0px;
+					margin-right: -18px;
+					opacity: 0;
+					.edit_photo_text{
+						color: white;
+						line-height: 20px;
+						height: 70px;
+						padding-top: 30px;
+						text-shadow: 1px 1px rgba(0,0,0,0.4);
+						font-size: 16px;
+					}
+				}
+			}
+			.user_img:hover{
+				.edit_profile{
+					opacity: 1;
+				}
+			}
+			.profile_col{
+				margin-bottom: 20px;
+				.profile_user{
+					display: inline-block;
+					width: 220px;
+					margin: 0 auto;
+					span{
+						display: block;
+						padding-left: 10px;
+						font-size: 12px;
+						text-align: left;
+						color: $dark_blue;
+					}
+					input{
+						color: $dark_gray;
+						width: 200px;
+						background: none;
+						outline: none;
+						border: none;
+						border-bottom: 2px solid $dark_blue;
+					}
+				}
+				.name{
+					input{
+						font-size: 1.7em;
+					}
+				}
+				.email{
+					input{
+						font-size: 1.3em;
+					}
+				}
+				.save_new{
+					text-align: right;
+					input{
+						width: auto;
+						border: none;
+						color: $dark_blue;
+						font-size: 1.1em;
+						cursor: pointer;
+						padding-right: 20px;
+					}
+				}
+			}
+			.colse_profile_info{
+				position: absolute;
+				bottom: 0px;
+				left: 50%;
+				margin-left: -15px;
+				width: 30px;
+				height: 12px;
+				border-radius: 5px 5px 0 0;
+				background: $blue url('../img/icons/ic_expand_less_white_24dp.png') no-repeat;
+				background-position: 50% -4px;
+				cursor: pointer;
+				-webkit-transition: all 0.1s ease-out;
+				-moz-transition: all 0.1s ease-out;
+				-o-transition: all 0.1s ease-out;
+				transition: all 0.1s ease-out;
+			}
+			.colse_profile_info:hover{
+				padding-top: 3px;
+				-webkit-transition: all 0.1s ease-out;
+				-moz-transition: all 0.1s ease-out;
+				-o-transition: all 0.1s ease-out;
+				transition: all 0.1s ease-out;
+			}
+		}
+		.menu_content{
+			font-family: 'Roboto-light';
+		}
+	}
+	
+	.error_cont{
+		text-align: center;
+		margin-top: 10%;
+		.error_code{
+			font-size: 5em;
+			color: white;
+			display: block;
+		}
+	}
+}
