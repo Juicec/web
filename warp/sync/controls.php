@@ -6,6 +6,19 @@
 		public $first_name;
 		public $last_name;
 		public $email;
+		private static $_instance;
+
+		public static function getInstance() {
+			if (self::$_instance === null) {
+				try {
+					self::$_instance = new User();
+				} catch (PDOException $e) {
+					die('User class fail');
+				}
+			}
+	 
+			return self::$_instance;
+		}
 		
 		function __construct() { 
 			$this->ip = $_SERVER["REMOTE_ADDR"];
@@ -14,9 +27,10 @@
 			$this->last_name = null;
 			$this->email = null;
 			$this->db = DB::getInstance();
+			session_start();
 		}
 		
-		public function auth_user($email,$password){
+		public function auth_user($email, $password){
 			if (!empty($email) && !empty($password)){
 				if ($this->check_user_password($email, $password)){
 					$data = $this->get_user_data_by_email($email);
@@ -25,16 +39,21 @@
 						$this->first_name = $data[0]['first_name'];
 						$this->last_name = $data[0]['last_name'];
 						$this->email = $data[0]['email'];
-						$this->upd_session_array();
+						$this->upd_session_array(true);
 					}
+					return true;
 				}
 				else return false;
 			}
 		}
 		
-		public function upd_session_array(){
-			$session_this = clone $this;
-            $_SESSION['user'] = $session_this;
+		public function upd_session_array($direct = false){
+			if (!is_numeric($_SESSION["id"]) || $direct) {
+				$session_this = clone $this;
+				unset($session_this->db);
+	            $_SESSION['user'] = $session_this;
+	            $_SESSION['id'] = 1;
+        	}
 		}
 		
 		public function make_new_user($email, $password, $first_name = 'anonymous', $last_name = 'anonymous'){
@@ -76,6 +95,11 @@
 		public function get_user_data_by_email($email){
 			$sql = 'SELECT uf.user_id, uf.first_name, uf.last_name, uf.email, u.encoded_id FROM user_info uf, users as u WHERE uf.email = ? AND u.user_id = uf.user_id';
 			return $this->db->query($sql, array($email));
+		}
+
+		public function session_destroy(){
+			session_destroy();
+			return true;
 		}
 	}
 ?>

@@ -57,9 +57,5 @@
 				return false;
 			}
 		}
-		
-		public function lololo(){
-			return 'ads';
-		}
 	}
 ?>

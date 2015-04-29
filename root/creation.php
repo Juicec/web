@@ -8,9 +8,9 @@
 	require_once (SiteData::$lib.'pages.php');
 	require_once (SiteData::$lib.'calls.php');
 	
-	$user = new User();
+	$user = User::getInstance();
 	$user->upd_session_array();
-	$user->auth_user('frolad@gmail.coma','378378378');
+	//$user->auth_user('frolad@gmail.coma','378378378');
 	//$user->make_new_user('frolad@gmail.coma','378378378');
 	
 	$route = explode('/', trim($_SERVER['REQUEST_URI'], '/'));

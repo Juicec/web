@@ -8,5 +8,9 @@
 		public function home(){
 			$this->make_page('home');
 		}
+
+		public function shop(){
+			$this->make_page('shop');
+		}
 	}
 ?>
