@@ -1,12 +1,13 @@
 var React = require('react');
 //var SignIn = require('./modules/signIn.react');
 var MainStore = require('../store/MainStore');
+var mainActions = require('../actions/mainActions');
 //var pageConstants = require('../constants/PageConstants');
 //var modulesConstants = require('../constants/ModulesConstants');
 
 function getState() {
     return {
-        wow: 123
+        userData: MainStore.getUserData()
     };
 }
 
@@ -14,6 +15,10 @@ var MainApp = React.createClass({
     // Get initial state from stores
     getInitialState: function() {
         return getState();
+    },
+
+    getUserData: function(e) {
+        mainActions.load();
     },
 
     // Render our child components, passing state via props
@@ -46,6 +51,8 @@ var MainApp = React.createClass({
 
         return (
         	<div className="page-container">
+                <div onClick={ this.getUserData } >Get user data</div>
+                { this.state.userData.first_name ? this.state.userData.first_name : 'error' }
                 { mainPart(this.props.page) }
         	</div>
         );

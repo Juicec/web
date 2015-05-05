@@ -27,6 +27,10 @@
 			}
 		}
 
+		public function get_user_data() {
+			$this->return_json($_SESSION);
+		}
+
 		public function logout(){
 			$this->user->session_destroy();
 			$this->return_json(array('req' => 'OK'));

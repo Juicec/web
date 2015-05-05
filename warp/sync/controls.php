@@ -48,7 +48,7 @@
 		}
 		
 		public function upd_session_array($direct = false){
-			if ($_SESSION && (!is_numeric($_SESSION["id"]) || $direct)) {
+			if ((isset($_SESSION["id"]) && !is_numeric($_SESSION["id"])) || $direct) {
 				$session_this = clone $this;
 				unset($session_this->db);
 	            $_SESSION['user'] = $session_this;

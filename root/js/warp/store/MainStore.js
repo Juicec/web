@@ -1,8 +1,8 @@
-//var AppDispatcher = require('../dispatcher/AppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-//var actionConstants = require('../constants/ActionConstants');
-//var pageConstants = require('../constants/PageConstants');
+var actionConstants = require('../constants/ActionConstants');
 var _ = require('underscore');
+var Utils = require('../utils/Utils');
 
 var _userData = {};
 
@@ -10,22 +10,14 @@ function setUserData(pageType) {
     Utils.post({
         url : 'get_user_data',
         success: function(data){
-            _userData = data.user_data;
-            if (data.user_data.logged_in){
-                if (pageType) setPage(pageType, false);
-                else setPage(pageConstants.HOME, false);
-            }
-            else {
-                if (pageType) setPage(pageType, false);
-                else setPage(pageConstants.HOME, false);
-            }
+            _userData = data.user;
+            mainStore.emitChangeAll();
         }
     });
 }
 
 var mainStore = _.extend({}, EventEmitter.prototype, {
     getUserData: function() {
-        setUserData();
         return _userData;
     },
 
@@ -46,40 +38,13 @@ var mainStore = _.extend({}, EventEmitter.prototype, {
 });
 
 // Register callback with AppDispatcher
-/*
+
 AppDispatcher.register(function(payload) {
     var action = payload.action;
 
     switch(action.actionType) {
-        case actionConstants.PRELOAD:
-            if (_.isEmpty(_userData))
-                setUserData(action.pageType);
-            else
-                setPage(action.pageType, true);
-            break;
-
-        case actionConstants.SET_PAGE:
-            setPage(action.pageType, false, action.extraUrl);
-            break;
-
-        case actionConstants.SHOW_MODULE:
-            setActiveModule(action.moduleType);
-            break;
-
-        case actionConstants.CLOSE_MODULE:
-            setActiveModule(null);
-            break;
-
-        case actionConstants.SIGN_IN:
-            authUser(action.userData);
-            break;
-
-        case actionConstants.SIGN_IN_FB:
-            authUserFromFB(action.response);
-            break;
-
-        case actionConstants.SIGN_IN_GP:
-            authUserFromGP(action.authResult);
+        case actionConstants.MAIN_LOAD:
+            setUserData();
             break;
 
         default:
@@ -87,6 +52,5 @@ AppDispatcher.register(function(payload) {
     }
     return true;
 });
-*/
 
 module.exports = mainStore;

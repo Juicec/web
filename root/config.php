@@ -42,7 +42,14 @@ class SiteData {
 	public static $db_ip = 'localhost';
 	public static $db_name = 'myhope';
 	public static $db_user = 'root';
-	public static $db_pw = '378378378';
+
+	public static function get_db_pw() { 
+		$username = getenv("username");
+		if ($username == 'HIRULEZ-PC$')
+			return '6300';
+		else
+			return '378378378';
+	}
 }
 
 SiteData::getInstance();
