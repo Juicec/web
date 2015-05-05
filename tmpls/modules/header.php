@@ -2,7 +2,7 @@
 <head>
 	<link rel="stylesheet" href="css/style.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/dist/js/flux_bundle.js"></script>
 </head>
 <body>
 	<div id="head_menu">
@@ -69,5 +69,11 @@
 			</div>
 			<div class="colse_profile_info"></div>
 		</div>
+	</div>
+	<script type="text/javascript">
+		var global_page = "<? echo str_replace('/', '', $_SERVER['REQUEST_URI']); ?>" ;
+    </script>
+
+	<div id="main-flux">
 	</div>
 	<div id="main_body">

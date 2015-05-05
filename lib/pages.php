@@ -12,5 +12,9 @@
 		public function shop(){
 			$this->make_page('shop');
 		}
+
+		public function admin(){
+			$this->make_page('admin');
+		}
 	}
 ?>

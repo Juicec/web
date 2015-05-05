@@ -1,3 +1,3 @@
 <div class="content_mid_coll">
-dsa
+home page
 </div>
