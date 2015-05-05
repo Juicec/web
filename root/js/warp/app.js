@@ -2,7 +2,7 @@ var React = require('react');
 var API = require('./utils/API');
 var MainApp = require('./components/MainApp.react');
 
-//API.router();
+API.router();
 
 // Render Group Controller View
 window.onload = function(){

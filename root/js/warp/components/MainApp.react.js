@@ -1,5 +1,5 @@
 var React = require('react');
-//var SignIn = require('./modules/signIn.react');
+var Header = require('./modules/Header.react');
 var MainStore = require('../store/MainStore');
 var mainActions = require('../actions/mainActions');
 //var pageConstants = require('../constants/PageConstants');
@@ -7,7 +7,7 @@ var mainActions = require('../actions/mainActions');
 
 function getState() {
     return {
-        userData: MainStore.getUserData()
+        userData        : MainStore.getUserData()
     };
 }
 
@@ -50,11 +50,12 @@ var MainApp = React.createClass({
         };
 
         return (
-        	<div className="page-container">
-                <div onClick={ this.getUserData } >Get user data</div>
-                { this.state.userData.first_name ? this.state.userData.first_name : 'error' }
-                { mainPart(this.props.page) }
-        	</div>
+            	<div className="page-container">
+                    <Header />
+                    <div onClick={ this.getUserData } >Get user data</div>
+                    { this.state.userData.first_name ? this.state.userData.first_name : 'error' }
+                    { mainPart(this.props.page) }
+            	</div>
         );
     },
 

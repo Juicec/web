@@ -44,13 +44,14 @@
 		
 		public function return_json($array){
 			header("Content-Type: text/plain");
+			$array['status_code'] = 0;
 			echo json_encode($array);
 			die;
 		}
 
-		public function return_error($array){
+		public function return_error($status_code){
 			header("Content-Type: text/plain");
-			echo json_encode(array('error_text' => 'test'));
+			echo json_encode(array('status_code' => $status_code));
 			die;
 		}
 	}
