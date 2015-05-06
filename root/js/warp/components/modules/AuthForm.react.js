@@ -46,24 +46,28 @@ var SignIn = React.createClass({
 	getInitialState: function() {
         return getState();
     },
-	handleRes: function(){
+	handleRes: function(e){
+		e.preventDefault();
 		var auth_data = {
-			"email": React.findDOMNode(this.refs.emailInput).value,
-			"password" : React.findDOMNode(this.refs.passInput).value,
+			"email"	   : e.target.email.value,
+			"password" : e.target.password.value,
 		};
         mainActions.signin(auth_data);
 	},
 	render: function() {
 		return(
 					<div className='sign-in'>
-						<span>E-mail:</span>
-						<input type="text" ref="emailInput" />
+						<form onSubmit={this.handleRes} autoComplete="on" >
+							<span>E-mail:</span>
+							<input type="text" name="email" />
 
-						<span>Пароль:</span>
-						<input type="password" ref="passInput" />
+							<span>Пароль:</span>
+							<input type="password" name="password" />
 
-						{this.state.auth_error ? <span className='error-span'>Ошибка авторизации</span> : null}
-						<div className = 'resBtn' onClick={this.handleRes}>Войти</div>
+							{this.state.auth_error ? <span className='error-span'>Ошибка авторизации</span> : null}
+							<div className = 'resBtn' onClick={this.handleRes}>Войти</div>
+							<input type='submit' value='Войти' />
+						</form>
 					</div>	
 					
 		)

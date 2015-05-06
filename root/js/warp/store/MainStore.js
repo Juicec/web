@@ -10,7 +10,7 @@ function setUserData(pageType) {
     Utils.post({
         url : 'get_user_data',
         success: function(data){
-            if(data.user){
+            if(data.logged_in){
                 _userData = data.user;
                 _userData.authFlag = true;
             }
