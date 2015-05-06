@@ -7,6 +7,7 @@
 	require_once (SiteData::$lib.'pages.php');
 	require_once (SiteData::$lib.'calls.php');
 	require_once (SiteData::$lib.'item.php');
+	require_once (SiteData::$lib.'company.php');
 	
 	$user = User::getInstance();
 	$user->upd_session_array();

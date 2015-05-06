@@ -27,6 +27,14 @@ class Tools {
 	public static function decode_user_id($user_id){
 		return base64_decode($user_id);
 	}
+
+    public static function encode_company_id($company_id){
+        return base64_encode($company_id);
+    }
+    
+    public static function decode_company_id($company_id){
+        return base64_decode($company_id);
+    }
 }
 
 Tools::getInstance();
