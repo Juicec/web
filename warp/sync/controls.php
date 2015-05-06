@@ -6,6 +6,7 @@
 		public $first_name;
 		public $last_name;
 		public $email;
+		public $role_id;
 		private static $_instance;
 
 		public static function getInstance() {
@@ -39,6 +40,7 @@
 						$this->first_name = $data[0]['first_name'];
 						$this->last_name = $data[0]['last_name'];
 						$this->email = $data[0]['email'];
+						$this->role_id = $data[0]['role_id'];
 						$this->upd_session_array(true);
 					}
 					return true;
@@ -48,11 +50,11 @@
 		}
 		
 		public function upd_session_array($direct = false){
-			if ((isset($_SESSION["id"]) && !is_numeric($_SESSION["id"])) || $direct) {
+			if ((isset($_SESSION["logged_in"]) && !is_numeric($_SESSION["logged_in"])) || $direct) {
 				$session_this = clone $this;
 				unset($session_this->db);
 	            $_SESSION['user'] = $session_this;
-	            $_SESSION['id'] = 1;
+	            $_SESSION['logged_in'] = 1;
         	}
 		}
 		
@@ -93,7 +95,16 @@
 		}
 		
 		public function get_user_data_by_email($email){
-			$sql = 'SELECT uf.user_id, uf.first_name, uf.last_name, uf.email, u.encoded_id FROM user_info uf, users as u WHERE uf.email = ? AND u.user_id = uf.user_id';
+			$sql = 'SELECT 
+						uf.user_id, 
+						uf.first_name, 
+						uf.last_name, 
+						uf.email, 
+						u.encoded_id,
+						ur.role_id
+					FROM user_info uf, users as u
+					LEFT JOIN user_roles as ur ON ur.user_id = u.user_id
+					WHERE uf.email = ? AND u.user_id = uf.user_id';
 			return $this->db->query($sql, array($email));
 		}
 
