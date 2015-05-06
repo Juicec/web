@@ -27,6 +27,12 @@
 			}
 		}
 
+		public function register(){
+			if(!empty($_REQUEST['email']) && !empty($_REQUEST['password']) && !empty($_REQUEST['first_name']) && !empty($_REQUEST['last_name'])){
+				$this->user->make_new_user($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name']);
+			}
+		}
+
 		public function get_user_data() {
 			$this->return_json($_SESSION);
 		}
