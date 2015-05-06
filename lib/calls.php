@@ -27,6 +27,18 @@
 			}
 		}
 
+		public function check_auth(){
+			if (!empty($_REQUEST['email']) && !empty($_REQUEST['password'])){
+				if ($this->user->check_user_password($_REQUEST['email'], $_REQUEST['password']))
+					$this->return_json($_SESSION);
+				else
+					$this->return_error(1);
+			}
+			else{
+				$this->return_error(2);
+			}
+		}
+
 		public function register(){
 			if(!empty($_REQUEST['email']) && !empty($_REQUEST['password']) && !empty($_REQUEST['first_name']) && !empty($_REQUEST['last_name'])){
 				$this->user->make_new_user($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name']);

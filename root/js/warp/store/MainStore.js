@@ -20,23 +20,6 @@ function setUserData(pageType) {
     });
 }
 
-function signIn(auth_data) {
-    Utils.post({
-        url : 'auth',
-        data: { 'email' : auth_data.email, 'password' : auth_data.password },
-        success: function(request){
-            if(request.status_code == 0){
-                _userData.authFlag = true;
-                _userData.authError = false;
-                mainStore.emitChangeAll();
-            }
-            else{
-                _userData.authError = true;
-                mainStore.emitAuthError();
-            }
-        }
-    });
-}
 
 function signOut() {
     Utils.post({
@@ -71,10 +54,6 @@ var mainStore = _.extend({}, EventEmitter.prototype, {
         return _userData;
     },
 
-    getAuthError: function() {
-        return _userData.authError;
-    },
-
     getAuthFlag: function(){
         return _userData.authFlag;
     },
@@ -92,20 +71,6 @@ var mainStore = _.extend({}, EventEmitter.prototype, {
     // Remove change listener
     removeChangeAllListener: function(callback) {
         this.removeListener('change_all', callback);
-    },
-
-    emitAuthError: function() {
-        this.emit('auth_error');
-    },
-
-    // Add change listener
-    addAuthErrorListener: function(callback) {
-        this.on('auth_error', callback);
-    },
-
-    // Remove change listener
-    removeAuthErrorListener: function(callback) {
-        this.removeListener('auth_error', callback);
     }
 });
 
@@ -117,10 +82,7 @@ AppDispatcher.register(function(payload) {
     switch(action.actionType) {
         case actionConstants.MAIN_LOAD:
             setUserData();
-            break;  
-        case actionConstants.MAIN_AUTH:
-            signIn(action.auth_data);
-            break;   
+            break;    
         case actionConstants.MAIN_SIGNOUT:
             signOut();
             break; 

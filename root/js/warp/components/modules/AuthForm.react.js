@@ -1,7 +1,7 @@
 var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
-
+var Utils = require('../../utils/Utils');
 
 
 var SignUp = React.createClass({
@@ -16,21 +16,21 @@ var SignUp = React.createClass({
 	},
 	render: function() {
 		return(
-					<div>
-						<span>E-mail:</span>
-						<input type="text" ref="emailInput" />
+			<div>
+				<span>E-mail:</span>
+				<input type="text" ref="emailInput" />
 
-						<span>Пароль:</span>
-						<input type="password" ref="passInput" />
+				<span>Пароль:</span>
+				<input type="password" ref="passInput" />
 
-						<span>Имя:</span>
-						<input type="text" ref="firstNameInput" />
+				<span>Имя:</span>
+				<input type="text" ref="firstNameInput" />
 
-						<span>Фамилия:</span>
-						<input type="text" ref="lastNameInput" />
+				<span>Фамилия:</span>
+				<input type="text" ref="lastNameInput" />
 
-						<div className = 'resBtn' onClick={this.handleRes}>Зарегистрироваться</div>
-					</div>
+				<div className = 'resBtn' onClick={this.handleRes}>Зарегистрироваться</div>
+			</div>
 
 		)
 	}
@@ -38,7 +38,7 @@ var SignUp = React.createClass({
 
 function getState() {
     return {
-        auth_error: MainStore.getAuthError()
+        auth_error: false
     };
 }
 
@@ -52,14 +52,31 @@ var SignIn = React.createClass({
 			"email"	   : e.target.email.value,
 			"password" : e.target.password.value,
 		};
-        mainActions.signin(auth_data);
+
+		var data;
+
+    	Utils.post({
+    	    url : 'check_auth',
+    	    async :  true,
+    	    data: { 'email' : auth_data.email, 'password' : auth_data.password },
+    	    success: function(request){
+    	    	data = request;
+    	    }.bind(this)
+    	});
+
+     	if(data.status_code == 0){
+    	    e.target.submit();
+    	}
+    	else{
+    	    this.setState({ auth_error: true });
+    	}
 	},
 	render: function() {
 		return(
 					<div className='sign-in'>
-						<form onSubmit={this.handleRes} autoComplete="on" >
+						<form action="/auth" method="post" onSubmit={this.handleRes}>
 							<span>E-mail:</span>
-							<input type="text" name="email" />
+							<input autoComplete="on" type="text" name="email" />
 
 							<span>Пароль:</span>
 							<input type="password" name="password" />

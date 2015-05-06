@@ -11,12 +11,6 @@ var mainActions = {
 	    	pageType: pageType
 	  	})
 	},
-	signin: function(auth_data){
-		AppDispatcher.handleAction({
-	    	actionType: ActionConstants.MAIN_AUTH,
-	    	auth_data: auth_data
-	  	})
-	},
 	signout: function(){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MAIN_SIGNOUT
