@@ -47,19 +47,19 @@ var SignIn = React.createClass({
     },
 	handleRes: function(){
 		var auth_data = {
-			"login": React.findDOMNode(this.refs.loginInput).value,
+			"email": React.findDOMNode(this.refs.emailInput).value,
 			"password" : React.findDOMNode(this.refs.passInput).value,
 		};
         mainActions.signin(auth_data);
 	},
 	render: function() {
 		return(
-					<div>
-						<span>Логин:</span>
-						<input type="text" ref="loginInput" />
+					<div className='sign-in'>
+						<span>E-mail:</span>
+						<input type="text" ref="emailInput" />
 
 						<span>Пароль:</span>
-						<input type="text" ref="passInput" />
+						<input type="password" ref="passInput" />
 
 						{this.state.auth_error ? <span className='error-span'>Ошибка авторизации</span> : null}
 						<div className = 'resBtn' onClick={this.handleRes}>Войти</div>
@@ -112,7 +112,7 @@ var AuthForm = React.createClass({
 			<div>
 				<div className='black-flow'></div> 
 				<div className ='sign-in-div'>
-					<span className = 'auth-title' onClick={this.handeSign}>{this.state.signTitle}</span><span className='auth-title' onClick={this.closeForm}>Закрыть</span>
+					<span className = 'auth-title' onClick={this.handeSign}>{this.state.signTitle}</span><span className='auth-title close-btn' onClick={this.closeForm}>Закрыть</span>
 					{this.state.sign == 'in' ? <SignIn />:<SignUp />}
 				</div>
 			</div>	

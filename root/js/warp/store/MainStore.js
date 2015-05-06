@@ -23,7 +23,7 @@ function setUserData(pageType) {
 function signIn(auth_data) {
     Utils.post({
         url : 'auth',
-        data: { 'email' : auth_data.login, 'password' : auth_data.password },
+        data: { 'email' : auth_data.email, 'password' : auth_data.password },
         success: function(request){
             if(request.status_code == 0){
                 _userData.authFlag = true;

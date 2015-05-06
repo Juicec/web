@@ -321,3 +321,9 @@ body .error_cont .error_code {
   margin-left: -50%;
   opacity: 0.7;
 }
+.sign-in{
+  float: right;
+}
+.close-btn{
+  float: right;
+}
