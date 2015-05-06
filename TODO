@@ -1,0 +1,36 @@
+TODO
+
+users PHP: user_data
+--add +-
+--edit
+--remove
+
+user_roles PHP: company
+--add
+--edit
+--remove
+
+roles_permissions PHP: company
+--add
+--edit
+--remove
+
+company PHP: company
+--add
+--edit
+--remove
+
+company_discount PHP: company
+--add
+--edit
+--remove
+
+shop_cart PHP: shop_cart
+--add
+--edit
+--archive
+
+items PHP: item
+--add
+--edit
+--remove
