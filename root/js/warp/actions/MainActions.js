@@ -26,6 +26,12 @@ var mainActions = {
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.AUTH_CLOSEFORM
 	  	})
+	},
+	signUp: function(reg_data){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MAIN_REG,
+	    	reg_data: reg_data
+	  	})
 	}
 };
 

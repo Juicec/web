@@ -6,27 +6,28 @@ var mainActions = require('../../actions/mainActions');
 
 var SignUp = React.createClass({
 	handleRes: function(){
-		var result = {
-			"login": React.findDOMNode(this.refs.loginInput).value,
-			"pass" : React.findDOMNode(this.refs.passInput).value,
-			"token": React.findDOMNode(this.refs.tokenInput).value,
-			"email": React.findDOMNode(this.refs.emailInput).value
+		var regData = {
+			"email": React.findDOMNode(this.refs.emailInput).value,
+			"password" : React.findDOMNode(this.refs.passInput).value,
+			"first_name": React.findDOMNode(this.refs.firstNameInput).value,
+			"last_name": React.findDOMNode(this.refs.lastNameInput).value
 		};
+		mainActions.signUp(regData);
 	},
 	render: function() {
 		return(
 					<div>
-						<span>Логин:</span>
-						<input type="text" ref="loginInput" />
-
-						<span>Пароль:</span>
-						<input type="text" ref="passInput" />
-
-						<span>Ключ:</span>
-						<input type="text" ref="tokenInput" />
-
 						<span>E-mail:</span>
 						<input type="text" ref="emailInput" />
+
+						<span>Пароль:</span>
+						<input type="password" ref="passInput" />
+
+						<span>Имя:</span>
+						<input type="text" ref="firstNameInput" />
+
+						<span>Фамилия:</span>
+						<input type="text" ref="lastNameInput" />
 
 						<div className = 'resBtn' onClick={this.handleRes}>Зарегистрироваться</div>
 					</div>

@@ -56,6 +56,16 @@ function closeSignForm(){
     mainStore.emitChangeAll();
 }
 
+function signUp(reg_data){
+    Utils.post({
+        url: 'register',
+        data: {'email': reg_data.email, 'password': reg_data.password, 'first_name': reg_data.first_name, 'last_name': reg_data.last_name},
+        success: function(){
+            signIn(reg_data);
+        }
+    });
+}
+
 var mainStore = _.extend({}, EventEmitter.prototype, {
     getUserData: function() {
         return _userData;
@@ -116,7 +126,10 @@ AppDispatcher.register(function(payload) {
             break; 
         case actionConstants.AUTH_CLOSEFORM:
             closeSignForm();
-            break;           
+            break;   
+        case actionConstants.MAIN_REG:
+            signUp(action.reg_data);
+            break;              
 
         default:
             return true;
