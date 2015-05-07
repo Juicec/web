@@ -32,8 +32,17 @@ body #head_menu {
 body #head_menu .head_col {
   height: 3em;
   float: left;
-  width: 50%;
+  width: 33%;
 }
+
+body #head_menu .head_col ul{
+  margin: 0;
+}
+
+body #head_menu .head_col ul li{
+  list-style: none;
+}
+
 body #head_menu .head_col .web_logo {
   color: #b3e5fc;
   margin-left: 0.3em;
@@ -41,6 +50,9 @@ body #head_menu .head_col .web_logo {
   height: 100%;
   font-size: 25px;
   font-family: 'Shadows Into Light', cursive;
+}
+body #head_menu .head_col .web_logo_a{
+  text-decoration: none;
 }
 body #head_menu .head_col .search_block {
   width: 40px;
@@ -260,7 +272,7 @@ body .error_cont .error_code {
 
 .sign-in-div{
   background: #0091ea;
-  position: absolute;
+  position: fixed;
   width: 200px;
   border: 1px solid #dadada;
   padding: 10px;
@@ -275,7 +287,6 @@ body .error_cont .error_code {
 }
 
 .sign-in-div span{
-  display: block;
   margin-top: 10px;
 }
 
@@ -309,7 +320,7 @@ body .error_cont .error_code {
   line-height: 1.5em;
 }
 .sign_btn{
-  float: right;
+  float: right; 
   margin-right: 10px;
   cursor: pointer;
 }
@@ -318,7 +329,8 @@ body .error_cont .error_code {
   height: 100%;
   background: black;
   position: absolute;
-  margin-left: -50%;
+  top: 0;
+  left: 0;
   opacity: 0.7;
 }
 .sign-in{

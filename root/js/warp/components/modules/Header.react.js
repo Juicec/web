@@ -2,6 +2,7 @@ var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
 var AuthForm = require('../modules/AuthForm.react');
+var TopMenu = require('../modules/TopMenu.react');
 function getState() {
     return {
         userData        : MainStore.getUserData(),
@@ -24,8 +25,11 @@ var Header = React.createClass({
 				<div id="header">
 					<div id="head_menu">
 						<div className="head_col">
-							<div className="web_logo">tasks book</div>
+							<a className="web_logo_a" href="/home"><div className="web_logo">tasks book</div></a>
 						</div>
+                        <div className="head_col">
+                            <TopMenu />
+                        </div>
 						<div className="head_col">
 							<div >
 								<div className="sign_btn" onClick={ this.state.authorized ? this.signout : this.showAuthForm } > { this.state.authorized ? 'SignOut' : 'SignIn' } </div>

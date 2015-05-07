@@ -82,24 +82,12 @@ var SignIn = React.createClass({
 							<input type="password" name="password" />
 
 							{this.state.auth_error ? <span className='error-span'>Ошибка авторизации</span> : null}
-							<div className = 'resBtn' onClick={this.handleRes}>Войти</div>
-							<input type='submit' value='Войти' />
+							<input className = 'resBtn' type='submit' value='Войти' />
 						</form>
 					</div>	
 					
 		)
-	},
-    componentDidMount: function() {
-    	MainStore.addAuthErrorListener(this.onAuthError);
-    },
-
-    componentWillUnmount: function() {
-    	MainStore.removeAuthErrorListener(this.onAuthError);
-    },
-
-    onAuthError: function() {
-    	this.setState(getState());
-    }
+	}
 });
 
 var AuthForm = React.createClass({
@@ -132,7 +120,7 @@ var AuthForm = React.createClass({
 	render: function() {
 		return(
 			<div>
-				<div className='black-flow'></div> 
+				<div className='black-flow' onClick={this.closeForm}></div> 
 				<div className ='sign-in-div'>
 					<span className = 'auth-title' onClick={this.handeSign}>{this.state.signTitle}</span><span className='auth-title close-btn' onClick={this.closeForm}>Закрыть</span>
 					{this.state.sign == 'in' ? <SignIn />:<SignUp />}
