@@ -2,19 +2,6 @@
 	class Company {
 
 		private $company_data = false;
-		private static $_instance;
-
-		public static function getInstance() {
-			if (self::$_instance === null) {
-				try {
-					self::$_instance = new Company();
-				} catch (PDOException $e) {
-					die('Company class fail');
-				}
-			}
-	 
-			return self::$_instance;
-		}
 
 		//+++++
 

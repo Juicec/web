@@ -9,7 +9,6 @@
 			$this->email = null;
 			$this->db = DB::getInstance();
 			$this->user = User::getInstance();
-			$this->company = Company::getInstance();
 		}
 		
 		public function my_first_api(){
@@ -52,10 +51,12 @@
 
 		public function logout(){
 			$this->user->session_destroy();
+			//$this->return_json($_SESSION);
 			$this->return_json(array('req' => 'OK'));
 		}
 		// Beginning of Company calls
 		public function add_company(){
+			$this->company = new Company();
 			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['reg_key'])){
 				$this->company->add_new($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['reg_key']);
 				$this->return_json($_REQUEST);
@@ -66,7 +67,8 @@
 		}
 
 		public function update_company(){
-			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['reg_key'])){
+			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['reg_key']) && !empty($_REQUEST['id'])){
+				$this->company = new Company($_REQUEST['id']);
 				$this->company->update($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['reg_key']);
 				$this->return_json($_REQUEST);
 			}
@@ -74,5 +76,17 @@
 				$this->return_error(1);
 			}
 		}
+
+		public function remove_company(){
+			if(!empty($_REQUEST['id'])){
+				$this->company = new Company($_REQUEST['id']);
+				$this->company->remove();
+				$this->return_json($_REQUEST);
+			}
+			else{
+				$this->return_error(1);
+			}
+		}
+		//End of company calls
 	}
 ?>
