@@ -36,3 +36,5 @@ Icon
 .Trashes
 root/node_modules
 root/node_modules/
+root/.sass-cache
+root/.sass-cache/

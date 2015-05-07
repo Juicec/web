@@ -26,8 +26,7 @@ function signOut() {
         url : 'logout',
         success: function(request){
             if(request.status_code == 0){
-                 _userData.authFlag = false;
-                 _userData.authError = false;
+                _userData = {};
                 mainStore.emitChangeAll();
             }
         }

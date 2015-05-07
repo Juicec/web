@@ -14,7 +14,9 @@ var TopMenu = React.createClass({
 	render: function() {
 		return(
 				<ul>
-					{this.state.userData.role_id == 3 ? <li><a href="/admin">Админ панель</a></li> : null}
+                    {this.state.userData.role_id == 3 ? <li><a href="/shop">главная</a></li> : null}
+                    {this.state.userData.role_id == 3 ? <li><a href="/shop">магазин</a></li> : null}
+					{this.state.userData.role_id == 3 ? <li><a href="/admin">панель администратора</a></li> : null}
 				</ul>
 		)
 	},

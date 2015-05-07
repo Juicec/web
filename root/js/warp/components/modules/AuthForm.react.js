@@ -17,19 +17,19 @@ var SignUp = React.createClass({
 	render: function() {
 		return(
 			<div>
-				<span>E-mail:</span>
+				<div className="note">E-mail:</div>
 				<input type="text" ref="emailInput" />
 
-				<span>Пароль:</span>
+				<div className="note">Пароль:</div>
 				<input type="password" ref="passInput" />
 
-				<span>Имя:</span>
+				<div className="note">Имя:</div>
 				<input type="text" ref="firstNameInput" />
 
-				<span>Фамилия:</span>
+				<div className="note">Фамилия:</div>
 				<input type="text" ref="lastNameInput" />
 
-				<div className = 'resBtn' onClick={this.handleRes}>Зарегистрироваться</div>
+				<button onClick={this.handleRes}>Зарегистрироваться</button>
 			</div>
 
 		)
@@ -75,14 +75,14 @@ var SignIn = React.createClass({
 		return(
 					<div className='sign-in'>
 						<form action="/auth" method="post" onSubmit={this.handleRes}>
-							<span>E-mail:</span>
+							<div className="note">E-mail:</div>
 							<input autoComplete="on" type="text" name="email" />
 
-							<span>Пароль:</span>
+							<div className="note">Пароль:</div>
 							<input type="password" name="password" />
 
-							{this.state.auth_error ? <span className='error-span'>Ошибка авторизации</span> : null}
-							<input className = 'resBtn' type='submit' value='Войти' />
+							{this.state.auth_error ? <div className='error'>Ошибка авторизации</div> : null}
+							<input type='submit' value='Войти' />
 						</form>
 					</div>	
 					
@@ -122,7 +122,7 @@ var AuthForm = React.createClass({
 			<div>
 				<div className='black-flow' onClick={this.closeForm}></div> 
 				<div className ='sign-in-div'>
-					<span className = 'auth-title' onClick={this.handeSign}>{this.state.signTitle}</span><span className='auth-title close-btn' onClick={this.closeForm}>Закрыть</span>
+					<div className='auth-title' onClick={this.handeSign}>{this.state.signTitle}</div><div className='auth-title close-btn' onClick={this.closeForm}>Закрыть</div>
 					{this.state.sign == 'in' ? <SignIn />:<SignUp />}
 				</div>
 			</div>	

@@ -2,6 +2,7 @@ var React = require('react');
 var Header = require('./modules/Header.react');
 var MainStore = require('../store/MainStore');
 var mainActions = require('../actions/mainActions');
+var Admin = require('./pages/admin.react');
 //var pageConstants = require('../constants/PageConstants');
 //var modulesConstants = require('../constants/ModulesConstants');
 
@@ -34,9 +35,7 @@ var MainApp = React.createClass({
                     break;
                 case 'admin':
                     return(
-                        <div>
-                            admin
-                        </div>
+                        <Admin />
                     );
                     break;
                 default:
@@ -52,8 +51,6 @@ var MainApp = React.createClass({
         return (
             	<div className="page-container">
                     <Header />
-                    <div onClick={ this.getUserData } >Get user data</div>
-                    { this.state.userData.first_name ? this.state.userData.first_name : 'error' }
                     { mainPart(this.props.page) }
             	</div>
         );
