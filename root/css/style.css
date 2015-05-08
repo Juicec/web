@@ -245,6 +245,7 @@ body .sign-in-div .auth-title:nth-child(2) {
   padding: 7px 10px;
 }
 .page-content .page-data .page-menu ul li {
+  cursor: pointer;
   display: inline-block;
   padding: 3px 5px;
   border-right: 1px solid #9fa8da;
@@ -274,8 +275,5 @@ body .sign-in-div .auth-title:nth-child(2) {
   display: table-cell;
   padding-left: 5px;
   padding-right: 5px;
-  cursor: pointer;
-}
-.page-content .page-data .workarea .add-new-company-btn {
   cursor: pointer;
 }

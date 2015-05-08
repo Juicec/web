@@ -5,6 +5,7 @@ var AdminCompaniesModule = require('./page_modules/adminCompanies.react');
 var AdminUsersModule = require('./page_modules/adminUsers.react');
 var AdminItemsModule = require('./page_modules/adminItems.react');
 var AdminOrdersModule = require('./page_modules/adminOrders.react');
+var companyActions = require('../../actions/CompanyActions');
 
 function getAdminPageState() {
     return {
@@ -36,19 +37,10 @@ var AdminApp = React.createClass({
                         </ul>
                     </div>
                     <div className="page-data">
-                        <div className="page-menu">
-                            <ul>
-                                <li className="active" >Первый</li>
-                                <li>Второй</li>
-                                <li>Ещё что-то</li>
-                            </ul>
-                        </div>
-                        <div className="workarea">
-                            {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
-                            {this.state.activeLink == 'order' ? <AdminOrdersModule /> : null}
-                            {this.state.activeLink == 'user' ? <AdminUsersModule /> : null}
-                            {this.state.activeLink == 'item' ? <AdminItemsModule /> : null}
-                        </div>
+                        {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
+                        {this.state.activeLink == 'order' ? <AdminOrdersModule /> : null}
+                        {this.state.activeLink == 'user' ? <AdminUsersModule /> : null}
+                        {this.state.activeLink == 'item' ? <AdminItemsModule /> : null}
                     </div>
             	</div>
         );
@@ -69,5 +61,6 @@ var AdminApp = React.createClass({
     	this.setState(getAdminPageState());
     }
 });
+
 
 module.exports = AdminApp;

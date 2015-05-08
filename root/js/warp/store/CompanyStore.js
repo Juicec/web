@@ -24,6 +24,10 @@ function addNewCompany(newCompanyData){
             if(data.status_code == '0'){
                 companyStore.emitChangeAll();
             }
+
+            if(data.status_code == '2'){
+                companyStore.emitSameNameError();
+            }
         }
     });
 }
@@ -51,6 +55,22 @@ var companyStore = _.extend({}, EventEmitter.prototype, {
     // Remove change listener
     removeChangeAllListener: function(callback) {
         this.removeListener('change_all', callback);
+    },
+
+
+
+    emitSameNameError: function() {
+        this.emit('same_name_error');
+    },
+
+    // Add change listener
+    addSameNameErrorListener: function(callback) {
+        this.on('same_name_error', callback);
+    },
+
+    // Remove change listener
+    removeSameNameErrorListener: function(callback) {
+        this.removeListener('same_name_error', callback);
     }
 });
 
@@ -68,7 +88,7 @@ AppDispatcher.register(function(payload) {
             break;   
         case actionConstants.COMPANY_CLOSECREATION:
             closeCompanyCreation();
-            break;                       
+            break;                      
         default:
             return true;
     }

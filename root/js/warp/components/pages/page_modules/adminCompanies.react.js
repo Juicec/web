@@ -15,23 +15,30 @@ var AdminCompaniesModule = React.createClass({
     },
     addCompany: function(){
         this.setState({
-            workarea : 'addNewCompany'
-        });
+            workarea: 'addNewCompany'
+        })
     },
     // Render our child components, passing state via props
     render: function() {
         return (
-            	<div>
-                    <div className="add-new-company-btn" onClick={this.addCompany}>Добавить компанию</div>
-                    {this.state.workarea == 'companiesList' ? <CompaniesList /> : null}
-                    {this.state.workarea == 'addNewCompany' ? <AddNewCompany /> : null}
-                </div>
+            <div>
+                <div className="page-menu">
+                    <ul>
+                        <li className="active" onClick={this.addCompany}>Добавить</li>
+                    </ul>
+                 </div>
+                 <div className="workarea">
+                     {this.state.workarea == 'companiesList' ? <CompaniesList /> : null}
+                     {this.state.workarea == 'addNewCompany' ? <AddNewCompany /> : null}
+                 </div>
+            </div>
         );
     },
     // Add change listeners to stores
     componentDidMount: function() {
         companyActions.getCompaniesList();
         CompanyStore.addChangeAllListener(this._onChange);
+
     },
 
     // Remove change listers from stores
@@ -99,7 +106,16 @@ var CompaniesNodes = React.createClass({
     }
 });
 
+function getAddNewCompanyState() {
+    return {
+        sameNameError : false
+    };
+}
+
 var AddNewCompany = React.createClass({
+    getInitialState: function(){
+        return getAddNewCompanyState();
+    },
     closeCreation: function(){
         companyActions.closeCreation();
     },
@@ -118,11 +134,27 @@ var AddNewCompany = React.createClass({
 
                 <span>Введите описание компании</span>
                 <textarea ref="companyDescription"></textarea>
+                {this.state.sameNameError == true ? <span>Компания с таким именем уже существует</span>:null}
                 <div className="add-new-company-confirm">
                     <span onClick={this.addNewCompany}>Сохранить</span> <span onClick={this.closeCreation}>Отмена</span> 
                 </div>
             </div>
         );
+    },
+    componentDidMount: function() {
+        CompanyStore.addSameNameErrorListener(this.onSameNameError);
+    },
+
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+        CompanyStore.removeSameNameErrorListener(this.onSameNameError);
+    },
+
+    // Method to setState based upon Store changes
+    onSameNameError: function() {
+        this.setState({
+            sameNameError : true
+        });
     }
 });
 
