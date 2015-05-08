@@ -8,8 +8,7 @@ module.exports = keyMirror({
     MAIN_REG	   		 : null,
     COMPANY_GETLIST		 : null,
     COMPANY_ADDNEW 		 : null,
-    COMPANY_CLOSECREATION: null,
-    COMPANY_SHOWCREATION : null
+    COMPANY_CLOSECREATION: null
 
 
 });

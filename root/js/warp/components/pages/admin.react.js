@@ -37,15 +37,10 @@ var AdminApp = React.createClass({
                         </ul>
                     </div>
                     <div className="page-data">
-                        <div className="page-menu">
-                            {this.state.activeLink == 'company' ? <CompanyMenu/>: null}
-                        </div>
-                        <div className="workarea">
-                            {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
-                            {this.state.activeLink == 'order' ? <AdminOrdersModule /> : null}
-                            {this.state.activeLink == 'user' ? <AdminUsersModule /> : null}
-                            {this.state.activeLink == 'item' ? <AdminItemsModule /> : null}
-                        </div>
+                        {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
+                        {this.state.activeLink == 'order' ? <AdminOrdersModule /> : null}
+                        {this.state.activeLink == 'user' ? <AdminUsersModule /> : null}
+                        {this.state.activeLink == 'item' ? <AdminItemsModule /> : null}
                     </div>
             	</div>
         );
@@ -67,17 +62,5 @@ var AdminApp = React.createClass({
     }
 });
 
-var CompanyMenu = React.createClass({
-    addCompany: function(){
-        companyActions.showAddCompany();
-    },
-    render: function(){
-        return(
-            <ul>
-                <li className="active" onClick={this.addCompany}>Добавить</li>
-            </ul>
-        );
-    }
-});
 
 module.exports = AdminApp;

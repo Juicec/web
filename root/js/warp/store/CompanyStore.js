@@ -32,10 +32,6 @@ function addNewCompany(newCompanyData){
     });
 }
 
-function showCompanyCreation(){
-    companyStore.emitShowCreation();
-}
-
 function closeCompanyCreation(){
     companyStore.emitChangeAll();
 }
@@ -75,21 +71,6 @@ var companyStore = _.extend({}, EventEmitter.prototype, {
     // Remove change listener
     removeSameNameErrorListener: function(callback) {
         this.removeListener('same_name_error', callback);
-    },
-
-
-    emitShowCreation: function() {
-        this.emit('show_creation');
-    },
-
-    // Add change listener
-    addShowCreationListener: function(callback) {
-        this.on('show_creation', callback);
-    },
-
-    // Remove change listener
-    removeShowCreationListener: function(callback) {
-        this.removeListener('show_creation', callback);
     }
 });
 
@@ -107,10 +88,7 @@ AppDispatcher.register(function(payload) {
             break;   
         case actionConstants.COMPANY_CLOSECREATION:
             closeCompanyCreation();
-            break;
-        case actionConstants.COMPANY_SHOWCREATION:
-            showCompanyCreation();
-            break;                        
+            break;                      
         default:
             return true;
     }
