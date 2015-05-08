@@ -99,7 +99,7 @@
 		}
 
 		public function get_companies(){
-			if ($_SESSION['is_login']){
+			if ($_SESSION['logged_in']){
 				$this->company = new Company();
 				$this->return_json(array('companies' => $this->company->getAll()));
 			}
@@ -108,7 +108,7 @@
 		}
 
 		public function get_reg_key(){
-			if ($_SESSION['is_login']){
+			if ($_SESSION['logged_in']){
 				$this->company = new Company();
 				$this->return_json(array('key' => $this->company->generate_reg_key()));
 			}
@@ -119,7 +119,7 @@
 
 		// USER SEARCH PART
 		public function search_users(){
-			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['key'])){
+			if ($_SESSION['logged_in'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['key'])){
 				$data = $this->user->search_by_key($_REQUEST['key']);
 				$this->return_json(array('users' => $data));
 			}
