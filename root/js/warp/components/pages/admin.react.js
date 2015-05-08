@@ -5,6 +5,7 @@ var AdminCompaniesModule = require('./page_modules/adminCompanies.react');
 var AdminUsersModule = require('./page_modules/adminUsers.react');
 var AdminItemsModule = require('./page_modules/adminItems.react');
 var AdminOrdersModule = require('./page_modules/adminOrders.react');
+var companyActions = require('../../actions/CompanyActions');
 
 function getAdminPageState() {
     return {
@@ -37,11 +38,7 @@ var AdminApp = React.createClass({
                     </div>
                     <div className="page-data">
                         <div className="page-menu">
-                            <ul>
-                                <li className="active" >Первый</li>
-                                <li>Второй</li>
-                                <li>Ещё что-то</li>
-                            </ul>
+                            {this.state.activeLink == 'company' ? <CompanyMenu/>: null}
                         </div>
                         <div className="workarea">
                             {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
@@ -67,6 +64,19 @@ var AdminApp = React.createClass({
     // Method to setState based upon Store changes
     _onChange: function() {
     	this.setState(getAdminPageState());
+    }
+});
+
+var CompanyMenu = React.createClass({
+    addCompany: function(){
+        companyActions.showAddCompany();
+    },
+    render: function(){
+        return(
+            <ul>
+                <li className="active" onClick={this.addCompany}>Добавить</li>
+            </ul>
+        );
     }
 });
 

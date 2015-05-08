@@ -13,16 +13,10 @@ var AdminCompaniesModule = React.createClass({
     getInitialState: function() {
         return getAdminCompaniesModuleState();
     },
-    addCompany: function(){
-        this.setState({
-            workarea : 'addNewCompany'
-        });
-    },
     // Render our child components, passing state via props
     render: function() {
         return (
             	<div>
-                    <div className="add-new-company-btn" onClick={this.addCompany}>Добавить компанию</div>
                     {this.state.workarea == 'companiesList' ? <CompaniesList /> : null}
                     {this.state.workarea == 'addNewCompany' ? <AddNewCompany /> : null}
                 </div>
@@ -32,16 +26,25 @@ var AdminCompaniesModule = React.createClass({
     componentDidMount: function() {
         companyActions.getCompaniesList();
         CompanyStore.addChangeAllListener(this._onChange);
+        CompanyStore.addShowCreationListener(this.showCration);
+
     },
 
     // Remove change listers from stores
     componentWillUnmount: function() {
         CompanyStore.removeChangeAllListener(this._onChange);
+        CompanyStore.removeShowCreationListener(this.showCration);
     },
 
     // Method to setState based upon Store changes
     _onChange: function() {
         this.setState(getAdminCompaniesModuleState());
+    },
+
+    showCration: function(){
+        this.setState({
+            workarea: 'addNewCompany'
+        });
     }
 });
 

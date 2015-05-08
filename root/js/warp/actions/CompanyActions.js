@@ -20,6 +20,11 @@ var companyActions = {
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.COMPANY_CLOSECREATION
 	  	})
+	},
+	showAddCompany: function(){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_SHOWCREATION
+	  	})
 	}
 };
 

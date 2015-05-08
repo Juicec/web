@@ -201,6 +201,7 @@ body{
 			ul{
 				padding: 7px 10px;
 				li{
+					cursor: pointer;
 					display: inline-block;
 					padding: 3px 5px;
 					border-right: 1px  solid $main1Light;
@@ -236,9 +237,6 @@ body{
 						cursor: pointer;
 					}
 				}
-			}
-			.add-new-company-btn{
-				cursor: pointer;
 			}
 		}
 	}
