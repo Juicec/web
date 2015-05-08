@@ -99,7 +99,16 @@ var CompaniesNodes = React.createClass({
     }
 });
 
+function getAddNewCompanyState() {
+    return {
+        sameNameError : false
+    };
+}
+
 var AddNewCompany = React.createClass({
+    getInitialState: function(){
+        return getAddNewCompanyState();
+    },
     closeCreation: function(){
         companyActions.closeCreation();
     },
@@ -118,11 +127,27 @@ var AddNewCompany = React.createClass({
 
                 <span>Введите описание компании</span>
                 <textarea ref="companyDescription"></textarea>
+                {this.state.sameNameError == true ? <span>Компания с таким именем уже существует</span>:null}
                 <div className="add-new-company-confirm">
                     <span onClick={this.addNewCompany}>Сохранить</span> <span onClick={this.closeCreation}>Отмена</span> 
                 </div>
             </div>
         );
+    },
+    componentDidMount: function() {
+        CompanyStore.addSameNameErrorListener(this.onSameNameError);
+    },
+
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+        CompanyStore.removeSameNameErrorListener(this.onSameNameError);
+    },
+
+    // Method to setState based upon Store changes
+    onSameNameError: function() {
+        this.setState({
+            sameNameError : true
+        });
     }
 });
 
