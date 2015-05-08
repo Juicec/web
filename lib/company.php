@@ -28,15 +28,16 @@
 
 
 		//+++++
-		public function add_new($name, $description = null, $reg_key = null) {
+		public function add_new($name, $description = null) {
 			if (empty($this->get_company_data_by_name($name)) && $this->user->role_id == 3){
 				$sql = 'INSERT INTO company (name, encoded_id, description, reg_key) VALUES (?, ?, ?, ?)';
 				$company_id = $this->db->insert($sql, array("new_name", "new_encoded_id", "new_desc", "new_reg_key"));
 				$sql = 'UPDATE company SET encoded_id = ?, name = ?, description = ?, reg_key = ?  WHERE id = ?';
-				$this->db->execute($sql, array(Tools::encode_company_id($company_id), $name, $description, $reg_key, $company_id));
+				$this->db->execute($sql, array(Tools::encode_company_id($company_id), $name, $description, $this->generate_reg_key(), $company_id));
+				return true;
 			}
 			else{
-				var_dump('already reg');
+				return false;
 			}
 		}
 		//+++++
@@ -46,14 +47,13 @@
 		}
 
 		//+++++
-		public function update($name, $description = null, $reg_key = null) {
+		public function update($name, $description = null) {
 			if($this->company_data && $this->user->role_id == 3 && !empty($name)){
-				$sql = 'UPDATE company SET name = ?, description = ?, reg_key = ? WHERE id = ?';
+				$sql = 'UPDATE company SET name = ?, description = ? WHERE id = ?';
 				$this->db->execute($sql, array($name, $description, $reg_key, $this->company_data['id']));
 
 				$this->company_data['name'] = $name;
 				$this->company_data['description'] = $description;
-				$this->company_data['reg_key'] = $reg_key;
 
 				return $this->company_data;
 			}
@@ -78,6 +78,12 @@
 			}
 			else
 				return false;
+		}
+
+		public function generate_reg_key(){
+			srand(time());
+        	$random_key = rand(10000000, 99999999);
+        	return base64_encode($random_key);
 		}
 	}
 ?>

@@ -57,9 +57,14 @@
 		// Beginning of Company calls
 		public function add_company(){
 			$this->company = new Company();
-			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['reg_key'])){
-				$this->company->add_new($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['reg_key']);
-				$this->return_json($_REQUEST);
+			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description'])) {
+				if(!$this->company->add_new($_REQUEST['name'], $_REQUEST['description'])){
+					$this->return_error(2);
+				}
+				else{
+					$this->return_error(0);
+				}
+				
 			}
 			else{
 				$this->return_error(1);
@@ -91,6 +96,11 @@
 		public function get_companies(){
 			$this->company = new Company();
 			$this->return_json(array('companies' => $this->company->getAll()));
+		}
+
+		public function get_reg_key(){
+			$this->company = new Company();
+			$this->return_json(array('key' => $this->company->generate_reg_key()));
 		}
 		//End of company calls
 	}

@@ -35,6 +35,7 @@ class Tools {
     public static function decode_company_id($company_id){
         return base64_decode($company_id);
     }
+
 }
 
 Tools::getInstance();

@@ -218,3 +218,24 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .workarea {
   margin: 10px 0;
 }
+.page-content .page-data .workarea table {
+  width: 100%;
+}
+.page-content .page-data .workarea table th {
+  text-align: left;
+}
+.page-content .page-data .workarea .add-new-company-div input {
+  width: 200px;
+}
+.page-content .page-data .workarea .add-new-company-div span {
+  display: block;
+}
+.page-content .page-data .workarea .add-new-company-div .add-new-company-confirm span {
+  display: table-cell;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+.page-content .page-data .workarea .add-new-company-btn {
+  cursor: pointer;
+}

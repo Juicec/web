@@ -16,6 +16,22 @@ function getCompaniesList() {
     });
 }
 
+function addNewCompany(newCompanyData){
+    Utils.post({
+        url : 'add_company',
+        data: {"name" : newCompanyData.name, "description": newCompanyData.description},
+        success: function(data){
+            if(data.status_code == '0'){
+                companyStore.emitChangeAll();
+            }
+        }
+    });
+}
+
+function closeCompanyCreation(){
+    companyStore.emitChangeAll();
+}
+
 
 var companyStore = _.extend({}, EventEmitter.prototype, {
     getCompaniesData: function() {
@@ -46,7 +62,13 @@ AppDispatcher.register(function(payload) {
     switch(action.actionType) {
         case actionConstants.COMPANY_GETLIST:
             getCompaniesList();
-            break;                 
+            break; 
+        case actionConstants.COMPANY_ADDNEW:
+            addNewCompany(action.newCompanyData);
+            break;   
+        case actionConstants.COMPANY_CLOSECREATION:
+            closeCompanyCreation();
+            break;                       
         default:
             return true;
     }

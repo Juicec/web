@@ -9,6 +9,17 @@ var companyActions = {
 	  	AppDispatcher.handleAction({
 	    	actionType: ActionConstants.COMPANY_GETLIST
 	  	})
+	},
+	addCompany: function(newCompanyData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_ADDNEW,
+	    	newCompanyData: newCompanyData
+	  	})
+	},
+	closeCreation: function(){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_CLOSECREATION
+	  	})
 	}
 };
 

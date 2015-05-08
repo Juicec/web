@@ -4,6 +4,7 @@ var companyActions = require('../../../actions/CompanyActions');
 
 function getAdminCompaniesModuleState() {
     return {
+        workarea : 'companiesList'
     };
 }
 
@@ -12,14 +13,35 @@ var AdminCompaniesModule = React.createClass({
     getInitialState: function() {
         return getAdminCompaniesModuleState();
     },
+    addCompany: function(){
+        this.setState({
+            workarea : 'addNewCompany'
+        });
+    },
     // Render our child components, passing state via props
     render: function() {
         return (
             	<div>
-                    AdminCompaniesModule
-                    <CompaniesList />
+                    <div className="add-new-company-btn" onClick={this.addCompany}>Добавить компанию</div>
+                    {this.state.workarea == 'companiesList' ? <CompaniesList /> : null}
+                    {this.state.workarea == 'addNewCompany' ? <AddNewCompany /> : null}
                 </div>
         );
+    },
+    // Add change listeners to stores
+    componentDidMount: function() {
+        companyActions.getCompaniesList();
+        CompanyStore.addChangeAllListener(this._onChange);
+    },
+
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+        CompanyStore.removeChangeAllListener(this._onChange);
+    },
+
+    // Method to setState based upon Store changes
+    _onChange: function() {
+        this.setState(getAdminCompaniesModuleState());
     }
 });
 
@@ -36,11 +58,14 @@ var CompaniesList = React.createClass({
     render: function(){  
         var companiesNodes = function(company, index) {
             return (
-                <CompaniesNodes company={ company } key={ index } />
+                <CompaniesNodes company={ company } key={ index + 1 } />
             );
         }; 
         return (
             <table>
+                <tr key='0'>
+                    <th>№</th><th>Название компании</th><th>Описание компании</th><th>Регистарционный ключ</th>
+                </tr>
                 { this.state.companiesData.length > 0 ? this.state.companiesData.map(companiesNodes) : null }
             </table>
         );
@@ -72,6 +97,33 @@ var CompaniesNodes = React.createClass({
             </tr>
         );
     }
-})
+});
+
+var AddNewCompany = React.createClass({
+    closeCreation: function(){
+        companyActions.closeCreation();
+    },
+    addNewCompany: function(){
+        var newCompanyData = {
+            "name":React.findDOMNode(this.refs.companyName).value,
+            "description": React.findDOMNode(this.refs.companyDescription).value
+        };
+        companyActions.addCompany(newCompanyData);
+    },
+    render: function(){
+        return(
+            <div className="add-new-company-div">
+                <span>Введите название компании:</span>
+                <input type="text" ref="companyName"/>
+
+                <span>Введите описание компании</span>
+                <textarea ref="companyDescription"></textarea>
+                <div className="add-new-company-confirm">
+                    <span onClick={this.addNewCompany}>Сохранить</span> <span onClick={this.closeCreation}>Отмена</span> 
+                </div>
+            </div>
+        );
+    }
+});
 
 module.exports = AdminCompaniesModule;
