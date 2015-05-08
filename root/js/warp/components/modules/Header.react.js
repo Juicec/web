@@ -6,6 +6,7 @@ var TopMenu = require('../modules/TopMenu.react');
 function getState() {
     return {
         userData        : MainStore.getUserData(),
+        showAuthForm    : false,
         authorized      : MainStore.getAuthFlag()
     };
 }

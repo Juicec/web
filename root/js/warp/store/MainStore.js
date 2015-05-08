@@ -36,6 +36,7 @@ function signOut() {
 
 function closeSignForm(){
     _userData.authError = false;
+    _regStatus = false;
     mainStore.emitChangeAll();
 }
 
@@ -65,7 +66,7 @@ function signUp(reg_data){
             else {
                 _regStatus = 3;
             }
-            mainStore.emitChangeAll();
+            mainStore.emitChangeReg();
         }
     });
 }
@@ -96,6 +97,21 @@ var mainStore = _.extend({}, EventEmitter.prototype, {
     // Remove change listener
     removeChangeAllListener: function(callback) {
         this.removeListener('change_all', callback);
+    },
+
+    // Emit Change REG DATA event
+    emitChangeReg: function() {
+        this.emit('change_reg');
+    },
+
+    // Add change listener
+    addChangeRegListener: function(callback) {
+        this.on('change_reg', callback);
+    },
+
+    // Remove change listener
+    removeChangeRegListener: function(callback) {
+        this.removeListener('change_reg', callback);
     }
 });
 

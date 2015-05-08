@@ -100,12 +100,12 @@ var SignUp = React.createClass({
 
     // Add change listeners to stores
     componentDidMount: function() {
-    	MainStore.addChangeAllListener(this._onChange);
+    	MainStore.addChangeRegListener(this._onChange);
     },
 
     // Remove change listers from stores
     componentWillUnmount: function() {
-    	MainStore.removeChangeAllListener(this._onChange);
+    	MainStore.removeChangeRegListener(this._onChange);
     },
 
     // Method to setState based upon Store changes
