@@ -9,7 +9,7 @@ a{
 }
 
 .error{
-  	color: red;
+  	border: 1px solid red;
 }
 
 .note{
@@ -17,6 +17,14 @@ a{
 	text-align: left;
 	color: $grayDark;
 	line-height: 12px;
+}
+
+.error-note{
+	color: rgba(255, 0, 0, 0.8);
+}
+
+.footnote{
+	margin-top: 10px;
 }
 
 ul{
@@ -40,16 +48,26 @@ button, input[type="submit"]{
 	}
 }
 
-input{
+input, textarea{
 	padding: 5px;
 	border: 1px solid $main1Light;
 	outline: none;
 	width: 100%;
-	margin-bottom: 10px;
 	&:focus{
 		box-shadow: inset 0 0 3px $gray;
 		border: 1px solid $main1;
 	}
+}
+
+.left-col, .right-col{
+	display: table-cell;
+	vertical-align: top;
+}
+.left-col{
+	padding-right: 2px;
+}
+.right-col{
+	padding-left: 2px;
 }
 
 body{
@@ -137,6 +155,25 @@ body{
 		margin-left: -100px;
 		span{
 		  	margin-top: 10px;
+		}
+		em{
+			color: red;
+		}
+		button, input[type="submit"]{
+			margin-top: 10px;
+		}
+		.after-reg{
+			cursor: pointer;
+			text-decoration: underline;
+			&:hover{
+				text-decoration: none;
+			}
+		}
+		.note{
+			margin-top: 10px;
+			&.error-note{
+				margin-top: 0px;
+			}
 		}
 		.auth-title{
 			cursor: pointer;

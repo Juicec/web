@@ -58,17 +58,27 @@
         	}
 		}
 		
-		public function make_new_user($email, $password, $first_name = 'anonymous', $last_name = 'anonymous'){
+		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone){
 			if (empty($this->get_user_data_by_email($email))){
-				$sql = 'INSERT INTO users (encoded_id) VALUES ("new")';
-				$user_id = $this->db->insert($sql, array());
-				$sql = 'UPDATE users SET encoded_id = ? WHERE user_id = ?';
-				$this->db->execute($sql, array(Tools::encode_user_id($user_id), $user_id));
-				$sql = 'INSERT INTO user_info (user_id, email, first_name, last_name, password) VALUES (?,?,?,?,?)';
-				$this->db->insert($sql, array($user_id, $email, $first_name, $last_name, $this->encrypt_password($password)));
+				$_company = new Company();
+				$company = $_company->get_company_data_by_key($reg_key);
+				if (!empty($company)){
+					$sql = 'INSERT INTO users (encoded_id) VALUES ("new")';
+					$user_id = $this->db->insert($sql, array());
+					$sql = 'UPDATE users SET encoded_id = ? WHERE user_id = ?';
+					$this->db->execute($sql, array(Tools::encode_user_id($user_id), $user_id));
+					$sql = 'INSERT INTO user_info (user_id, email, first_name, last_name, password, phone) VALUES (?,?,?,?,?, ?)';
+					$this->db->insert($sql, array($user_id, $email, $first_name, $last_name, $this->encrypt_password($password), $phone));
+					$sql = 'INSERT INTO user_roles (user_id, role_id) VALUES (?,?)';
+					$this->db->insert($sql, array($user_id, 1));
+					$_company->add_user_to_company($user_id);
+					return 0;
+				}
+				else
+					return 2;
 			}
 			else{
-				var_dump('already reg');
+				return 1;
 			}
 		}
 		

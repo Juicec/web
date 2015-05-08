@@ -18,6 +18,10 @@
 			$this->make_page('admin');
 		}
 
+		public function test(){
+			//$this->user->make_new_user('asd@asd.com', 123, 'ODY4OTA1NjM=');
+		}
+
 		public function auth(){
 			if (!empty($_POST['email']) && !empty($_POST['password'])){
 				if ($this->user->auth_user($_POST['email'], $_POST['password']))

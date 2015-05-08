@@ -5,6 +5,7 @@ var _ = require('underscore');
 var Utils = require('../utils/Utils');
 
 var _userData = {};
+var _regStatus = false;
 
 function setUserData(pageType) {
     Utils.post({
@@ -41,9 +42,30 @@ function closeSignForm(){
 function signUp(reg_data){
     Utils.post({
         url: 'register',
-        data: {'email': reg_data.email, 'password': reg_data.password, 'first_name': reg_data.first_name, 'last_name': reg_data.last_name},
-        success: function(){
-            signIn(reg_data);
+        data: {
+                'email': reg_data.email, 
+                'password': reg_data.password, 
+                'first_name': reg_data.first_name, 
+                'last_name': reg_data.last_name, 
+                'company_key': reg_data.regKey,
+                'phone': reg_data.phone
+            },
+        success: function(request){
+            if(request.status_code == 0){
+                if (request.reg_status === 0){
+                    _regStatus = 0;
+                }
+                else if(request.reg_status == 1) {
+                    _regStatus = 1;
+                }
+                else {
+                    _regStatus = 2;
+                }
+            }
+            else {
+                _regStatus = 3;
+            }
+            mainStore.emitChangeAll();
         }
     });
 }
@@ -55,6 +77,10 @@ var mainStore = _.extend({}, EventEmitter.prototype, {
 
     getAuthFlag: function(){
         return _userData.authFlag;
+    },
+
+    getRegStatus: function(){
+        return _regStatus;
     },
 
     // Emit Change ALL DATA event

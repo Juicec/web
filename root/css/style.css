@@ -5,6 +5,7 @@
   font-family: 'Roboto-light';
   src: url("../css/fonts/Roboto-Light.ttf");
 }
+
 * {
   padding: 0px;
   margin: 0px;
@@ -16,7 +17,7 @@ a {
 }
 
 .error {
-  color: red;
+  border: 1px solid red;
 }
 
 .note {
@@ -26,41 +27,61 @@ a {
   line-height: 12px;
 }
 
+.error-note {
+  color: rgba(255, 0, 0, 0.8);
+}
+
+.footnote {
+  margin-top: 10px;
+}
+
 ul {
   list-style: none;
 }
 
 button, input[type="submit"] {
-  background: #3F51B5;
+  background: #3f51b5;
   padding: 3px 20px;
   font-size: 13px;
-  box-shadow: 0 0 0 1px #303F9F;
+  box-shadow: 0 0 0 1px #303f9f;
   border: none;
   border-radius: 0px;
-  color: #FFFFFF;
+  color: white;
   outline: none;
   cursor: pointer;
   width: auto;
 }
 button:hover, input[type="submit"]:hover {
-  background: #303F9F;
-  box-shadow: 0 0 0 1px #1A237E;
+  background: #303f9f;
+  box-shadow: 0 0 0 1px #1a237e;
 }
 
-input {
+input, textarea {
   padding: 5px;
-  border: 1px solid #9FA8DA;
+  border: 1px solid #9fa8da;
   outline: none;
   width: 100%;
-  margin-bottom: 10px;
 }
-input:focus {
-  box-shadow: inset 0 0 3px #9E9E9E;
-  border: 1px solid #3F51B5;
+input:focus, textarea:focus {
+  box-shadow: inset 0 0 3px #9e9e9e;
+  border: 1px solid #3f51b5;
+}
+
+.left-col, .right-col {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.left-col {
+  padding-right: 2px;
+}
+
+.right-col {
+  padding-left: 2px;
 }
 
 body {
-  background: #EEEEEE;
+  background: #eeeeee;
   font-family: 'Roboto';
   padding: 0px;
   margin: 0px;
@@ -83,7 +104,7 @@ body #head_menu li {
   display: inline-block;
 }
 body #head_menu li a {
-  border-right: 1px solid #9E9E9E;
+  border-right: 1px solid #9e9e9e;
   padding: 5px;
   font-size: 14px;
 }
@@ -99,7 +120,7 @@ body #head_menu .head_col {
   width: 1%;
 }
 body #head_menu .head_col .web_logo {
-  color: #FFC107;
+  color: #ffc107;
   margin-left: 0.3em;
   width: 100%;
   height: 100%;
@@ -107,7 +128,7 @@ body #head_menu .head_col .web_logo {
   font-family: 'Shadows Into Light', cursive;
 }
 body #head_menu .head_col .sign_btn {
-  color: #FFFFFF;
+  color: white;
   float: right;
   margin-right: 10px;
   cursor: pointer;
@@ -127,10 +148,10 @@ body .black-flow {
   opacity: 0.7;
 }
 body .sign-in-div {
-  background: #FFFFFF;
+  background: white;
   position: fixed;
   width: 200px;
-  border: 1px solid #FFC107;
+  border: 1px solid #ffc107;
   border-radius: 5px;
   padding: 10px;
   text-align: center;
@@ -140,6 +161,25 @@ body .sign-in-div {
 }
 body .sign-in-div span {
   margin-top: 10px;
+}
+body .sign-in-div em {
+  color: red;
+}
+body .sign-in-div button, body .sign-in-div input[type="submit"] {
+  margin-top: 10px;
+}
+body .sign-in-div .after-reg {
+  cursor: pointer;
+  text-decoration: underline;
+}
+body .sign-in-div .after-reg:hover {
+  text-decoration: none;
+}
+body .sign-in-div .note {
+  margin-top: 10px;
+}
+body .sign-in-div .note.error-note {
+  margin-top: 0px;
 }
 body .sign-in-div .auth-title {
   cursor: pointer;
@@ -169,7 +209,7 @@ body .sign-in-div .auth-title:nth-child(2) {
   min-height: 100%;
   float: left;
   background: #FAFAFA;
-  border-right: 1px solid #BDBDBD;
+  border-right: 1px solid #bdbdbd;
 }
 .page-content .siderbar h2 {
   font-weight: 500;
@@ -180,26 +220,26 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .siderbar ul li {
   padding: 5px 10px;
   height: 15px;
-  color: #1A237E;
+  color: #1a237e;
   font-size: 14px;
   text-transform: capitalize;
   cursor: pointer;
-  border-bottom: 1px solid #EEEEEE;
+  border-bottom: 1px solid #eeeeee;
 }
 .page-content .siderbar ul li:hover {
-  border-bottom: 1px solid #3F51B5;
+  border-bottom: 1px solid #3f51b5;
 }
 .page-content .siderbar ul li.active {
-  background: #3F51B5;
-  color: #FFFFFF;
+  background: #3f51b5;
+  color: white;
 }
 .page-content .page-data {
   margin-left: 311px;
   padding: 5px;
 }
 .page-content .page-data .page-menu {
-  background: #3F51B5;
-  color: #9FA8DA;
+  background: #3f51b5;
+  color: #9fa8da;
 }
 .page-content .page-data .page-menu ul {
   padding: 7px 10px;
@@ -207,10 +247,10 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .page-menu ul li {
   display: inline-block;
   padding: 3px 5px;
-  border-right: 1px solid #9FA8DA;
+  border-right: 1px solid #9fa8da;
 }
 .page-content .page-data .page-menu ul li.active {
-  color: #EEEEEE;
+  color: #eeeeee;
 }
 .page-content .page-data .page-menu ul li:last-child {
   border-right: 0px;

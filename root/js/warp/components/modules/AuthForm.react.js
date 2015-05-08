@@ -4,36 +4,114 @@ var mainActions = require('../../actions/mainActions');
 var Utils = require('../../utils/Utils');
 
 
+function getSignUpState() {
+	return {
+		status: MainStore.getRegStatus()
+	}
+}
+
 var SignUp = React.createClass({
+	getInitialState: function() {
+		return getSignUpState();
+	},
+
 	handleRes: function(){
-		var regData = {
-			"email": React.findDOMNode(this.refs.emailInput).value,
-			"password" : React.findDOMNode(this.refs.passInput).value,
-			"first_name": React.findDOMNode(this.refs.firstNameInput).value,
-			"last_name": React.findDOMNode(this.refs.lastNameInput).value
-		};
-		mainActions.signUp(regData);
+		this.state.email_error = false;
+		this.state.pass_error = false;
+		this.state.phone_error = false;
+		this.state.regKey_error = false;
+
+		email = React.findDOMNode(this.refs.email).value;
+		password = React.findDOMNode(this.refs.pass).value;
+		phone = React.findDOMNode(this.refs.phone).value;
+		regKey = React.findDOMNode(this.refs.regKey).value;
+
+		if (email == ''){
+			this.setState({ email_error: true });
+		}
+		else if (password == ''){
+			this.setState({ pass_error: true });
+		}
+		else if (phone == ''){
+			this.setState({ phone_error: true });
+		}
+		else if (regKey == ''){
+			this.setState({ regKey_error: true });
+		}
+		else{
+			var regData = {
+				"email" 		: email,
+				"password"  	: password,
+				"first_name" 	: React.findDOMNode(this.refs.firstName).value,
+				"last_name" 	: React.findDOMNode(this.refs.lastName).value,
+				"phone"	 		: phone,
+				'regKey' 		: regKey,
+			}
+			mainActions.signUp(regData);
+		}
+	},
+	auth: function(){
+		this.props.auth();
 	},
 	render: function() {
-		return(
-			<div>
-				<div className="note">E-mail:</div>
-				<input type="text" ref="emailInput" />
+		if (this.state.status === 0){
+			return(
+				<div>
+					<h3>Успешная регистраиця</h3>
+					<span className="after-reg" onClick={ this.auth }>Авторизация</span>
+				</div>
+			)
+		}
+		else {
+			return(
+				<div>
+					<div className="note">E-mail<em>*</em></div>
+					<input className={ this.state.status == 1 || this.state.email_error ? 'error' : null } type="text" ref="email" />
+					<div className="note error-note">{ this.state.status == 1 ? 'Такой email уже зарегистрирован' : null}</div>
+	
+					<div className="note">Пароль<em>*</em></div>
+					<input className={ this.state.pass_error ? 'error' : null } type="password" ref="pass" />
+	
+					<div className="left-col">
+						<div className="note">Имя</div>
+						<input type="text" ref="firstName" />
+					</div>
+	
+					<div className="right-col">
+						<div className="note">Фамилия</div>
+						<input type="text" ref="lastName" />
+					</div>
+	
+					<div className="note">Телефон<em>*</em></div>
+					<input className={ this.state.phone_error ? 'error' : null } type="text" ref="phone" />
+	
+					<div className="note">Код компании<em>*</em></div>
+					<input className={ this.state.status == 2 || this.state.regKey_error ? 'error' : null } type="text" ref="regKey" />
+					<div className="note error-note">{ this.state.status == 2 ? 'Неверный код регистрации' : null}</div>
+	
+					<button onClick={this.handleRes}>Зарегистрироваться</button>
+					<div className="note footnote">
+						<em>*</em> - обязательные поля
+					</div>
+				</div>
+			)
+		}
+	},
 
-				<div className="note">Пароль:</div>
-				<input type="password" ref="passInput" />
+    // Add change listeners to stores
+    componentDidMount: function() {
+    	MainStore.addChangeAllListener(this._onChange);
+    },
 
-				<div className="note">Имя:</div>
-				<input type="text" ref="firstNameInput" />
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+    	MainStore.removeChangeAllListener(this._onChange);
+    },
 
-				<div className="note">Фамилия:</div>
-				<input type="text" ref="lastNameInput" />
-
-				<button onClick={this.handleRes}>Зарегистрироваться</button>
-			</div>
-
-		)
-	}
+    // Method to setState based upon Store changes
+    _onChange: function() {
+    	this.setState(getSignUpState());
+    }
 });
 
 function getState() {
@@ -123,7 +201,7 @@ var AuthForm = React.createClass({
 				<div className='black-flow' onClick={this.closeForm}></div> 
 				<div className ='sign-in-div'>
 					<div className='auth-title' onClick={this.handeSign}>{this.state.signTitle}</div><div className='auth-title close-btn' onClick={this.closeForm}>Закрыть</div>
-					{this.state.sign == 'in' ? <SignIn />:<SignUp />}
+					{this.state.sign == 'in' ? <SignIn />:<SignUp auth={ this.handeSign } />}
 				</div>
 			</div>	
 			

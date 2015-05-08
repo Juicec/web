@@ -40,8 +40,13 @@
 		}
 
 		public function register(){
-			if(!empty($_REQUEST['email']) && !empty($_REQUEST['password']) && !empty($_REQUEST['first_name']) && !empty($_REQUEST['last_name'])){
-				$this->user->make_new_user($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['first_name'], $_REQUEST['last_name']);
+			if(!empty($_REQUEST['email']) && !empty($_REQUEST['password']) && 
+				!empty($_REQUEST['first_name']) && !empty($_REQUEST['last_name']) && !empty($_REQUEST['company_key'])){
+				$status = $this->user->make_new_user($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['company_key'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['phone']);
+				$this->return_json(array('reg_status' => $status));
+			}
+			else{
+				$this->return_error(1);
 			}
 		}
 

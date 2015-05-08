@@ -30,10 +30,10 @@
 		//+++++
 		public function add_new($name, $description = null) {
 			if (empty($this->get_company_data_by_name($name)) && $this->user->role_id == 3){
-				$sql = 'INSERT INTO company (name, encoded_id, description, reg_key) VALUES (?, ?, ?, ?)';
-				$company_id = $this->db->insert($sql, array("new_name", "new_encoded_id", "new_desc", "new_reg_key"));
-				$sql = 'UPDATE company SET encoded_id = ?, name = ?, description = ?, reg_key = ?  WHERE id = ?';
-				$this->db->execute($sql, array(Tools::encode_company_id($company_id), $name, $description, $this->generate_reg_key(), $company_id));
+				$sql = 'INSERT INTO company (name, description, reg_key) VALUES (?, ?, ?)';
+				$company_id = $this->db->insert($sql, array($name, $description, $this->generate_reg_key()));
+				$sql = 'UPDATE company SET encoded_id = ? WHERE id = ?';
+				$this->db->execute($sql, array(Tools::encode_company_id($company_id), $company_id));
 				return true;
 			}
 			else{
@@ -84,6 +84,28 @@
 			srand(time());
         	$random_key = rand(10000000, 99999999);
         	return base64_encode($random_key);
+		}
+
+		public function get_company_data_by_key($key) {
+			$sql = 'SELECT id, encoded_id, name, reg_key, created_on FROM company WHERE reg_key = ?';
+			$company = $this->db->query($sql, array($key));
+
+			if (!empty($company)){
+				$this->company_data = $company[0];
+				return $company;
+			}
+			else
+				return false;
+		}
+
+		public function add_user_to_company($user_id){
+			if($this->company_data){
+				$sql = 'INSERT INTO company_users (user_id,	company_id) VALUES (?,?)';
+				$this->db->insert($sql, array($user_id, $this->company_data['id']));
+				return true;
+			}
+			else
+				return false;
 		}
 	}
 ?>
