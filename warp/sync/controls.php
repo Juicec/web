@@ -41,6 +41,7 @@
 						$this->last_name = $data[0]['last_name'];
 						$this->email = $data[0]['email'];
 						$this->role_id = $data[0]['role_id'];
+						$_SESSION['is_login'] = false;
 						$this->upd_session_array(true);
 					}
 					return true;
@@ -51,11 +52,15 @@
 		
 		public function upd_session_array($direct = false){
 			if ((isset($_SESSION["logged_in"]) && !is_numeric($_SESSION["logged_in"])) || $direct) {
+				echo 123;
 				$session_this = clone $this;
 				unset($session_this->db);
 	            $_SESSION['user'] = $session_this;
 	            $_SESSION['logged_in'] = 1;
+	            $_SESSION['is_login'] = true;
         	}
+        	if(empty($_SESSION))
+        		$_SESSION['is_login'] = false;
 		}
 		
 		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone){
@@ -121,6 +126,37 @@
 		public function session_destroy(){
 			session_destroy();
 			return true;
+		}
+
+		public function search_by_key($key){
+			if (!empty($key)){
+				$cool_key = '%'.strtolower(preg_replace("/u/", '', $key)).'%';
+	
+				$sql = 'SELECT 
+							uf.user_id, 
+							uf.first_name, 
+							uf.last_name, 
+							uf.email, 
+							u.encoded_id,
+							ur.role_id
+						FROM user_info uf, users as u
+						LEFT JOIN user_roles as ur ON ur.user_id = u.user_id
+						WHERE u.user_id = uf.user_id AND (lower(uf.email) LIKE ? OR lower(uf.first_name) LIKE ? OR lower(uf.last_name) LIKE ?)';
+				return $this->db->query($sql, array($cool_key, $cool_key, $cool_key));
+			}
+			else{
+				$sql = 'SELECT 
+							uf.user_id, 
+							uf.first_name, 
+							uf.last_name, 
+							uf.email, 
+							u.encoded_id,
+							ur.role_id
+						FROM user_info uf, users as u
+						LEFT JOIN user_roles as ur ON ur.user_id = u.user_id
+						WHERE u.user_id = uf.user_id';
+				return $this->db->query($sql, array());
+			}
 		}
 	}
 ?>

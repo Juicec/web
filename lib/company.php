@@ -7,7 +7,7 @@
 
 		function __construct($company_id = null) {
 			$this->db = DB::getInstance();
-			$this->user = !empty($_SESSION) ? $_SESSION['user'] : null;
+			$this->user = !empty($_SESSION['user']) ? $_SESSION['user'] : null;
 
 			if (!empty($company_id) && is_numeric($company_id)){
 				$sql = 'SELECT id, encoded_id, name, reg_key, created_on FROM company WHERE id = ?';
