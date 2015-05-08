@@ -90,7 +90,7 @@
 
 		public function get_companies(){
 			$this->company = new Company();
-			$this->return_json($this->company->getAll());
+			$this->return_json(array('companies' => $this->company->getAll()));
 		}
 		//End of company calls
 	}

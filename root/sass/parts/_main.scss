@@ -9,7 +9,7 @@ a{
 }
 
 .error{
-  	color: #FF0000;
+  	color: red;
 }
 
 .note{
@@ -185,7 +185,7 @@ body{
 				&:hover{
 					border-bottom: 1px solid $main1;
 				}
-				.active{
+				&.active{
 					background: $main1;
 					color: $white; 
 				}

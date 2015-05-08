@@ -10,7 +10,7 @@ function getCompaniesList() {
     Utils.post({
         url : 'get_companies',
         success: function(data){
-            _companiesData = data;
+            _companiesData = data.companies;
             companyStore.emitChangeAll();
         }
     });

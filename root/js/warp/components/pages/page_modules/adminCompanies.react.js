@@ -33,26 +33,21 @@ var CompaniesList = React.createClass({
     getInitialState: function() {
         return getCompaniesListState();
     },
-    getCompaniesList: function(){
-        companyActions.getCompaniesList();
-    },
     render: function(){  
-        this.getCompaniesList();
-        var companiesNodes = this.state.companiesData.map(function (company) {
-          return (
-            <tr>
-                <td>company.id</td><td>company.name</td><td>company.description</td><td>company.reg_key</td>
-            </tr>
-          );
-        }); 
+        var companiesNodes = function(company, index) {
+            return (
+                <CompaniesNodes company={ company } key={ index } />
+            );
+        }; 
         return (
             <table>
-                {companiesNodes}
+                { this.state.companiesData.length > 0 ? this.state.companiesData.map(companiesNodes) : null }
             </table>
         );
     },
     // Add change listeners to stores
     componentDidMount: function() {
+        companyActions.getCompaniesList();
         CompanyStore.addChangeAllListener(this._onChange);
     },
 
@@ -66,5 +61,17 @@ var CompaniesList = React.createClass({
         this.setState(getCompaniesListState());
     }
 });
+
+var CompaniesNodes = React.createClass({
+    render: function() {
+        var company = this.props.company;
+
+        return (
+            <tr key={ this.props.key }>
+                <td>{ company.id }</td><td>{ company.name }</td><td>{ company.description }</td><td>{ company.reg_key }</td>
+            </tr>
+        );
+    }
+})
 
 module.exports = AdminCompaniesModule;
