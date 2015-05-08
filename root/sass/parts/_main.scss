@@ -185,7 +185,11 @@ body{
 				&:hover{
 					border-bottom: 1px solid $main1;
 				}
-			}
+				.active{
+					background: $main1;
+					color: $white; 
+				}
+			} 
 		}
 	}
 	.page-data{

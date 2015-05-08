@@ -4,7 +4,8 @@ var mainActions = require('../../actions/mainActions');
 
 function getAdminPageState() {
     return {
-        userData        : MainStore.getUserData()
+        userData        : MainStore.getUserData(),
+        activeLink      : 'company'
     };
 }
 
@@ -13,21 +14,21 @@ var AdminApp = React.createClass({
     getInitialState: function() {
         return getAdminPageState();
     },
-
+    changeActiveLink : function(e){
+        this.setState({
+            activeLink : e.target.dataset.name
+        });
+    },
     // Render our child components, passing state via props
     render: function() {
         return (
             	<div className="page-content">
                     <div className="siderbar">
-                        <h2>Компании</h2>
                         <ul>
-                            <li>one</li>
-                            <li>two</li>
-                        </ul>
-                        <h2>Заказы</h2>
-                        <ul>
-                            <li>one</li>
-                            <li>two</li>
+                            <li className = {this.state.activeLink == 'company' ? 'active':null} data-name="company" onClick={this.changeActiveLink}>Компании</li>
+                            <li className = {this.state.activeLink == 'order' ? 'active':null} data-name="order" onClick={this.changeActiveLink}>Заказы</li>
+                            <li className = {this.state.activeLink == 'user' ? 'active':null} data-name="user" onClick={this.changeActiveLink}>Пользователи</li>
+                            <li className = {this.state.activeLink == 'item' ? 'active':null} data-name="item" onClick={this.changeActiveLink}>Товары</li>
                         </ul>
                     </div>
                     <div className="page-data">
