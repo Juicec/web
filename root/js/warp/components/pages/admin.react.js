@@ -1,6 +1,10 @@
 var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
+var AdminCompaniesModule = require('./page_modules/adminCompanies.react');
+var AdminUsersModule = require('./page_modules/adminUsers.react');
+var AdminItemsModule = require('./page_modules/adminItems.react');
+var AdminOrdersModule = require('./page_modules/adminOrders.react');
 
 function getAdminPageState() {
     return {
@@ -40,7 +44,10 @@ var AdminApp = React.createClass({
                             </ul>
                         </div>
                         <div className="workarea">
-                            some data ololo
+                            {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
+                            {this.state.activeLink == 'order' ? <AdminOrdersModule /> : null}
+                            {this.state.activeLink == 'user' ? <AdminUsersModule /> : null}
+                            {this.state.activeLink == 'item' ? <AdminItemsModule /> : null}
                         </div>
                     </div>
             	</div>
