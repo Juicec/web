@@ -28,10 +28,10 @@
 
 
 		//+++++
-		public function add_new($name, $description = null) {
+		public function add_new($name, $description = null, $phone = null) {
 			if (empty($this->get_company_data_by_name($name)) && $this->user->role_id == 3){
-				$sql = 'INSERT INTO company (name, description, reg_key) VALUES (?, ?, ?)';
-				$company_id = $this->db->insert($sql, array($name, $description, $this->generate_reg_key()));
+				$sql = 'INSERT INTO company (name, description, reg_key, phone) VALUES (?, ?, ?, ?)';
+				$company_id = $this->db->insert($sql, array($name, $description, $this->generate_reg_key(), $phone));
 				$sql = 'UPDATE company SET encoded_id = ? WHERE id = ?';
 				$this->db->execute($sql, array(Tools::encode_company_id($company_id), $company_id));
 				return true;
@@ -47,10 +47,10 @@
 		}
 
 		//+++++
-		public function update($name, $description = null) {
+		public function update($name, $description, $phone) {
 			if($this->company_data && $this->user->role_id == 3 && !empty($name)){
-				$sql = 'UPDATE company SET name = ?, description = ? WHERE id = ?';
-				$this->db->execute($sql, array($name, $description, $reg_key, $this->company_data['id']));
+				$sql = 'UPDATE company SET name = ?, description = ?, phone = ? WHERE id = ?';
+				$this->db->execute($sql, array($name, $description, $phone, $this->company_data['id']));
 
 				$this->company_data['name'] = $name;
 				$this->company_data['description'] = $description;

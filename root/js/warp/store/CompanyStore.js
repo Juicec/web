@@ -19,7 +19,7 @@ function getCompaniesList() {
 function addNewCompany(newCompanyData){
     Utils.post({
         url : 'add_company',
-        data: {"name" : newCompanyData.name, "description": newCompanyData.description},
+        data: {"name" : newCompanyData.name, "description": newCompanyData.description, "phone": newCompanyData.phone},
         success: function(data){
             if(data.status_code == '0'){
                 companyStore.emitChangeAll();
@@ -32,10 +32,29 @@ function addNewCompany(newCompanyData){
     });
 }
 
-function closeCompanyCreation(){
+function companyGetInitial(){
     companyStore.emitChangeAll();
 }
 
+function companyEdit(newData){
+    Utils.post({
+        url : 'update_company',
+        data: {"name" : newData.name, "description": newData.description, "phone": newData.phone, "id": newData.id},
+        success: function(data){
+            companyStore.emitChangeAll();
+        }
+    });
+}
+
+function companyDelete(delData){
+    Utils.post({
+        url : 'remove_company',
+        data: {"id": delData.id},
+        success: function(data){
+            companyStore.emitChangeAll();
+        }
+    });
+}
 
 var companyStore = _.extend({}, EventEmitter.prototype, {
     getCompaniesData: function() {
@@ -86,9 +105,15 @@ AppDispatcher.register(function(payload) {
         case actionConstants.COMPANY_ADDNEW:
             addNewCompany(action.newCompanyData);
             break;   
-        case actionConstants.COMPANY_CLOSECREATION:
-            closeCompanyCreation();
-            break;                      
+        case actionConstants.COMPANY_GETINITIAL:
+            companyGetInitial();
+            break; 
+        case actionConstants.COMPANY_EDIT:
+            companyEdit(action.newData);
+            break;
+        case actionConstants.COMPANY_DEL:
+            companyDelete(action.delData);
+            break;                   
         default:
             return true;
     }

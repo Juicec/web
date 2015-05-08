@@ -62,8 +62,8 @@
 		// Beginning of Company calls
 		public function add_company(){
 			$this->company = new Company();
-			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description'])) {
-				if(!$this->company->add_new($_REQUEST['name'], $_REQUEST['description'])){
+			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['phone'])) {
+				if(!$this->company->add_new($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['phone'])){
 					$this->return_error(2);
 				}
 				else{
@@ -77,9 +77,9 @@
 		}
 
 		public function update_company(){
-			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['reg_key']) && !empty($_REQUEST['id'])){
+			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['phone']) && !empty($_REQUEST['id'])){
 				$this->company = new Company($_REQUEST['id']);
-				$this->company->update($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['reg_key']);
+				$this->company->update($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['phone']);
 				$this->return_json($_REQUEST);
 			}
 			else{

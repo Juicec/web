@@ -16,9 +16,21 @@ var companyActions = {
 	    	newCompanyData: newCompanyData
 	  	})
 	},
-	closeCreation: function(){
+	getInitial: function(){
 		AppDispatcher.handleAction({
-	    	actionType: ActionConstants.COMPANY_CLOSECREATION
+	    	actionType: ActionConstants.COMPANY_GETINITIAL
+	  	})
+	},
+	edit: function(newData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_EDIT,
+	    	newData: newData
+	  	})
+	},
+	deleteCompany: function(delData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_DEL,
+	    	delData: delData
 	  	})
 	}
 };
