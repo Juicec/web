@@ -18,7 +18,7 @@ var mainActions = {
 	},
 	closeForm: function(){
 		AppDispatcher.handleAction({
-	    	actionType: ActionConstants.AUTH_CLOSEFORM
+	    	actionType: ActionConstants.MAIN_CLOSEFORM
 	  	})
 	},
 	signUp: function(reg_data){

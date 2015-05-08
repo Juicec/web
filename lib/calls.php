@@ -87,6 +87,11 @@
 				$this->return_error(1);
 			}
 		}
+
+		public function get_companies(){
+			$this->company = new Company();
+			$this->return_json($this->company->getAll());
+		}
 		//End of company calls
 	}
 ?>

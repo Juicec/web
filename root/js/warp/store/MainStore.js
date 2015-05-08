@@ -85,7 +85,7 @@ AppDispatcher.register(function(payload) {
         case actionConstants.MAIN_SIGNOUT:
             signOut();
             break; 
-        case actionConstants.AUTH_CLOSEFORM:
+        case actionConstants.MAIN_CLOSEFORM:
             closeSignForm();
             break;   
         case actionConstants.MAIN_REG:

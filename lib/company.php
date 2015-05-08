@@ -29,7 +29,7 @@
 
 		//+++++
 		public function add_new($name, $description = null, $reg_key = null) {
-			if (empty($this->get_company_data_by_name($name))){
+			if (empty($this->get_company_data_by_name($name)) && $this->user->role_id == 3){
 				$sql = 'INSERT INTO company (name, encoded_id, description, reg_key) VALUES (?, ?, ?, ?)';
 				$company_id = $this->db->insert($sql, array("new_name", "new_encoded_id", "new_desc", "new_reg_key"));
 				$sql = 'UPDATE company SET encoded_id = ?, name = ?, description = ?, reg_key = ?  WHERE id = ?';
@@ -45,7 +45,7 @@
 			return $this->db->query($sql, array($name));
 		}
 
-		//+- Проверить
+		//+++++
 		public function update($name, $description = null, $reg_key = null) {
 			if($this->company_data && $this->user->role_id == 3 && !empty($name)){
 				$sql = 'UPDATE company SET name = ?, description = ?, reg_key = ? WHERE id = ?';
@@ -60,12 +60,21 @@
 			else
 				return false;
 		}
-		//+- Проверить
+		//+++++
 		public function remove() {
 			if($this->company_data && $this->user->role_id == 3){
 				$sql = 'DELETE FROM company WHERE id = ?';
 				$this->db->execute($sql, array($this->company_data['id']));
 				return true;
+			}
+			else
+				return false;
+		}
+
+		public function getAll(){
+			if($this->user->role_id == 3){
+				$sql = 'SELECT * FROM company';
+				return $this->db->query($sql, array());
 			}
 			else
 				return false;

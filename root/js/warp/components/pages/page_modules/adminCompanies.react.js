@@ -1,6 +1,6 @@
 var React = require('react');
-var MainStore = require('../../../store/MainStore');
-var mainActions = require('../../../actions/mainActions');
+var CompanyStore = require('../../../store/CompanyStore');
+var companyActions = require('../../../actions/CompanyActions');
 
 function getAdminCompaniesModuleState() {
     return {
@@ -20,29 +20,50 @@ var AdminCompaniesModule = React.createClass({
                     <CompaniesList />
                 </div>
         );
-    },
+    }
+});
 
+function getCompaniesListState() {
+    return {
+        companiesData: CompanyStore.getCompaniesData()
+    };
+}
+
+var CompaniesList = React.createClass({ 
+    getInitialState: function() {
+        return getCompaniesListState();
+    },
+    getCompaniesList: function(){
+        companyActions.getCompaniesList();
+    },
+    render: function(){  
+        this.getCompaniesList();
+        var companiesNodes = this.state.companiesData.map(function (company) {
+          return (
+            <tr>
+                <td>company.id</td><td>company.name</td><td>company.description</td><td>company.reg_key</td>
+            </tr>
+          );
+        }); 
+        return (
+            <table>
+                {companiesNodes}
+            </table>
+        );
+    },
     // Add change listeners to stores
     componentDidMount: function() {
-    	MainStore.addChangeAllListener(this._onChange);
+        CompanyStore.addChangeAllListener(this._onChange);
     },
 
     // Remove change listers from stores
     componentWillUnmount: function() {
-    	MainStore.removeChangeAllListener(this._onChange);
+        CompanyStore.removeChangeAllListener(this._onChange);
     },
 
     // Method to setState based upon Store changes
     _onChange: function() {
-    	this.setState(getAdminCompaniesModuleState());
-    }
-});
-
-var CompaniesList = React.createClass({
-    render: function(){
-        return (
-            <span>List of companies</span>
-        );
+        this.setState(getCompaniesListState());
     }
 });
 
