@@ -1,6 +1,7 @@
 var React = require('react');
 var CompanyStore = require('../../../store/CompanyStore');
 var companyActions = require('../../../actions/CompanyActions');
+var _ = require('underscore');
 
 function getAdminCompaniesModuleState() {
     return {
@@ -18,6 +19,11 @@ var AdminCompaniesModule = React.createClass({
             workarea: 'addNewCompany'
         })
     },
+    showCompanies: function(){
+        this.setState({
+            workarea : 'companiesList'
+        });
+    },
     // Render our child components, passing state via props
     render: function() {
         return (
@@ -28,26 +34,15 @@ var AdminCompaniesModule = React.createClass({
                     </ul>
                  </div>
                  <div className="workarea">
-                     {this.state.workarea == 'companiesList' ? <CompaniesList /> : null}
-                     {this.state.workarea == 'addNewCompany' ? <AddNewCompany /> : null}
+                    {this.state.workarea == 'addNewCompany' ? <AddNewCompany onAdd={ this.showCompanies }/> : null}
+                    <CompaniesList />
                  </div>
             </div>
         );
     },
-    // Add change listeners to stores
-    componentDidMount: function() {
-        CompanyStore.addChangeAllListener(this._onChange);
 
-    },
-
-    // Remove change listers from stores
-    componentWillUnmount: function() {
-        CompanyStore.removeChangeAllListener(this._onChange);
-    },
-
-    // Method to setState based upon Store changes
-    _onChange: function() {
-        this.setState(getAdminCompaniesModuleState());
+    componentDidMount: function(){
+        companyActions.getCompaniesList();
     }
 });
 
@@ -61,24 +56,23 @@ var CompaniesList = React.createClass({
     getInitialState: function() {
         return getCompaniesListState();
     },
-    render: function(){  
+    render: function(){ 
         var companiesNodes = function(company, index) {
             return (
-                <CompaniesNodes company={ company } key={ index + 1 } />
+                <CompaniesNodes company={ company } key={ index + 1 }/>
             );
-        }; 
+        };
         return (
             <table cellSpacing="0" cellPadding="0">
                 <tr key='0'>
-                    <th>№</th><th>Название компании</th><th>Описание компании</th><th>Телефон</th><th>Регистарционный ключ</th><th>Измение</th><th>Удаление</th>
+                    <th>№</th><th>Название компании</th><th>Описание компании</th><th>Телефон</th><th>Регистарционный ключ</th><th>E-mail администратора</th><th>Измение</th><th>Удаление</th>
                 </tr>
                 { this.state.companiesData.length > 0 ? this.state.companiesData.map(companiesNodes) : null }
             </table>
         );
     },
-    // Add change listeners to stores
+    // Add change listeners to stores //Нужны!!
     componentDidMount: function() {
-        companyActions.getCompaniesList();
         CompanyStore.addChangeAllListener(this._onChange);
     },
 
@@ -96,7 +90,8 @@ var CompaniesList = React.createClass({
 function getCompaniesNodesState() {
     return {
         edit : false,
-        deleteCompany: false
+        deleteCompany: false,
+        manager: false
     };
 }
 
@@ -104,45 +99,36 @@ var CompaniesNodes = React.createClass({
     getInitialState: function(){
         return getCompaniesNodesState();
     },
-    editCompany: function(){
-        this.setState({
-            edit: true
-        });
+    toggleDeleteWindow: function() {
+        this.setState({ deleteCompany : this.state.deleteCompany ? false : true });
     },
-    deleteThisCompany: function(){
-        this.setState({
-            deleteCompany: true
-        });
+    toggleEditWindow: function(){
+        this.setState({ edit : this.state.edit ? false : true });
+    },
+    toggleManagerWindow: function(){
+        this.setState({ manager : this.state.manager ? false : true });
     },
     render: function() {
         var company = this.props.company;
         return (
             <tr key={ this.props.key } >
-                <td>{ company.id }</td><td>{ company.name }</td><td>{ company.description }</td><td>{company.phone}</td>
-                <td>{ company.reg_key }</td><td>{this.state.edit ? <EditWindow data = {company} /> : null}<span className="tableCompanySpan" onClick={this.editCompany}>Изенить</span></td>
-                <td>{this.state.deleteCompany ? <DeleteWindow data = {company} /> : null}<span className="tableCompanySpan" onClick={this.deleteThisCompany}>Удалить</span></td>
+                <td>{ company.id }</td>
+                <td>{ company.name }</td>
+                <td>{ company.description }</td>
+                <td>{ company.phone }</td>
+                <td>{ company.reg_key }</td>
+                <td>{ this.state.manager ? <ManagerWindow data={ company } onManager={ this.toggleManagerWindow }/> : null}<span className="tableCompanySpan" onClick={ this.toggleManagerWindow }>{ _.isEmpty(company.manager_email) ? 'Добавить' : company.manager_email }</span></td>
+                <td>{ this.state.edit ? <EditWindow data={ company } onEdit={ this.toggleEditWindow }/> : null}<span className="tableCompanySpan" onClick={ this.toggleEditWindow }>Изенить</span></td>
+                <td>{ this.state.deleteCompany ? <DeleteWindow data={ company } onDelete={ this.toggleDeleteWindow } /> : null}<span className="tableCompanySpan" onClick={this.toggleDeleteWindow}>Удалить</span></td>
             </tr>
         );
-    },
-    // Add change listeners to stores
-    componentDidMount: function() {
-        CompanyStore.addChangeAllListener(this._onChange);
-    },
-
-    // Remove change listers from stores
-    componentWillUnmount: function() {
-        CompanyStore.removeChangeAllListener(this._onChange);
-    },
-
-    // Method to setState based upon Store changes
-    _onChange: function() {
-        this.setState(getCompaniesNodesState());
     }
 });
 
 function getAddNewCompanyState() {
     return {
-        sameNameError : false
+        sameNameError : CompanyStore.getSameNameError(),
+        chooseUser: false
     };
 }
 
@@ -151,7 +137,7 @@ var AddNewCompany = React.createClass({
         return getAddNewCompanyState();
     },
     closeCreation: function(){
-        companyActions.getInitial();
+        this.props.onAdd();
     },
     addNewCompany: function(){
         var newCompanyData = {
@@ -172,14 +158,15 @@ var AddNewCompany = React.createClass({
 
                 <span>Введите телефон компании:</span>
                 <input type="text" ref="companyPhone"/>
+
                 {this.state.sameNameError == true ? <span>Компания с таким именем уже существует</span>:null}
                 <div className="add-new-company-confirm">
-                    <span onClick={this.addNewCompany}>Сохранить</span> <span onClick={this.closeCreation}>Отмена</span> 
+                    <button onClick={this.addNewCompany}>Сохранить</button><button onClick={this.closeCreation}>Отмена</button> 
                 </div>
             </div>
         );
     },
-    componentDidMount: function() {
+    componentDidMount: function() { //Нужны!!!
         CompanyStore.addSameNameErrorListener(this.onSameNameError);
     },
 
@@ -190,12 +177,13 @@ var AddNewCompany = React.createClass({
 
     // Method to setState based upon Store changes
     onSameNameError: function() {
-        this.setState({
-            sameNameError : true
-        });
+        var temp = getAddNewCompanyState();
+        if(temp.sameNameError)
+            this.setState(temp);
+        else
+            this.props.onAdd();
     }
 });
-
 
 var EditWindow = React.createClass({
     getInitialState: function(){
@@ -205,7 +193,7 @@ var EditWindow = React.createClass({
         };
     },
     closeEditWindow: function(){
-        companyActions.getInitial();
+        this.props.onEdit();
     },
     editThisCompany: function(){
         var newData = {
@@ -215,6 +203,7 @@ var EditWindow = React.createClass({
             "id"    : this.props.data.id
         }
         companyActions.edit(newData);
+        this.props.onEdit();
     },
     nameChange: function(event) {
         this.setState({nameInput: event.target.value});
@@ -226,24 +215,130 @@ var EditWindow = React.createClass({
         return(
             <div>
                 <div className="black-flow" onClick={this.closeEditWindow}></div>
-                <div className="pop-up-company">
-                    <span>Название фирмы:</span>
-                    <input type="text" ref="newCompanyName" value={this.state.nameInput} onChange={this.nameChange}/>
+                <div className="pop-up company">
+                    <div className="note">Название фирмы:</div>
+                    <input type="text" ref="newCompanyName" defaultValue={this.state.nameInput} onChange={this.nameChange}/>
 
-                    <span>Описание:</span>
-                    <textarea ref="newCompanyDescription">{this.props.data.description}</textarea>
+                    <div className="note">Описание:</div>
+                    <textarea ref="newCompanyDescription" defaultValue={ this.props.data.description } ></textarea>
 
-                    <span>Телефон:</span>
-                    <input type="text" ref="newCompanyPhone" value={this.state.phoneInput} onChange={this.phoneChange}/>
+                    <div className="note">Телефон:</div>
+                    <input type="text" ref="newCompanyPhone" defaultValue={this.state.phoneInput} onChange={this.phoneChange}/>
 
-                    <span onClick={this.editThisCompany}>Сохранить</span> <span onClick={this.closeEditWindow}>Отмена</span> 
+                    <button className="cancel" onClick={this.closeEditWindow}>Отмена</button>
+                    <button onClick={this.editThisCompany}>Сохранить</button>
+                </div>
+            </div>
+        );
+    }
+});
+
+var DeleteWindow = React.createClass({
+    closeDeleteWindow: function(){
+        this.props.onDelete();
+        //companyActions.getInitial();
+    },
+    deleteThisCompany: function(){
+        var delData = this.props.data;
+        companyActions.deleteCompany(delData);
+        this.props.onDelete();
+    },
+    render: function(){
+        return(
+            <div>
+                <div className="black-flow" onClick={this.closeDeleteWindow}></div>
+                <div className="pop-up company">
+                    <div>Вы уверены, что хотите удалить компанию? Удаление - необратимая операция!</div> 
+                    <button className="cancel" onClick={this.closeDeleteWindow}>Отмена</button> 
+                    <button onClick={this.deleteThisCompany}>Удалить</button>
+                </div>
+            </div>
+        );
+    }
+});
+
+
+function getManagerWindowState() {
+    return {
+        users : CompanyStore.getSearchedUsers(),
+        chooseInput: ''
+    };
+}
+
+var ManagerWindow = React.createClass({
+    getInitialState: function(){
+
+        return getManagerWindowState();
+    },
+    addNew: function(){
+        var managerData = {
+            "company_id": this.props.data.id,
+            "email": this.state.chooseInput
+        };
+        companyActions.setManager(managerData);
+        this.props.onManager();
+    },
+    getUsers: function(e){
+        if(_.isEmpty(e.target.value)){
+            this.setState({
+                users: {}
+            });
+        }else{
+            companyActions.get_users(e.target.value);
+        }
+        this.setState({chooseInput: event.target.value});
+    },
+    closeManagerWindow: function(){
+        this.props.onManager();
+    },
+    chooseUser: function(data){
+        this.setState({
+            chooseInput: data,
+            users: {}
+        });
+    },
+    render: function(){
+        var searchedUsers = function(user, index) {
+            return (
+                <SearchedUsers user={ user } key={ index } onChoose={ this.chooseUser }/>
+            );
+        }.bind(this);
+        return(
+            <div>
+                <div className="black-flow" onClick={ this.closeManagerWindow }></div>
+                <div className="pop-up company">
+                { _.isEmpty(this.props.data.manager_fn) ? 
+                    <div>
+                        <div className="note">Введите email:</div>
+                        <input type="text" onChange={ this.getUsers } value={ this.state.chooseInput }/>
+                        <div className="search-results">{ this.state.users.length > 0 ? this.state.users.map(searchedUsers) : null }</div>
+                        <button className="cancel" onClick= { this.closeManagerWindow }>Отмена</button>
+                        <button onClick={ this.addNew }>Сохранить</button>  
+                    </div>
+                 :
+                    <div>
+                        <div className="note">Имя менеджера:</div>
+                        <div>{ this.props.data.manager_fn }</div>
+                        <div className="note">Фамилия менеджера:</div>
+                        <div>{ this.props.data.manager_ln }</div>
+                        <div className="note">Email менеджера:</div>
+                        <div>{ this.props.data.manager_email }</div>
+                        <div className="note">Телефон менеджера:</div>
+                        <div>{ this.props.data.manager_phone }</div>
+                        <button className="cancel">Удалить</button>
+                        <button>Изменить</button>
+                        <button onClick= { this.closeManagerWindow }>Закрыть</button>
+                    </div>  
+                }      
                 </div>
             </div>
         );
     },
-    // Add change listeners to stores
     componentDidMount: function() {
         CompanyStore.addChangeAllListener(this._onChange);
+        this.setState({
+            users: {}
+        });
     },
 
     // Remove change listers from stores
@@ -253,28 +348,25 @@ var EditWindow = React.createClass({
 
     // Method to setState based upon Store changes
     _onChange: function() {
-        companyActions.getCompaniesList();
+        this.setState({
+            users : CompanyStore.getSearchedUsers()
+        });
     }
 });
 
-var DeleteWindow = React.createClass({
-    closeDeleteWindow: function(){
-        companyActions.getInitial();
+var SearchedUsers = React.createClass({
+    click: function(e){
+        this.props.onChoose(e.target.dataset.email);
     },
-    deleteThisCompany: function(){
-        var delData = this.props.data;
-        companyActions.deleteCompany(delData);
-    },
-    render: function(){
-        return(
-            <div>
-                <div className="black-flow" onClick={this.closeDeleteWindow}></div>
-                <div className="pop-up-company">
-                    <div>Вы уверены, что хотите удалить компанию? Удаление - необратимая операция!</div> 
-                    <span onClick={this.deleteThisCompany}>Удалить</span> <span onClick={this.closeDeleteWindow}>Отмена</span> 
-                </div>
+    render: function() {
+        var user = this.props.user;
+        return (
+            <div key={ this.props.key } onClick={ this.click }>
+                <span data-email={ user.email }>{ user.email }</span>
             </div>
         );
     }
 });
+
+
 module.exports = AdminCompaniesModule;

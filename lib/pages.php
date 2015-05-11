@@ -19,6 +19,7 @@
 		}
 
 		public function test(){
+			var_dump($_SESSION);
 			//$this->user->make_new_user('asd@asd.com', 123, 'ODY4OTA1NjM=');
 		}
 

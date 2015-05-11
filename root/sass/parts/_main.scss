@@ -46,6 +46,13 @@ button, input[type="submit"]{
 		background: $main1Dark;
 		box-shadow: 0 0 0 1px $main1Black;
 	}
+	&.cancel{
+		background: $grayDark;
+		box-shadow: 0 0 0 1px $grayBlack;
+		&:hover{
+			background: $grayText;
+		}
+	}
 }
 
 input, textarea{
@@ -53,10 +60,15 @@ input, textarea{
 	border: 1px solid $main1Light;
 	outline: none;
 	width: 100%;
+	resize: vertical;
 	&:focus{
 		box-shadow: inset 0 0 3px $gray;
 		border: 1px solid $main1;
 	}
+}
+
+table{
+	font-size: 14px;
 }
 
 .left-col, .right-col{
@@ -70,13 +82,29 @@ input, textarea{
 	padding-left: 2px;
 }
 
+.pop-up{
+	background: $white;
+	position: fixed;
+	width: 200px;
+	border: 1px solid $main2;
+	border-radius: 5px;
+	padding: 10px;
+	text-align: center;
+	top: 20%;
+	left: 50%;
+	margin-left: -100px;
+	.note{
+		margin-top: 10px;
+	}
+}
+
 body{
 	background: $grayLight;
 	font-family: 'Roboto';
 	padding: 0px;
 	margin: 0px;
 	color: $grayText;
-
+	font-size: 14px;
 	h1{
 		font-size: 30px;
 		text-transform: uppercase;
@@ -131,7 +159,7 @@ body{
 			}
 		}
 	}
-
+	
 	.black-flow{
 	  	width: 100%;
 	  	height: 100%;
@@ -143,16 +171,6 @@ body{
 	}
 
 	.sign-in-div{
-		background: $white;
-		position: fixed;
-		width: 200px;
-		border: 1px solid $main2;
-		border-radius: 5px;
-		padding: 10px;
-		text-align: center;
-		left: 50%;
-		top: 20%;
-		margin-left: -100px;
 		span{
 		  	margin-top: 10px;
 		}
@@ -170,7 +188,6 @@ body{
 			}
 		}
 		.note{
-			margin-top: 10px;
 			&.error-note{
 				margin-top: 0px;
 			}
@@ -254,11 +271,13 @@ body{
 		.workarea{
 			margin: 10px 0;
 			table{
+				border-spacing: 2px;
 				width: 100%;
 				th{
 					text-align: left;
 				}
 				tr{
+					vertical-align: top;
 					&:nth-child(even){
 						background: $tableBlue;
 					}
@@ -269,7 +288,24 @@ body{
 					}
 				}
 			}
+			.search-results{
+				background: $white;
+				width: 200px;
+				box-shadow: inset 0 0 1px $main1;
+				border-top: none;
+				div{
+					cursor: pointer;
+					&:hover{
+						background: $main1;
+						color: $white;
+					}
+				}
+			}
 			.add-new-company-div{
+				button{
+					margin-top: 20px;
+					display: block;
+				}
 				input{
 					width: 200px;
 				}
@@ -277,27 +313,18 @@ body{
 					display: block;
 				}
 				.add-new-company-confirm{
-					span{
+					button{
 						display: table-cell;
-						padding-left: 5px;
-						padding-right: 5px;
-						cursor: pointer;
+						margin-right: 15px;
 					}
 				}
 			}
-			.pop-up-company{
-				background: $white;
-				position: fixed;
-				width: 200px;
-				border: 1px solid $main2;
-				border-radius: 5px;
-				padding: 10px;
-				text-align: center;
-				top: 20%;
-				left: 50%;
-				margin-left: -100px;
-				span{
+			.company{
+				button{
 					margin-top: 10px;
+					&.cancel{
+						margin-right: 10px;
+					}
 				}
 			}
 		}

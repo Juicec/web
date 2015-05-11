@@ -16,11 +16,6 @@ var companyActions = {
 	    	newCompanyData: newCompanyData
 	  	})
 	},
-	getInitial: function(){
-		AppDispatcher.handleAction({
-	    	actionType: ActionConstants.COMPANY_GETINITIAL
-	  	})
-	},
 	edit: function(newData){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.COMPANY_EDIT,
@@ -31,6 +26,18 @@ var companyActions = {
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.COMPANY_DEL,
 	    	delData: delData
+	  	})
+	},
+	get_users: function(userData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_GETUSERS,
+	    	userData: userData
+	  	})
+	},
+	setManager: function(managerData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_SETMANAGER,
+	    	managerData: managerData
 	  	})
 	}
 };

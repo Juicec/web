@@ -7,6 +7,7 @@
 		public $last_name;
 		public $email;
 		public $role_id;
+		public $user_id;
 		private static $_instance;
 
 		public static function getInstance() {
@@ -41,6 +42,7 @@
 						$this->last_name = $data[0]['last_name'];
 						$this->email = $data[0]['email'];
 						$this->role_id = $data[0]['role_id'];
+						$this->user_id = $data[0]['user_id'];
 						$_SESSION['is_login'] = false;
 						$this->upd_session_array(true);
 					}

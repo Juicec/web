@@ -54,16 +54,28 @@ button:hover, input[type="submit"]:hover {
   background: #303F9F;
   box-shadow: 0 0 0 1px #1A237E;
 }
+button.cancel, input[type="submit"].cancel {
+  background: #616161;
+  box-shadow: 0 0 0 1px #212121;
+}
+button.cancel:hover, input[type="submit"].cancel:hover {
+  background: #424242;
+}
 
 input, textarea {
   padding: 5px;
   border: 1px solid #9FA8DA;
   outline: none;
   width: 100%;
+  resize: vertical;
 }
 input:focus, textarea:focus {
   box-shadow: inset 0 0 3px #9E9E9E;
   border: 1px solid #3F51B5;
+}
+
+table {
+  font-size: 14px;
 }
 
 .left-col, .right-col {
@@ -79,12 +91,29 @@ input:focus, textarea:focus {
   padding-left: 2px;
 }
 
+.pop-up {
+  background: #FFFFFF;
+  position: fixed;
+  width: 200px;
+  border: 1px solid #FFC107;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  top: 20%;
+  left: 50%;
+  margin-left: -100px;
+}
+.pop-up .note {
+  margin-top: 10px;
+}
+
 body {
   background: #EEEEEE;
   font-family: 'Roboto';
   padding: 0px;
   margin: 0px;
   color: #424242;
+  font-size: 14px;
 }
 body h1 {
   font-size: 30px;
@@ -146,18 +175,6 @@ body .black-flow {
   left: 0;
   opacity: 0.7;
 }
-body .sign-in-div {
-  background: #FFFFFF;
-  position: fixed;
-  width: 200px;
-  border: 1px solid #FFC107;
-  border-radius: 5px;
-  padding: 10px;
-  text-align: center;
-  left: 50%;
-  top: 20%;
-  margin-left: -100px;
-}
 body .sign-in-div span {
   margin-top: 10px;
 }
@@ -173,9 +190,6 @@ body .sign-in-div .after-reg {
 }
 body .sign-in-div .after-reg:hover {
   text-decoration: none;
-}
-body .sign-in-div .note {
-  margin-top: 10px;
 }
 body .sign-in-div .note.error-note {
   margin-top: 0px;
@@ -259,10 +273,14 @@ body .sign-in-div .auth-title:nth-child(2) {
   margin: 10px 0;
 }
 .page-content .page-data .workarea table {
+  border-spacing: 2px;
   width: 100%;
 }
 .page-content .page-data .workarea table th {
   text-align: left;
+}
+.page-content .page-data .workarea table tr {
+  vertical-align: top;
 }
 .page-content .page-data .workarea table tr:nth-child(even) {
   background: #D2D7F5;
@@ -270,30 +288,36 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .workarea table td .tableCompanySpan {
   cursor: pointer;
 }
+.page-content .page-data .workarea .search-results {
+  background: #FFFFFF;
+  width: 200px;
+  box-shadow: inset 0 0 1px #3F51B5;
+  border-top: none;
+}
+.page-content .page-data .workarea .search-results div {
+  cursor: pointer;
+}
+.page-content .page-data .workarea .search-results div:hover {
+  background: #3F51B5;
+  color: #FFFFFF;
+}
+.page-content .page-data .workarea .add-new-company-div button {
+  margin-top: 20px;
+  display: block;
+}
 .page-content .page-data .workarea .add-new-company-div input {
   width: 200px;
 }
 .page-content .page-data .workarea .add-new-company-div span {
   display: block;
 }
-.page-content .page-data .workarea .add-new-company-div .add-new-company-confirm span {
+.page-content .page-data .workarea .add-new-company-div .add-new-company-confirm button {
   display: table-cell;
-  padding-left: 5px;
-  padding-right: 5px;
-  cursor: pointer;
+  margin-right: 15px;
 }
-.page-content .page-data .workarea .pop-up-company {
-  background: #FFFFFF;
-  position: fixed;
-  width: 200px;
-  border: 1px solid #FFC107;
-  border-radius: 5px;
-  padding: 10px;
-  text-align: center;
-  top: 20%;
-  left: 50%;
-  margin-left: -100px;
-}
-.page-content .page-data .workarea .pop-up-company span {
+.page-content .page-data .workarea .company button {
   margin-top: 10px;
+}
+.page-content .page-data .workarea .company button.cancel {
+  margin-right: 10px;
 }

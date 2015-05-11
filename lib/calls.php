@@ -63,11 +63,12 @@
 		public function add_company(){
 			$this->company = new Company();
 			if(!empty($_REQUEST['name'])&& !empty($_REQUEST['description']) && !empty($_REQUEST['phone'])) {
-				if(!$this->company->add_new($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['phone'])){
+				$new_data = $this->company->add_new($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['phone']);
+				if(!$new_data){
 					$this->return_error(2);
 				}
 				else{
-					$this->return_error(0);
+					$this->return_json($new_data);
 				}
 				
 			}
@@ -99,16 +100,16 @@
 		}
 
 		public function get_companies(){
-			if ($_SESSION['logged_in']){
+			if ($_SESSION['is_login']){
 				$this->company = new Company();
-				$this->return_json(array('companies' => $this->company->getAll()));
+				$this->return_json(array('companies' => $this->company->getAll($_SESSION['user']->user_id)));
 			}
 			else
 				$this->return_error(1);
 		}
 
 		public function get_reg_key(){
-			if ($_SESSION['logged_in']){
+			if ($_SESSION['is_login']){
 				$this->company = new Company();
 				$this->return_json(array('key' => $this->company->generate_reg_key()));
 			}
@@ -118,13 +119,27 @@
 		//End of company calls
 
 		// USER SEARCH PART
+		// TODO должно быть из одной компании
 		public function search_users(){
-			if ($_SESSION['logged_in'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['key'])){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['key'])){
 				$data = $this->user->search_by_key($_REQUEST['key']);
 				$this->return_json(array('users' => $data));
 			}
 			else
 				$this->return_error(1);
 		}
+
+
+		public function company_manager_set(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'] && !empty($_REQUEST['email']))){
+				$this->company = new Company($_REQUEST['company_id']);
+				$user_id = $this->company->set_company_manager($_REQUEST['email']);
+				$this->return_json($_REQUEST);
+			}
+			else
+				$this->return_error(1);
+		}
+
+
 	}
 ?>

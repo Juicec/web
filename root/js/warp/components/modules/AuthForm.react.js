@@ -199,7 +199,7 @@ var AuthForm = React.createClass({
 		return(
 			<div>
 				<div className='black-flow' onClick={this.closeForm}></div> 
-				<div className ='sign-in-div'>
+				<div className ='pop-up sign-in-div'>
 					<div className='auth-title' onClick={this.handeSign}>{this.state.signTitle}</div><div className='auth-title close-btn' onClick={this.closeForm}>Закрыть</div>
 					{this.state.sign == 'in' ? <SignIn />:<SignUp auth={ this.handeSign } />}
 				</div>
