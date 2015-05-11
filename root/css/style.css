@@ -285,8 +285,14 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .workarea table tr:nth-child(even) {
   background: #D2D7F5;
 }
-.page-content .page-data .workarea table td .tableCompanySpan {
+.page-content .page-data .workarea table td.tableCompanyPointer {
   cursor: pointer;
+}
+.page-content .page-data .workarea table td.tableCompanyPointer .manager-span {
+  text-decoration: underline;
+}
+.page-content .page-data .workarea table td.icon-td {
+  text-align: center;
 }
 .page-content .page-data .workarea .search-results {
   background: #FFFFFF;

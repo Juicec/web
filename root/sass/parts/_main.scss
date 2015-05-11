@@ -283,9 +283,16 @@ body{
 					}
 				}
 				td{
-					.tableCompanySpan{
+					&.tableCompanyPointer{
 						cursor: pointer;
+						.manager-span{
+							text-decoration: underline;
+						}
 					}
+					&.icon-td{
+						text-align: center;
+					}
+					
 				}
 			}
 			.search-results{

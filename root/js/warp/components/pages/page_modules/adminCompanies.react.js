@@ -117,9 +117,9 @@ var CompaniesNodes = React.createClass({
                 <td>{ company.description }</td>
                 <td>{ company.phone }</td>
                 <td>{ company.reg_key }</td>
-                <td>{ this.state.manager ? <ManagerWindow data={ company } onManager={ this.toggleManagerWindow }/> : null}<span className="tableCompanySpan" onClick={ this.toggleManagerWindow }>{ _.isEmpty(company.manager_email) ? 'Добавить' : company.manager_email }</span></td>
-                <td>{ this.state.edit ? <EditWindow data={ company } onEdit={ this.toggleEditWindow }/> : null}<span className="tableCompanySpan" onClick={ this.toggleEditWindow }>Изенить</span></td>
-                <td>{ this.state.deleteCompany ? <DeleteWindow data={ company } onDelete={ this.toggleDeleteWindow } /> : null}<span className="tableCompanySpan" onClick={this.toggleDeleteWindow}>Удалить</span></td>
+                <td className="tableCompanyPointer" onClick={ this.toggleManagerWindow }>{ this.state.manager ? <ManagerWindow data={ company } onManager={ this.toggleManagerWindow }/> : null}<span className="manager-span">{ _.isEmpty(company.manager_email) ? 'Добавить' : company.manager_email }</span></td>
+                <td className="tableCompanyPointer icon-td" onClick={ this.toggleEditWindow }>{ this.state.edit ? <EditWindow data={ company } onEdit={ this.toggleEditWindow }/> : null}<span><i className="fa fa-pencil-square-o"></i></span></td>
+                <td className="tableCompanyPointer icon-td" onClick={this.toggleDeleteWindow}>{ this.state.deleteCompany ? <DeleteWindow data={ company } onDelete={ this.toggleDeleteWindow } /> : null}<span><i className="fa fa-times"></i></span></td>
             </tr>
         );
     }

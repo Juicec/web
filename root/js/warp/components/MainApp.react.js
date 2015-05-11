@@ -3,6 +3,7 @@ var Header = require('./modules/Header.react');
 var MainStore = require('../store/MainStore');
 var mainActions = require('../actions/mainActions');
 var Admin = require('./pages/admin.react');
+var Manager = require('./pages/manager.react');
 //var pageConstants = require('../constants/PageConstants');
 //var modulesConstants = require('../constants/ModulesConstants');
 
@@ -35,7 +36,10 @@ var MainApp = React.createClass({
                     break;
                 case 'admin':
                     return(
-                        <Admin />
+                        <div>
+                            { this.state.userData.role_id == 3 ? <Admin /> : null }
+                            { this.state.userData.role_id == 2 ? <Manager /> : null }
+                        </div>
                     );
                     break;
                 default:
@@ -46,7 +50,7 @@ var MainApp = React.createClass({
                     );
                     break;
             }
-        };
+        }.bind(this);
 
         return (
             	<div className="page-container">
