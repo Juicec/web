@@ -140,7 +140,8 @@
 							uf.last_name, 
 							uf.email, 
 							u.encoded_id,
-							ur.role_id
+							ur.role_id,
+							uf.phone
 						FROM user_info uf, users as u
 						LEFT JOIN user_roles as ur ON ur.user_id = u.user_id
 						WHERE u.user_id = uf.user_id AND (lower(uf.email) LIKE ? OR lower(uf.first_name) LIKE ? OR lower(uf.last_name) LIKE ?)';
