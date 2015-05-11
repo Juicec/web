@@ -261,7 +261,8 @@ var DeleteWindow = React.createClass({
 function getManagerWindowState() {
     return {
         users : CompanyStore.getSearchedUsers(),
-        chooseInput: ''
+        chooseInput: '',
+        userData: {}
     };
 }
 
@@ -273,7 +274,10 @@ var ManagerWindow = React.createClass({
     addNew: function(){
         var managerData = {
             "company_id": this.props.data.id,
-            "email": this.state.chooseInput
+            "email": this.state.chooseInput,
+            "manager_fn": this.state.userData.fn,
+            "manager_ln": this.state.userData.ln,
+            "manager_phone": this.state.userData.phone
         };
         companyActions.setManager(managerData);
         this.props.onManager();
@@ -293,7 +297,8 @@ var ManagerWindow = React.createClass({
     },
     chooseUser: function(data){
         this.setState({
-            chooseInput: data,
+            chooseInput: data.email,
+            userData: data,
             users: {}
         });
     },
@@ -356,13 +361,13 @@ var ManagerWindow = React.createClass({
 
 var SearchedUsers = React.createClass({
     click: function(e){
-        this.props.onChoose(e.target.dataset.email);
+        this.props.onChoose(e.target.dataset);
     },
     render: function() {
         var user = this.props.user;
         return (
             <div key={ this.props.key } onClick={ this.click }>
-                <span data-email={ user.email }>{ user.email }</span>
+                <span data-email={ user.email } data-fn={ user.first_name } data-ln={ user.last_name } data-phone={ user.phone }>{ user.email }</span>
             </div>
         );
     }

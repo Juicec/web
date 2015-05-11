@@ -98,6 +98,17 @@ function setUserInManager(managerData){
         url : 'company_manager_set',
         data: {"company_id": managerData.company_id, "email": managerData.email},
         success: function(data){
+            for(var key in _companiesData){
+                if(_companiesData[key].id == managerData.company_id){
+
+                    _companiesData[key].manager_fn = managerData.manager_fn;
+                    _companiesData[key].manager_ln = managerData.manager_ln;
+                    _companiesData[key].manager_email = managerData.email;
+                    _companiesData[key].manager_phone = managerData.manager_phone;
+
+                    console.log(_companiesData[key]);
+                }
+            }
             companyStore.emitChangeAll();
         }
     });
