@@ -11,7 +11,9 @@ module.exports = keyMirror({
     COMPANY_EDIT	  		: null,
     COMPANY_DEL		  		: null,
     COMPANY_GETUSERS		: null,
-    COMPANY_SETMANAGER		: null
+    COMPANY_SETMANAGER		: null,
+    COMPANY_CHANGEMANAGER	: null,
+    COMPANY_DELMANAGER		: null
 
 
 });

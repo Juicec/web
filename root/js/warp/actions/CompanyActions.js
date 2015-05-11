@@ -39,6 +39,18 @@ var companyActions = {
 	    	actionType: ActionConstants.COMPANY_SETMANAGER,
 	    	managerData: managerData
 	  	})
+	},
+	changeManager: function(managerData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_CHANGEMANAGER,
+	    	managerData: managerData
+	  	})
+	},
+	deleteManager: function(managerData){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.COMPANY_DELMANAGER,
+	    	managerData: managerData
+	  	})
 	}
 };
 

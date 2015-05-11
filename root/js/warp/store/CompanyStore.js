@@ -114,6 +114,37 @@ function setUserInManager(managerData){
     });
 }
 
+function delManager(managerData){
+    Utils.post({
+        url : 'company_manager_delete',
+        data: {"company_id": managerData.company_id, "email": managerData.old_email},
+        success: function(data){
+            for(var key in _companiesData){
+                if(_companiesData[key].id == managerData.company_id){
+
+                    _companiesData[key].manager_fn = '';
+                    _companiesData[key].manager_ln = '';
+                    _companiesData[key].manager_email = '';
+                    _companiesData[key].manager_phone = '';
+
+                    console.log(_companiesData[key]);
+                }
+            }
+            companyStore.emitChangeAll();
+        }
+    });
+}
+
+function changeManager(managerData){
+     Utils.post({
+        url : 'company_manager_delete',
+        data: {"company_id": managerData.company_id, "email": managerData.old_email},
+        success: function(data){
+            setUserInManager(managerData);
+        }
+    });
+}
+
 var companyStore = _.extend({}, EventEmitter.prototype, {
     getCompaniesData: function() {
         return _companiesData;
@@ -180,9 +211,15 @@ AppDispatcher.register(function(payload) {
         case actionConstants.COMPANY_GETUSERS:
             findUsers(action.userData);
             break;  
-         case actionConstants.COMPANY_SETMANAGER:
+        case actionConstants.COMPANY_SETMANAGER:
             setUserInManager(action.managerData);
-            break;                        
+            break;
+        case actionConstants.COMPANY_CHANGEMANAGER:
+            changeManager(action.managerData);
+            break;      
+        case actionConstants.COMPANY_DELMANAGER:
+            delManager(action.managerData);
+            break;                         
         default:
             return true;
     }

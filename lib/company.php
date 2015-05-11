@@ -129,18 +129,25 @@
 				$sql = 'SELECT user_id FROM user_info WHERE email = ?';
 				$user_id = $this->db->query($sql, array($user_email));
 				$sql = 'UPDATE company_users SET role_id = ? WHERE user_id = ? AND company_id= ?';
-				$this->db->insert($sql, array(2, $user_id[0]['user_id'], $this->company_data['id']));
+				$this->db->execute($sql, array(2, $user_id[0]['user_id'], $this->company_data['id']));
 				$sql = 'SELECT role_id FROM user_roles WHERE user_id = ?';
 				$user_role = $this->db->query($sql, array($user_id[0]['user_id']));
 				if($user_role[0]['role_id'] == 1) {
 					$sql = 'UPDATE user_roles SET role_id = ? WHERE user_id = ?' ;
 					$this->db->execute($sql, array(2, $user_id[0]['user_id']));
 				}
-				
-
-				//$sql = 'INSERT INTO company_users AS cu VALUES (?, ?, ?)';
 			}
-
 		}
+
+		public function delete_company_manager($user_email){
+			if($this->company_data){
+				$sql = 'SELECT user_id FROM user_info WHERE email = ?';
+				$user_id = $this->db->query($sql, array($user_email));
+				$sql = 'UPDATE company_users SET role_id = ? WHERE user_id = ? AND company_id= ?';
+				$this->db->execute($sql, array(1, $user_id[0]['user_id'], $this->company_data['id']));
+				$sql = 'UPDATE user_roles SET role_id = ? WHERE user_id = ?' ;
+				$this->db->execute($sql, array(1, $user_id[0]['user_id']));
+			}
+		}	
 	}
 ?>

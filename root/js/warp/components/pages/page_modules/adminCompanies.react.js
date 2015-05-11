@@ -262,7 +262,8 @@ function getManagerWindowState() {
     return {
         users : CompanyStore.getSearchedUsers(),
         chooseInput: '',
-        userData: {}
+        userData: {},
+        changeUser: false
     };
 }
 
@@ -280,6 +281,18 @@ var ManagerWindow = React.createClass({
             "manager_phone": this.state.userData.phone
         };
         companyActions.setManager(managerData);
+        this.props.onManager();
+    },
+    changeManager: function(){
+         var managerData = {
+            "company_id": this.props.data.id,
+            "email": this.state.chooseInput,
+            "manager_fn": this.state.userData.fn,
+            "manager_ln": this.state.userData.ln,
+            "manager_phone": this.state.userData.phone,
+            "old_email": this.props.data.manager_email
+        };
+        companyActions.changeManager(managerData);
         this.props.onManager();
     },
     getUsers: function(e){
@@ -301,6 +314,17 @@ var ManagerWindow = React.createClass({
             userData: data,
             users: {}
         });
+    },
+    deleteManager: function(){
+        var managerData = {
+            "company_id": this.props.data.id,
+            "old_email": this.props.data.manager_email
+        };
+        companyActions.deleteManager(managerData);
+        this.props.onManager();
+    },
+    toggleChangeManager: function(){
+        this.setState({ changeUser : this.state.changeUser ? false : true });
     },
     render: function(){
         var searchedUsers = function(user, index) {
@@ -330,9 +354,19 @@ var ManagerWindow = React.createClass({
                         <div>{ this.props.data.manager_email }</div>
                         <div className="note">Телефон менеджера:</div>
                         <div>{ this.props.data.manager_phone }</div>
-                        <button className="cancel">Удалить</button>
-                        <button>Изменить</button>
-                        <button onClick= { this.closeManagerWindow }>Закрыть</button>
+                        { this.state.changeUser ? 
+                            <div>
+                                <div className="note">Введите email:</div>
+                                <input type="text" onChange={ this.getUsers } value={ this.state.chooseInput }/>
+                                <div className="search-results">{ this.state.users.length > 0 ? this.state.users.map(searchedUsers) : null }</div>
+                                <button onClick={ this.changeManager }>Сохранить</button>
+                            </div>
+                            :
+                            null
+                        }
+                        <button className="cancel" onClick={ this.deleteManager }>Удалить</button>
+                        <button onClick={ this.toggleChangeManager }>Изменить</button>
+                        <button onClick={ this.closeManagerWindow }>Закрыть</button>
                     </div>  
                 }      
                 </div>
