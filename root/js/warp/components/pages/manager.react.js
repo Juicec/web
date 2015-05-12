@@ -1,16 +1,12 @@
 var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
-var AdminCompaniesModule = require('./page_modules/adminCompanies.react');
-var AdminUsersModule = require('./page_modules/adminUsers.react');
-var AdminItemsModule = require('./page_modules/adminItems.react');
-var AdminOrdersModule = require('./page_modules/adminOrders.react');
-var companyActions = require('../../actions/CompanyActions');
+var managerActions = require('../../actions/ManagerActions');
 
 function getAdminPageState() {
     return {
         userData        : MainStore.getUserData(),
-        activeLink      : 'company'
+        activeLink      : 'companyInfo'
     };
 }
 
@@ -30,10 +26,9 @@ var ManagerApp = React.createClass({
             	<div className="page-content">
                     <div className="siderbar">
                         <ul>
-                            <li className = {this.state.activeLink == 'company' ? 'active':null} data-name="company" onClick={this.changeActiveLink}>Первая</li>
-                            <li className = {this.state.activeLink == 'order' ? 'active':null} data-name="order" onClick={this.changeActiveLink}>Вторая</li>
-                            <li className = {this.state.activeLink == 'user' ? 'active':null} data-name="user" onClick={this.changeActiveLink}>Третья</li>
-                            <li className = {this.state.activeLink == 'item' ? 'active':null} data-name="item" onClick={this.changeActiveLink}>Четвертая</li>
+                            <li className = {this.state.activeLink == 'companyInfo' ? 'active':null} data-name="companyInfo" onClick={this.changeActiveLink}>Информация о компании</li>
+                            <li className = {this.state.activeLink == 'companyUsers' ? 'active':null} data-name="companyUsers" onClick={this.changeActiveLink}>Пользователи компании</li>
+                            <li className = {this.state.activeLink == 'companyCart' ? 'active':null} data-name="companyCart" onClick={this.changeActiveLink}>Корзина компании</li>
                         </ul>
                     </div>
                     <div className="page-data">

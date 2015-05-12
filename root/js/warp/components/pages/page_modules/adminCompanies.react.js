@@ -324,6 +324,7 @@ var ManagerWindow = React.createClass({
         this.props.onManager();
     },
     toggleChangeManager: function(){
+        console.log(123);
         this.setState({ changeUser : this.state.changeUser ? false : true });
     },
     render: function(){
