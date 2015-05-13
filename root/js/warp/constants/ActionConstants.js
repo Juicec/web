@@ -13,7 +13,8 @@ module.exports = keyMirror({
     COMPANY_GETUSERS		: null,
     COMPANY_SETMANAGER		: null,
     COMPANY_CHANGEMANAGER	: null,
-    COMPANY_DELMANAGER		: null
+    COMPANY_DELMANAGER		: null,
+    MANAGER_GETINFO         : null
 
 
 });

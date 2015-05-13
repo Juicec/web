@@ -148,6 +148,22 @@
 				$sql = 'UPDATE user_roles SET role_id = ? WHERE user_id = ?' ;
 				$this->db->execute($sql, array(1, $user_id[0]['user_id']));
 			}
+		}
+
+		public function get_company_info_by_manager_id($manager_id){
+			$sql = 'SELECT 
+							c.id,
+							c.encoded_id,
+							c.name,
+							c.description,
+							c.reg_key,
+							c.created_on,
+							c.phone
+						FROM company as c
+						LEFT JOIN company_users as cu ON cu.company_id = c.id AND cu.role_id = 2
+						LEFT JOIN user_info as ui ON ui.user_id = cu.user_id 
+						WHERE ui.user_id = ?';
+			return $this->db->query($sql, array($manager_id));		
 		}	
 	}
 ?>

@@ -4,25 +4,24 @@ var actionConstants = require('../constants/ActionConstants');
 var _ = require('underscore');
 var Utils = require('../utils/Utils');
 
-var _companiesData = [];
+var _companyData = [];
 
 
-function getCompaniesList() {
-    if( _companiesData.length < 1){
+function getCompanyInfo(userId) {
         Utils.post({
-            url : 'get_companies',
+            url : 'get_company_info_to_manager',
+            data: {'user_id': userId},
             success: function(data){
-                _companiesData = data.companies;
-                companyStore.emitChangeAll();
+                _companyData = data;
+                managerStore.emitChangeAll();
             }
         });
-    }
 }
 
 
 var managerStore = _.extend({}, EventEmitter.prototype, {
-    getCompaniesData: function() {
-        return _companiesData;
+    getCompanyData: function() {
+        return _companyData;
     },
 
     // Emit Change ALL DATA event
@@ -47,8 +46,8 @@ AppDispatcher.register(function(payload) {
     var action = payload.action;
 
     switch(action.actionType) {
-        case actionConstants.COMPANY_GETLIST:
-            getCompaniesList();
+        case actionConstants.MANAGER_GETINFO:
+            getCompanyInfo(action.userId);
             break;                         
         default:
             return true;

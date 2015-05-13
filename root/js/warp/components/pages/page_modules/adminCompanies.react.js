@@ -118,8 +118,8 @@ var CompaniesNodes = React.createClass({
                 <td>{ company.phone }</td>
                 <td>{ company.reg_key }</td>
                 <td className="tableCompanyPointer" >{ this.state.manager ? <ManagerWindow data={ company } onManager={ this.toggleManagerWindow }/> : null}<div className="manager-span" onClick={ this.toggleManagerWindow } >{ _.isEmpty(company.manager_email) ? 'Добавить' : company.manager_email }</div></td>
-                <td className="tableCompanyPointer icon-td" onClick={ this.toggleEditWindow }>{ this.state.edit ? <EditWindow data={ company } onEdit={ this.toggleEditWindow }/> : null}<span><i className="fa fa-pencil-square-o"></i></span></td>
-                <td className="tableCompanyPointer icon-td" onClick={this.toggleDeleteWindow}>{ this.state.deleteCompany ? <DeleteWindow data={ company } onDelete={ this.toggleDeleteWindow } /> : null}<span><i className="fa fa-times"></i></span></td>
+                <td className="tableCompanyPointer icon-td">{ this.state.edit ? <EditWindow data={ company } onEdit={ this.toggleEditWindow }/> : null}<div  onClick={ this.toggleEditWindow }><i className="fa fa-pencil-square-o"></i></div></td>
+                <td className="tableCompanyPointer icon-td">{ this.state.deleteCompany ? <DeleteWindow data={ company } onDelete={ this.toggleDeleteWindow } /> : null}<div onClick={this.toggleDeleteWindow}><i className="fa fa-times"></i></div></td>
             </tr>
         );
     }

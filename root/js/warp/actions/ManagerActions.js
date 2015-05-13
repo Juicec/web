@@ -5,10 +5,10 @@ var ActionConstants = require('../constants/ActionConstants');
 var managerActions = {
 
   	// search
-	load: function(pageType) {
+	getCompanyInfo: function(userId) {
 	  	AppDispatcher.handleAction({
-	    	actionType: ActionConstants.MAIN_LOAD,
-	    	pageType: pageType
+	    	actionType: ActionConstants.MANAGER_GETINFO,
+	    	userId: userId
 	  	})
 	}
 }
