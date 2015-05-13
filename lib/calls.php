@@ -160,6 +160,13 @@
 				$this->return_error(1);
 		}
 
-
+		public function get_company_users_to_manager(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['user_id'])){
+				$this->company = new Company();
+				$this->return_json(array('users' => $this->company->get_company_users_by_manager_id($_REQUEST['user_id'])));
+			}
+			else
+				$this->return_error(1);
+		}
 	}
 ?>

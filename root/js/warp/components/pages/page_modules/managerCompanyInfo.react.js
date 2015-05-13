@@ -3,7 +3,7 @@ var ManagerStore = require('../../../store/ManagerStore');
 var managerActions = require('../../../actions/ManagerActions');
 var _ = require('underscore');
 
-function getAdminCompaniesModuleState() {
+function getManagerCompaniesModuleState() {
     return {
         companyInfo: ManagerStore.getCompanyData()
     };
@@ -12,7 +12,7 @@ function getAdminCompaniesModuleState() {
 var ManagerCompanyInfoModule = React.createClass({
     // Get initial state from stores
     getInitialState: function() {
-        return getAdminCompaniesModuleState();
+        return getManagerCompaniesModuleState();
     },
     // Render our child components, passing state via props
     render: function() {
@@ -52,7 +52,7 @@ var ManagerCompanyInfoModule = React.createClass({
 
     // Method to setState based upon Store changes
     _onChange: function() {
-        this.setState(getAdminCompaniesModuleState());
+        this.setState(getManagerCompaniesModuleState());
     }
 });
 

@@ -165,5 +165,26 @@
 						WHERE ui.user_id = ?';
 			return $this->db->query($sql, array($manager_id));		
 		}	
+
+		public function get_company_users_by_manager_id($manager_id){
+			$sql = 'SELECT 
+							c.id
+						FROM company as c
+						LEFT JOIN company_users as cu ON cu.company_id = c.id AND cu.role_id = 2
+						LEFT JOIN user_info as ui ON ui.user_id = cu.user_id 
+						WHERE ui.user_id = ?';
+			$company_info =  $this->db->query($sql, array($manager_id));
+			$sql = 'SELECT 
+							ui.user_id,
+							ui.first_name,
+							ui.last_name,
+							ui.phone,
+							ui.created_on,
+							ui.email
+							FROM user_info as ui 
+							LEFT JOIN company_users as cu ON ui.user_id = cu.user_id 
+							WHERE cu.company_id = ?';
+			return $this->db->query($sql, array($company_info[0]['id']));	
+		}
 	}
 ?>

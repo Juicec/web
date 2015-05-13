@@ -3,6 +3,7 @@ var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
 var managerActions = require('../../actions/ManagerActions');
 var ManagerCompanyInfo = require('./page_modules/managerCompanyInfo.react');
+var ManagerCompanyUsers = require('./page_modules/managerCompanyUsers.react');
 
 function getAdminPageState() {
     return {
@@ -34,6 +35,7 @@ var ManagerApp = React.createClass({
                     </div>
                     <div className="page-data">
                         	{ this.state.activeLink == 'companyInfo' ? <ManagerCompanyInfo user={ this.state.userData } /> : null }
+                            { this.state.activeLink == 'companyUsers' ? <ManagerCompanyUsers user={ this.state.userData } /> : null }
                     </div>
             	</div>
         );
