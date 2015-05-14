@@ -10,9 +10,12 @@
 			$this->db = DB::getInstance();
 			$this->user = User::getInstance();
 		}
-		
-		public function my_first_api(){
-			$this->return_json($_SESSION);
+
+		public function upload(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id == 3 && !empty($_FILES['userfile'])){
+				move_uploaded_file ($_FILES['userfile'] ['tmp_name'], "img/{$_FILES['userfile'] ['name']}");
+				$this->return_json(array( 'path' => "/img/{$_FILES['userfile'] ['name']}"));
+			}
 		}
 
 		public function auth(){
@@ -164,6 +167,71 @@
 			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['user_id'])){
 				$this->company = new Company();
 				$this->return_json(array('users' => $this->company->get_company_users_by_manager_id($_REQUEST['user_id'])));
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function get_categories() {
+			if ($_SESSION['is_login']){
+				$_category = new Category();
+				$data = $_category->search_by_key(isset($_REQUEST['key']) ? $_REQUEST['key'] : null);
+				$this->return_json(array('categories' => $data));
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function get_units() {
+			if ($_SESSION['is_login']){
+				$_item = new Item();
+				$data = $_item->get_units();
+				$this->return_json(array('units' => $data));
+			}
+			else
+				$this->return_error(1);
+		}
+		// ITEMS
+
+		public function get_items() {
+			if ($_SESSION['is_login']){
+				$_item = new Item();
+				$data = $_item->get_items();
+				$this->return_json(array('items' => $data));
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function save_item() {
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id == 3 && !empty($_REQUEST['name']) && is_numeric($_REQUEST['price']) &&
+				!empty($_REQUEST['description'])&& is_numeric($_REQUEST['category_id']) && is_numeric($_REQUEST['unit_id'])){
+				
+				$_item = new Item();
+				$new_data = $_item->add_new($_REQUEST['name'], $_REQUEST['price'], $_REQUEST['description'], $_REQUEST['img'] , $_REQUEST['category_id'] , $_REQUEST['unit_id']);
+				if(!empty($new_data)){
+					$this->return_json(array('item' => $new_data));
+				}
+				else{
+					$this->return_error(2);
+				}
+				
+			}
+			else{
+				$this->return_error(1);
+			}
+		}
+
+		public function save_category() {
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id == 3 && !empty($_REQUEST['name'])) {
+				$_category = new Category();
+				$new_data = $_category->add_new($_REQUEST['name'], $_REQUEST['img']);
+				if(!empty($new_data)){
+					$this->return_json(array('category' => $new_data));
+				}
+				else{
+					$this->return_error(2);
+				}
 			}
 			else
 				$this->return_error(1);

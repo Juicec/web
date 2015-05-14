@@ -32,9 +32,10 @@ var AdminCompaniesModule = React.createClass({
                     <ul>
                         <li className="active" onClick={this.addCompany}>Добавить</li>
                     </ul>
-                 </div>
-                 <div className="workarea">
+                </div>
+                <div className="workarea">
                     {this.state.workarea == 'addNewCompany' ? <AddNewCompany onAdd={ this.showCompanies }/> : null}
+                    <h1>Список компаний</h1>
                     <CompaniesList />
                  </div>
             </div>
@@ -149,19 +150,21 @@ var AddNewCompany = React.createClass({
     },
     render: function(){
         return(
-            <div className="add-new-company-div">
-                <span>Введите название компании:</span>
-                <input type="text" ref="companyName"/>
-
-                <span>Введите описание компании</span>
-                <textarea ref="companyDescription"></textarea>
-
-                <span>Введите телефон компании:</span>
-                <input type="text" ref="companyPhone"/>
-
-                {this.state.sameNameError == true ? <span>Компания с таким именем уже существует</span>:null}
-                <div className="add-new-company-confirm">
-                    <button onClick={this.addNewCompany}>Сохранить</button><button onClick={this.closeCreation}>Отмена</button> 
+            <div className="add-new">
+                <div className="form">
+                    <div className="note">Название компании:</div>
+                    <input type="text" ref="companyName"/>
+    
+                    <div className="note">Введите описание компании</div>
+                    <textarea ref="companyDescription"></textarea>
+    
+                    <div className="note">Введите телефон компании:</div>
+                    <input type="text" ref="companyPhone"/>
+    
+                    {this.state.sameNameError == true ? <div className="note error-note">Компания с таким именем уже существует</div>:null}
+                    <div className="nav">
+                        <button className="cancel" onClick={this.closeCreation}>Отмена</button><button onClick={this.addNewCompany}>Сохранить</button>
+                    </div>
                 </div>
             </div>
         );

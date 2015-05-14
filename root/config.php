@@ -29,6 +29,7 @@ class SiteData {
 	public static $styles_js = '../styles/js/';
 	public static $styles_css = '../styles/css/';
 	public static $styles_img = '../styles/img/';
+	public static $upload_dir = '../img';
 	
 	public static $tmpls = '../tmpls/';
 	public static $err_tmpls = '../tmpls/error/';

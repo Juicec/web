@@ -22,17 +22,19 @@
 			return $this->item_data;	
 		}
 
-		public function add_new($name, $price, $description = null, $img = null) {
+		public function add_new($name, $price, $description = null, $img = null, $category_id = null, $unit_id = null) {
 			if(!$this->item_data && $this->user->role_id == 3 && !empty($name) && !empty($price)){
-				$sql = 'INSERT INTO items (name, price, description, img) VALUES ( ?, ?, ?, ?)';
-				$item_id = $this->db->insert($sql, array($name, $price, $description, $img));
+				$sql = 'INSERT INTO items (name, price, description, img, category_id, unit_id) VALUES ( ?, ?, ?, ?, ?, ?)';
+				$item_id = $this->db->insert($sql, array($name, $price, $description, $img, $category_id, $unit_id));
 
 				$this->item_data = array(
 											'id' => $item_id,
 											'name' => $name,
 											'price' => $price,
 											'description' => $description,
-											'img' => $img
+											'img' => $img,
+											'category_id' => $category_id,
+											'unit_id' => $unit_id
 										);
 				return $this->item_data;
 			}
@@ -40,15 +42,16 @@
 				return false;
 		}
 
-		public function update($name, $price, $description = null, $img = null) {
+		public function update($name, $price, $description = null, $img = null, $category_id = null) {
 			if($this->item_data && $this->user->role_id == 3 && !empty($name) && !empty($price)){
-				$sql = 'UPDATE items SET name = ?, price = ?, description = ?, img = ? WHERE id = ?';
-				$this->db->execute($sql, array($name, $price, $description, $img, $this->item_data['id']));
+				$sql = 'UPDATE items SET name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE id = ?';
+				$this->db->execute($sql, array($name, $price, $description, $img, $category_id, $this->item_data['id']));
 
 				$this->item_data['name'] = $name;
 				$this->item_data['price'] = $price;
 				$this->item_data['description'] = $description;
 				$this->item_data['img'] = $img;
+				$this->item_data['category_id'] = $category_id;
 
 				return $this->item_data;
 			}
@@ -64,6 +67,18 @@
 			}
 			else
 				return false;
+		}
+
+		public function get_items() {
+			$sql = 'SELECT i.id, i.name, i.price, i.description, i.img, ic.name as category_name, u.short_name as unit_name
+					FROM items as i, units as u, items_categories as ic 
+					WHERE u.id = i.unit_id AND ic.id = i.category_id';
+			return $this->db->query($sql, array());
+		}
+
+		public function get_units() {
+			$sql = 'SELECT * FROM units';
+			return $this->db->query($sql, array());
 		}
 	}
 ?>

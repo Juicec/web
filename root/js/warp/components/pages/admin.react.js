@@ -6,6 +6,7 @@ var AdminUsersModule = require('./page_modules/adminUsers.react');
 var AdminItemsModule = require('./page_modules/adminItems.react');
 var AdminOrdersModule = require('./page_modules/adminOrders.react');
 var companyActions = require('../../actions/CompanyActions');
+var Utils = require('../../utils/Utils');
 
 function getAdminPageState() {
     return {
@@ -20,6 +21,7 @@ var AdminApp = React.createClass({
         return getAdminPageState();
     },
     changeActiveLink : function(e){
+        Utils.setUrl('?type='+e.target.dataset.name);
         this.setState({
             activeLink : e.target.dataset.name
         });
@@ -48,6 +50,14 @@ var AdminApp = React.createClass({
 
     // Add change listeners to stores
     componentDidMount: function() {
+        var get = Utils.getUrlParams();
+        if (get.type && 
+            (   get.type == 'company' ||
+                get.type == 'order' ||
+                get.type == 'user' ||
+                get.type == 'item'
+            ))
+            this.setState({ activeLink: get.type})
     	MainStore.addChangeAllListener(this._onChange);
     },
 

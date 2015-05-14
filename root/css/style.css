@@ -91,6 +91,59 @@ table {
   padding-left: 2px;
 }
 
+.slider {
+  transition: all 0.5s ease;
+  transform-origin: 0 0 0;
+}
+.slider.show {
+  transform: scale(1);
+}
+.slider.show.h100 {
+  max-height: 100px;
+}
+.slider.show.h200 {
+  max-height: 200px;
+}
+.slider.show.h300 {
+  max-height: 300px;
+}
+.slider.show.h350 {
+  max-height: 350px;
+}
+.slider.show.h400 {
+  max-height: 400px;
+}
+.slider.show.h500 {
+  max-height: 500px;
+}
+.slider.hide {
+  transform: scale(0);
+  max-height: 0px;
+}
+
+.autocomplete {
+  position: relative;
+}
+.autocomplete .values {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  background: #FFFFFF;
+  border: 1px solid #9E9E9E;
+  padding: 5px 3%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  width: 94%;
+  z-index: 100;
+}
+.autocomplete .values li {
+  cursor: pointer;
+  padding: 0 5px;
+}
+.autocomplete .values li:hover {
+  background: #EEEEEE;
+}
+
 .pop-up {
   background: #FFFFFF;
   position: fixed;
@@ -116,8 +169,7 @@ body {
   font-size: 14px;
 }
 body h1 {
-  font-size: 30px;
-  text-transform: uppercase;
+  font-size: 24px;
   margin: 0px;
 }
 body #head_menu {
@@ -251,6 +303,7 @@ body .sign-in-div .auth-title:nth-child(2) {
   padding: 5px;
 }
 .page-content .page-data .page-menu {
+  margin: 0 10px;
   background: #3F51B5;
   color: #9FA8DA;
 }
@@ -270,11 +323,22 @@ body .sign-in-div .auth-title:nth-child(2) {
   border-right: 0px;
 }
 .page-content .page-data .workarea {
-  margin: 10px 0;
+  margin: 10px 10px;
+}
+.page-content .page-data .workarea h1 {
+  padding-left: 20px;
+  margin-bottom: 5px;
+}
+.page-content .page-data .workarea h2 {
+  color: #1A237E;
 }
 .page-content .page-data .workarea table {
   border-spacing: 2px;
   width: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 .page-content .page-data .workarea table th {
   text-align: left;
@@ -283,7 +347,18 @@ body .sign-in-div .auth-title:nth-child(2) {
   vertical-align: top;
 }
 .page-content .page-data .workarea table tr:nth-child(even) {
-  background: #D2D7F5;
+  background: #E8EAF6;
+}
+.page-content .page-data .workarea table td {
+  vertical-align: middle;
+  text-align: center;
+}
+.page-content .page-data .workarea table td.img {
+  width: 100px;
+}
+.page-content .page-data .workarea table td.img img {
+  width: 100px;
+  height: 100px;
 }
 .page-content .page-data .workarea table td.tableCompanyPointer {
   cursor: pointer;
@@ -293,6 +368,13 @@ body .sign-in-div .auth-title:nth-child(2) {
 }
 .page-content .page-data .workarea table td.icon-td {
   text-align: center;
+}
+.page-content .page-data .workarea table td.icon-td i {
+  font-size: 30px;
+  color: #616161;
+}
+.page-content .page-data .workarea table td.icon-td i:hover {
+  color: #212121;
 }
 .page-content .page-data .workarea .search-results {
   background: #FFFFFF;
@@ -307,19 +389,42 @@ body .sign-in-div .auth-title:nth-child(2) {
   background: #3F51B5;
   color: #FFFFFF;
 }
-.page-content .page-data .workarea .add-new-company-div button {
-  margin-top: 20px;
-  display: block;
+.page-content .page-data .workarea .add-new {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #BDBDBD;
 }
-.page-content .page-data .workarea .add-new-company-div input {
-  width: 200px;
+.page-content .page-data .workarea .add-new .form {
+  width: 400px;
+  padding-right: 20px;
 }
-.page-content .page-data .workarea .add-new-company-div span {
-  display: block;
+.page-content .page-data .workarea .add-new .form .note {
+  margin-top: 10px;
 }
-.page-content .page-data .workarea .add-new-company-div .add-new-company-confirm button {
-  display: table-cell;
-  margin-right: 15px;
+.page-content .page-data .workarea .add-new .form .unit {
+  width: 35%;
+}
+.page-content .page-data .workarea .add-new .preview {
+  width: 400px;
+  padding-left: 20px;
+  border-left: 1px dashed #BDBDBD;
+}
+.page-content .page-data .workarea .add-new .preview .left-col img {
+  width: 100px;
+  height: 100px;
+}
+.page-content .page-data .workarea .add-new .preview .right-col {
+  width: 100%;
+}
+.page-content .page-data .workarea .add-new .preview .right-col .price {
+  text-align: right;
+}
+.page-content .page-data .workarea .add-new .nav {
+  margin-top: 15px;
+  text-align: right;
+}
+.page-content .page-data .workarea .add-new .nav button {
+  margin-left: 5px;
 }
 .page-content .page-data .workarea .company button {
   margin-top: 10px;

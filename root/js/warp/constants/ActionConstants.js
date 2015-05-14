@@ -15,7 +15,8 @@ module.exports = keyMirror({
     COMPANY_CHANGEMANAGER	: null,
     COMPANY_DELMANAGER		: null,
     MANAGER_GETINFO         : null,
-    MANAGER_GETUSERS        : null
-
-
+    MANAGER_GETUSERS        : null,
+    CATEGORY_SAVE_NEW       : null,
+    ITEM_LOAD               : null,
+    ITEM_SAVE_NEW           : null
 });

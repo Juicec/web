@@ -6,7 +6,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var global_page = "<? echo str_replace('/', '', $_SERVER['REQUEST_URI']); ?>" ;
+		var global_page = "<? echo str_replace('/', '', $_SERVER['REDIRECT_URL']); ?>" ;
     </script>
 
 	<div id="main-flux">
