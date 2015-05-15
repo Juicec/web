@@ -61,6 +61,14 @@ button.cancel, input[type="submit"].cancel {
 button.cancel:hover, input[type="submit"].cancel:hover {
   background: #424242;
 }
+button.delete, input[type="submit"].delete {
+  background: #F44336;
+  box-shadow: 0 0 0 1px #D32F2F;
+}
+button.delete:hover, input[type="submit"].delete:hover {
+  background: #D32F2F;
+  box-shadow: 0 0 0 1px #B71C1C;
+}
 
 input, textarea {
   padding: 5px;
@@ -168,6 +176,12 @@ body {
   color: #424242;
   font-size: 14px;
 }
+body.admin_page {
+  background: url("/img/elems/sidebar-bg.png");
+  background-color: #EEEEEE;
+  background-position: 0 0;
+  background-repeat: repeat-y;
+}
 body h1 {
   font-size: 24px;
   margin: 0px;
@@ -268,10 +282,8 @@ body .sign-in-div .auth-title:nth-child(2) {
   font-size: 18px;
 }
 .page-content .siderbar {
-  position: fixed;
   padding: 5px;
   width: 300px;
-  min-height: 100%;
   float: left;
   background: #FAFAFA;
   border-right: 1px solid #BDBDBD;
@@ -287,7 +299,6 @@ body .sign-in-div .auth-title:nth-child(2) {
   height: 15px;
   color: #1A237E;
   font-size: 14px;
-  text-transform: capitalize;
   cursor: pointer;
   border-bottom: 1px solid #EEEEEE;
 }
@@ -425,6 +436,9 @@ body .sign-in-div .auth-title:nth-child(2) {
 }
 .page-content .page-data .workarea .add-new .nav button {
   margin-left: 5px;
+}
+.page-content .page-data .workarea .company .edit-manager .delete {
+  margin-right: 10px;
 }
 .page-content .page-data .workarea .company button {
   margin-top: 10px;

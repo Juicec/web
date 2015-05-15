@@ -253,7 +253,7 @@ var DeleteWindow = React.createClass({
                 <div className="pop-up company">
                     <div>Вы уверены, что хотите удалить компанию? Удаление - необратимая операция!</div> 
                     <button className="cancel" onClick={this.closeDeleteWindow}>Отмена</button> 
-                    <button onClick={this.deleteThisCompany}>Удалить</button>
+                    <button className="delete" onClick={this.deleteThisCompany}>Удалить</button>
                 </div>
             </div>
         );
@@ -349,7 +349,7 @@ var ManagerWindow = React.createClass({
                         <button onClick={ this.addNew }>Сохранить</button>  
                     </div>
                  :
-                    <div>
+                    <div className="edit-manager">
                         <div className="note">Имя менеджера:</div>
                         <div>{ this.props.data.manager_fn }</div>
                         <div className="note">Фамилия менеджера:</div>
@@ -368,9 +368,9 @@ var ManagerWindow = React.createClass({
                             :
                             null
                         }
-                        <button className="cancel" onClick={ this.deleteManager }>Удалить</button>
+                        <button className="delete" onClick={ this.deleteManager }>Удалить</button>
                         <button onClick={ this.toggleChangeManager }>Изменить</button>
-                        <button onClick={ this.closeManagerWindow }>Закрыть</button>
+                        <button className="cancel" onClick={ this.closeManagerWindow }>Закрыть</button>
                     </div>  
                 }      
                 </div>

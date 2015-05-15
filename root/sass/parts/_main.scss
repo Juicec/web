@@ -53,6 +53,14 @@ button, input[type="submit"]{
 			background: $grayText;
 		}
 	}
+	&.delete{
+		background: $red;
+		box-shadow: 0 0 0 1px $redDark;
+		&:hover{
+			background: $redDark;
+			box-shadow: 0 0 0 1px $redBlack;
+		}
+	}
 }
 
 input, textarea{
@@ -158,6 +166,12 @@ body{
 	margin: 0px;
 	color: $grayText;
 	font-size: 14px;
+	&.admin_page{
+		background: url('/img/elems/sidebar-bg.png');
+		background-color: $grayLight;
+		background-position: 0 0;
+		background-repeat: repeat-y;
+	}
 	h1{
 		font-size: 24px;
 		margin: 0px;
@@ -268,10 +282,8 @@ body{
 		font-size: 18px;
 	}
 	.siderbar{
-		position: fixed;
 		padding: 5px;
 		width: 300px;
-		min-height: 100%;
 		float: left;
 		background: #FAFAFA;
 		border-right: 1px solid $grayMiddle;
@@ -285,7 +297,6 @@ body{
 				height: 15px;
 				color: $main1Black;
 				font-size: 14px;
-				text-transform: capitalize;
 				cursor: pointer;
 				border-bottom: 1px solid $grayLight;
 				&:hover{
@@ -428,6 +439,11 @@ body{
 				}
 			}
 			.company{
+				.edit-manager{
+					.delete{
+						margin-right: 10px;
+					}
+				}
 				button{
 					margin-top: 10px;
 					&.cancel{
