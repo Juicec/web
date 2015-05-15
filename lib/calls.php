@@ -236,5 +236,25 @@
 			else
 				$this->return_error(1);
 		}
+
+		public function confirm_user(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['user_email'])){
+				$this->company = new Company();
+				$this->company->confirm_user($_REQUEST['user_email']);
+				$this->return_json($_REQUEST);
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function delete_user(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['user_email'])){
+				$this->company = new Company();
+				$this->company->delete_user($_REQUEST['user_email']);
+				$this->return_json($_REQUEST);
+			}
+			else
+				$this->return_error(1);
+		}
 	}
 ?>

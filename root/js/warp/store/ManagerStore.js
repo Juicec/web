@@ -29,6 +29,37 @@ function getCompanyUsers(userId){
         }
     });
 }
+
+function confirmUser(userEmail){
+    Utils.post({
+        url : 'confirm_user',
+        data: {'user_email': userEmail},
+        success: function(data){
+            for(var key in _companyUsers){
+                if(_companyUsers[key].email == userEmail){
+                    _companyUsers[key].confirmed = 1;
+                }
+            }
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
+function deleteUser(userEmail){
+    Utils.post({
+        url : 'delete_user',
+        data: {'user_email': userEmail},
+        success: function(data){
+            for(var key in _companyUsers){
+                if(_companyUsers[key].email == userEmail){
+                    _companyUsers[key] = [];
+                }
+            }
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
 var managerStore = _.extend({}, EventEmitter.prototype, {
     getCompanyData: function() {
         return _companyData;
@@ -63,7 +94,13 @@ AppDispatcher.register(function(payload) {
             break;      
         case actionConstants.MANAGER_GETUSERS:
             getCompanyUsers(action.userId);
-            break                       
+            break;
+        case actionConstants.MANAGER_CONFIRMUSER:
+            confirmUser(action.userEmail);
+            break; 
+        case actionConstants.MANAGER_DELETEUSER:
+            deleteUser(action.userEmail);
+            break;    
         default:
             return true;
     }

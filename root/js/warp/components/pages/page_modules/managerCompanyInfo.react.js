@@ -24,18 +24,26 @@ var ManagerCompanyInfoModule = React.createClass({
                     </ul>
                  </div>
                  <div className="workarea">
-                 	<div>Номер компании</div>
-                 	<div>{ this.state.companyInfo.id }</div> 
-                 	<div>Название компании</div>
-                 	<div>{ this.state.companyInfo.name }</div> 
-                 	<div>Описание компании</div>
-                 	<div>{ this.state.companyInfo.description }</div> 
-                 	<div>Телефон компании</div>
-                 	<div>{ this.state.companyInfo.phone }</div> 
-                 	<div>Регистрационный ключ</div>
-                 	<div>{ this.state.companyInfo.reg_key }</div> 
-                 	<div>Дата регистрации на сайте</div>
-                 	<div>{ this.state.companyInfo.created_on }</div> 
+                    <table className="company-info-table">
+                        <tr>
+                            <td>Номер компании</td><td>{ this.state.companyInfo.id }</td>
+                        </tr>
+                        <tr>
+                            <td>Название компании</td><td>{ this.state.companyInfo.name }</td>
+                        </tr>
+                        <tr>
+                            <td>Телефон компании</td><td>{ this.state.companyInfo.phone }</td>
+                        </tr>
+                        <tr>
+                            <td>Регистрационный ключ</td><td>{ this.state.companyInfo.reg_key }</td>
+                        </tr>
+                        <tr>
+                            <td>Дата регистрации на сайте</td><td>{ this.state.companyInfo.created_on }</td>
+                        </tr>
+                        <tr>
+                            <td>Описание компании</td><td>{ this.state.companyInfo.description }</td>
+                        </tr>
+                    </table>
                  </div>
             </div>
         );

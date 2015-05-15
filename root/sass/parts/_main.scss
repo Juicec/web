@@ -386,6 +386,13 @@ body{
 					
 				}
 			}
+			.company-info-table{
+				font-size: 16px;
+				td{
+					padding: 3px;
+					text-align: left;
+				}
+			}
 			.search-results{
 				background: $white;
 				width: 200px;
@@ -451,6 +458,12 @@ body{
 					}
 				}
 			}
+
+			.manager{
+					.cancel{
+						margin-right: 10px;
+					}
+				}
 		}
 	}
 }

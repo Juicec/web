@@ -180,11 +180,29 @@
 							ui.last_name,
 							ui.phone,
 							ui.created_on,
-							ui.email
+							ui.email,
+							cu.confirmed
 							FROM user_info as ui 
 							LEFT JOIN company_users as cu ON ui.user_id = cu.user_id 
 							WHERE cu.company_id = ?';
 			return $this->db->query($sql, array($company_info[0]['id']));	
+		}
+
+		public function confirm_user($user_email){
+			$sql = 'UPDATE company_users, user_info
+					SET company_users.confirmed = ?			
+					WHERE company_users.user_id = user_info.user_id AND user_info.email = ?';
+			$this->db->execute($sql, array(1, $user_email));		
+		}
+
+		public function delete_user($user_email){
+			$sql = 'DELETE ur.*, cu.*, u.*, ui.*
+					FROM user_info AS ui 
+					LEFT JOIN company_users AS cu ON cu.user_id = ui.user_id
+					LEFT JOIN users AS u ON u.user_id = ui.user_id 
+					LEFT JOIN user_roles AS ur ON ur.user_id = ui.user_id
+					WHERE ui.email = ?';
+			$this->db->execute($sql, array($user_email));		
 		}
 	}
 ?>
