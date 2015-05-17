@@ -63,6 +63,26 @@ button, input[type="submit"]{
 	}
 }
 
+select{
+	background: $main1;
+	padding: 3px;
+	font-size: 13px;
+	box-shadow: 0 0 0 1px $main1Dark;
+	border: none;
+	border-radius: 0px;
+	color: $white;
+	outline: none;
+	cursor: pointer;
+	width: auto;
+	&:hover{
+		background: $main1Dark;
+		box-shadow: 0 0 0 1px $main1Black;
+	}
+	.default{
+		color: $main1Light;
+	}
+}
+
 input, textarea{
 	padding: 5px;
 	border: 1px solid $main1Light;
@@ -309,13 +329,115 @@ body{
 			} 
 		}
 	}
-	.page-data{
+	.page-shop{
+		.workarea{
+			.content{
+				background: white;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 0 3px rgba(0,0,0,0.5);
+				.items-grid{
+					padding: 10px;
+					li{
+						display: inline-block;
+						padding: 10px;
+						margin: 10px;
+						border: 1px solid $gray;
+						border-radius: 5px;
+						cursor: pointer;
+						position: relative;
+						&:hover{
+							border: 1px solid $main1Black;
+						}
+						.img{
+							width: 200px;
+							height: 200px;
+							img{
+								width: 200px;
+								height: 200px;
+							}
+						}
+						.title{
+							text-align: center;
+						}
+						.price, .category{
+							.right{
+								display: inline-block;
+								float: right;
+							}
+						}
+						.nav{
+							text-align: right;
+							margin-top: 5px;
+							input{
+								width: 23px;
+								height: 23px;
+								margin-right: 5px;
+								text-align: center;
+							}
+						}
+					}
+				}
+				.items-list{
+					display: table;
+					width: 100%;
+					border: 1px solid $gray;
+					border-radius: 5px;
+					li{
+						display: table-row;
+						&:last-child{
+							div, h3{
+								border-bottom: 0px;
+							}
+						}
+						div, h3{
+							display: table-cell;
+							border-right: 1px solid $gray;
+							border-bottom: 1px solid $gray;
+							vertical-align: middle;
+							text-align: center;
+							&:last-child{
+								border-right: 0px;
+							}
+						}
+						.img{
+							width: 40px;
+							height: 40px;
+							padding: 5px;
+							img{
+								width: 40px;
+								height: 40px;
+							}
+						}
+						.price{
+							text-align: right;
+							padding-right: 10px;
+						}
+						.nav{
+							width: 150px;
+							vertical-align: middle;
+							input{
+								width: 30px;
+								height: 23px;
+								margin-right: 5px;
+								text-align: center;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.page-admin{
 		margin-left: 311px;
+	}
+	.page-data{
 		padding: 5px;
 		.page-menu{
 			margin: 0 10px;
 			background: $main1;
 			color: $main1Light;
+			position: relative;
 			ul{
 				padding: 7px 10px;
 				li{
@@ -323,11 +445,23 @@ body{
 					display: inline-block;
 					padding: 3px 5px;
 					border-right: 1px  solid $main1Light;
-					&.active{
-						color: $grayLight;
-					}
 					&:last-child{
 						border-right: 0px;
+					}
+				}
+				select{
+					color: $main1Light;
+				}
+				.active{
+					color: $grayLight;
+				}
+				&.menu-right{
+					position: absolute;
+					top: 0px;
+					right: 10px;
+					line-height: 29px;
+					li{
+						padding: 0px;
 					}
 				}
 			}

@@ -4,6 +4,7 @@ var MainStore = require('../store/MainStore');
 var mainActions = require('../actions/mainActions');
 var Admin = require('./pages/admin.react');
 var Manager = require('./pages/manager.react');
+var Shop = require('./pages/shop.react');
 //var pageConstants = require('../constants/PageConstants');
 //var modulesConstants = require('../constants/ModulesConstants');
 
@@ -30,7 +31,7 @@ var MainApp = React.createClass({
                 case 'shop':
                     return(
                         <div>
-                            shop
+                            <Shop />
                         </div>
                     );
                     break;

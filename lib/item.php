@@ -70,7 +70,7 @@
 		}
 
 		public function get_items() {
-			$sql = 'SELECT i.id, i.name, i.price, i.description, i.img, ic.name as category_name, u.short_name as unit_name
+			$sql = 'SELECT i.id, i.name, i.price, i.description, i.img, ic.name as category_name, u.short_name as unit_name, i.category_id
 					FROM items as i, units as u, items_categories as ic 
 					WHERE u.id = i.unit_id AND ic.id = i.category_id';
 			return $this->db->query($sql, array());

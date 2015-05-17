@@ -38,7 +38,7 @@ var AdminApp = React.createClass({
                             <li className = {this.state.activeLink == 'item' ? 'active':null} data-name="item" onClick={this.changeActiveLink}>Товары</li>
                         </ul>
                     </div>
-                    <div className="page-data">
+                    <div className="page-data page-admin">
                         {this.state.activeLink == 'company' ? <AdminCompaniesModule /> : null}
                         {this.state.activeLink == 'order' ? <AdminOrdersModule /> : null}
                         {this.state.activeLink == 'user' ? <AdminUsersModule /> : null}

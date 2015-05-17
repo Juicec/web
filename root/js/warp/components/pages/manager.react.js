@@ -33,7 +33,7 @@ var ManagerApp = React.createClass({
                             <li className = {this.state.activeLink == 'companyCart' ? 'active':null} data-name="companyCart" onClick={this.changeActiveLink}>Корзина компании</li>
                         </ul>
                     </div>
-                    <div className="page-data">
+                    <div className="page-data page-admin">
                         	{ this.state.activeLink == 'companyInfo' ? <ManagerCompanyInfo user={ this.state.userData } /> : null }
                             { this.state.activeLink == 'companyUsers' ? <ManagerCompanyUsers user={ this.state.userData } /> : null }
                     </div>

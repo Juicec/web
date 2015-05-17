@@ -70,6 +70,26 @@ button.delete:hover, input[type="submit"].delete:hover {
   box-shadow: 0 0 0 1px #B71C1C;
 }
 
+select {
+  background: #3F51B5;
+  padding: 3px;
+  font-size: 13px;
+  box-shadow: 0 0 0 1px #303F9F;
+  border: none;
+  border-radius: 0px;
+  color: #FFFFFF;
+  outline: none;
+  cursor: pointer;
+  width: auto;
+}
+select:hover {
+  background: #303F9F;
+  box-shadow: 0 0 0 1px #1A237E;
+}
+select .default {
+  color: #9FA8DA;
+}
+
 input, textarea {
   padding: 5px;
   border: 1px solid #9FA8DA;
@@ -309,14 +329,108 @@ body .sign-in-div .auth-title:nth-child(2) {
   background: #3F51B5;
   color: #FFFFFF;
 }
-.page-content .page-data {
+.page-content .page-shop .workarea .content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.page-content .page-shop .workarea .content .items-grid {
+  padding: 10px;
+}
+.page-content .page-shop .workarea .content .items-grid li {
+  display: inline-block;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #9E9E9E;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+.page-content .page-shop .workarea .content .items-grid li:hover {
+  border: 1px solid #1A237E;
+}
+.page-content .page-shop .workarea .content .items-grid li .img {
+  width: 200px;
+  height: 200px;
+}
+.page-content .page-shop .workarea .content .items-grid li .img img {
+  width: 200px;
+  height: 200px;
+}
+.page-content .page-shop .workarea .content .items-grid li .title {
+  text-align: center;
+}
+.page-content .page-shop .workarea .content .items-grid li .price .right, .page-content .page-shop .workarea .content .items-grid li .category .right {
+  display: inline-block;
+  float: right;
+}
+.page-content .page-shop .workarea .content .items-grid li .nav {
+  text-align: right;
+  margin-top: 5px;
+}
+.page-content .page-shop .workarea .content .items-grid li .nav input {
+  width: 23px;
+  height: 23px;
+  margin-right: 5px;
+  text-align: center;
+}
+.page-content .page-shop .workarea .content .items-list {
+  display: table;
+  width: 100%;
+  border: 1px solid #9E9E9E;
+  border-radius: 5px;
+}
+.page-content .page-shop .workarea .content .items-list li {
+  display: table-row;
+}
+.page-content .page-shop .workarea .content .items-list li:last-child div, .page-content .page-shop .workarea .content .items-list li:last-child h3 {
+  border-bottom: 0px;
+}
+.page-content .page-shop .workarea .content .items-list li div, .page-content .page-shop .workarea .content .items-list li h3 {
+  display: table-cell;
+  border-right: 1px solid #9E9E9E;
+  border-bottom: 1px solid #9E9E9E;
+  vertical-align: middle;
+  text-align: center;
+}
+.page-content .page-shop .workarea .content .items-list li div:last-child, .page-content .page-shop .workarea .content .items-list li h3:last-child {
+  border-right: 0px;
+}
+.page-content .page-shop .workarea .content .items-list li .img {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+}
+.page-content .page-shop .workarea .content .items-list li .img img {
+  width: 40px;
+  height: 40px;
+}
+.page-content .page-shop .workarea .content .items-list li .price {
+  text-align: right;
+  padding-right: 10px;
+}
+.page-content .page-shop .workarea .content .items-list li .nav {
+  width: 150px;
+  vertical-align: middle;
+}
+.page-content .page-shop .workarea .content .items-list li .nav input {
+  width: 30px;
+  height: 23px;
+  margin-right: 5px;
+  text-align: center;
+}
+.page-content .page-admin {
   margin-left: 311px;
+}
+.page-content .page-data {
   padding: 5px;
 }
 .page-content .page-data .page-menu {
   margin: 0 10px;
   background: #3F51B5;
   color: #9FA8DA;
+  position: relative;
 }
 .page-content .page-data .page-menu ul {
   padding: 7px 10px;
@@ -327,11 +441,23 @@ body .sign-in-div .auth-title:nth-child(2) {
   padding: 3px 5px;
   border-right: 1px solid #9FA8DA;
 }
-.page-content .page-data .page-menu ul li.active {
-  color: #EEEEEE;
-}
 .page-content .page-data .page-menu ul li:last-child {
   border-right: 0px;
+}
+.page-content .page-data .page-menu ul select {
+  color: #9FA8DA;
+}
+.page-content .page-data .page-menu ul .active {
+  color: #EEEEEE;
+}
+.page-content .page-data .page-menu ul.menu-right {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  line-height: 29px;
+}
+.page-content .page-data .page-menu ul.menu-right li {
+  padding: 0px;
 }
 .page-content .page-data .workarea {
   margin: 10px 10px;
