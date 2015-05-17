@@ -20,6 +20,8 @@ module.exports = keyMirror({
     ITEM_LOAD               : null,
     ITEM_SAVE_NEW           : null,
     SHOP_LOAD               : null,
+    SHOP_CART_ADD           : null,
+    SHOP_CART_LOAD          : null,
     MANAGER_CONFIRMUSER     : null,
     MANAGER_DELETEUSER      : null
 });

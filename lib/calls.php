@@ -256,5 +256,25 @@
 			else
 				$this->return_error(1);
 		}
+
+		// SHOP CART
+		public function add_to_shop_cart() {
+			if ($_SESSION['is_login'] && is_numeric($_REQUEST['item_id']) && is_numeric($_REQUEST['qty'])){
+				$_sc = new ShopCart();
+				$_sc->add_new_product($_REQUEST['item_id'], $_REQUEST['qty']);
+				$this->return_json(array());
+			}
+			else
+				$this->return_error(1); 
+		}
+
+		public function get_shopcart() {
+			if ($_SESSION['is_login']){
+				$_sc = new ShopCart();
+				$this->return_json(array('shopcart' => $_sc->get_shop_cart()));
+			}
+			else
+				$this->return_error(1); 
+		}
 	}
 ?>

@@ -8,6 +8,7 @@
 		public $email;
 		public $role_id;
 		public $user_id;
+		public $company_id;
 		private static $_instance;
 
 		public static function getInstance() {
@@ -43,6 +44,7 @@
 						$this->email = $data[0]['email'];
 						$this->role_id = $data[0]['role_id'];
 						$this->user_id = $data[0]['user_id'];
+						$this->company_id = $this->get_user_company_id($data[0]['user_id']);
 						$_SESSION['is_login'] = false;
 						$this->upd_session_array(true);
 					}
@@ -160,6 +162,12 @@
 						WHERE u.user_id = uf.user_id';
 				return $this->db->query($sql, array());
 			}
+		}
+
+		public function get_user_company_id($user_id) {
+			$sql = 'SELECT c.id FROM company as c, company_users as cu WHERE c.id = cu.company_id AND cu.user_id = ?';
+			$res = $this->db->query($sql, array($user_id));
+			return empty($res) ? null : $res[0]['id'];
 		}
 	}
 ?>

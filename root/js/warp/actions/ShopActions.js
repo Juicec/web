@@ -8,6 +8,19 @@ var shopActions = {
 	  	AppDispatcher.handleAction({
 	    	actionType: ActionConstants.SHOP_LOAD
 	  	})
+	},	
+
+	addToShopCart: function(data){
+	  	AppDispatcher.handleAction({
+	    	actionType: ActionConstants.SHOP_CART_ADD,
+	    	data: data
+	  	})
+	},	
+
+	loadShopCart: function(data){
+	  	AppDispatcher.handleAction({
+	    	actionType: ActionConstants.SHOP_CART_LOAD
+	  	})
 	}
 };
 

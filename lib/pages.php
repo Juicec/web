@@ -19,7 +19,10 @@
 		}
 
 		public function test(){
-			var_dump($_SESSION);
+			$_sc = new ShopCart();
+			var_dump($_sc->add_new_product(1, 3));
+			//var_dump($_sc->check_for_existence(1));
+			//var_dump($_SESSION);
 			//$this->user->make_new_user('asd@asd.com', 123, 'ODY4OTA1NjM=');
 		}
 

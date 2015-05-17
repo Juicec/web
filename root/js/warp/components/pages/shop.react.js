@@ -2,6 +2,7 @@ var React = require('react');
 var shopStore = require('../../store/ShopStore');
 var shopActions = require('../../actions/ShopActions');
 var Utils = require('../../utils/Utils');
+var _ = require('underscore');
 
 function getShopState() {
     return {
@@ -9,6 +10,7 @@ function getShopState() {
         items: shopStore.getItems(),
         viewType: 2,
         fCategory: false,
+        windowItem: {}
     };
 }
 
@@ -23,6 +25,32 @@ var Shop = React.createClass({
     },
     catChanged: function(e) {
     	this.setState({ fCategory: e.target.value == 0 ? false : e.target.value });
+    },
+    showItemWindow: function(id) {
+    	this.setState({ windowItem : this.state.items[id] });
+    },
+    closeItemWindow: function() {
+    	this.setState({ windowItem : {} });
+    },
+    cap: function(e) {
+    	e.preventDefault();
+    	e.stopPropagation();
+    },
+    addToShopCart: function(item_id, type, e){
+    	var qty = 1;
+    	if( type == 'win'){
+    		qty = React.findDOMNode(this.refs.win_item).value;
+    	}
+    	else {
+    		qty = React.findDOMNode(this.refs['item_'+item_id]).value;
+    	}
+    	if(parseInt(qty)){
+    		shopActions.addToShopCart({ item_id: item_id, qty: qty });
+    	}
+    	else{
+    		alert('Количество должно быть числом!')
+    	}
+    	e.stopPropagation();
     },
     // Render our child components, passing state via props
     render: function() {
@@ -40,13 +68,13 @@ var Shop = React.createClass({
     		}
     		else{
     			return(
-    				<li key={index}>
+    				<li key={index} onClick={ this.showItemWindow.bind(null, index) } >
             	    	<div className="img"><img src={ item.img ? item.img :  '/img/no_img.png' } /></div>
             	    	<h3 className="title">{ item.name }</h3>
             	    	<div className="category">категория: <span className="right">{ item.category_name }</span></div>
             	    	<div className="price">цена: <span className="right"><b>{ item.price }</b> <i>р. за { item.unit_name }</i></span></div>
             	    	<div className="nav">
-            	    		<input type="text" defaultValue="1" /><button onClick={this.addToShopCart}>В корзину</button>
+            	    		<input type="text" ref={ 'item_'+item.id } defaultValue="1" /><button onClick={this.addToShopCart.bind(null, item.id, 'list')}>В корзину</button>
             	    	</div>
     				</li>
     			);
@@ -56,6 +84,32 @@ var Shop = React.createClass({
         return (
         	<div className="page-content">
             	<div className="page-data page-shop">
+            		{ !_.isEmpty(this.state.windowItem) ? 
+            			(
+            				<div className="window" onClick={this.closeItemWindow} >
+            					<div className="window-content item-window" onClick={this.cap}>
+            						<div className="header">
+            							<h1>Информация о товаре</h1>
+            							<div className="close" onClick={this.closeItemWindow} ><i className="fa fa-times"></i></div>
+            						</div>
+            						<div className="content">
+            							<div className="left-col">
+            								<img src={ this.state.windowItem.img ? this.state.windowItem.img :  '/img/no_img.png' } />
+            							</div>
+            							<div className="right-col">
+            								<h2>{ this.state.windowItem.name }</h2>
+            								<div>Категория: { this.state.windowItem.category_name }</div>
+            								<div className="description">{ this.state.windowItem.description }</div>
+            								<div className="price">цена: <span className="right"><b>{ this.state.windowItem.price }</b> <i>р. за { this.state.windowItem.unit_name }</i></span></div>
+            	    						<div className="nav">
+            	    							<input type="text" ref="win_item" defaultValue="1" /><button onClick={this.addToShopCart.bind(null, this.state.windowItem.id, 'win')}>В корзину</button>
+            	    						</div>
+            							</div>
+            						</div>
+            					</div>
+            				</div>
+            			) : null
+       				}
             	    <div className="page-menu">
             	        <ul>
             	            <li>
@@ -82,6 +136,7 @@ var Shop = React.createClass({
             				</ul>
             			</div>
             		</div>
+            		<ShopCart />
             	</div>
             </div>
         );
@@ -103,5 +158,87 @@ var Shop = React.createClass({
     	this.setState(getShopState());
     }
 });
+
+function getShopCartState() {
+    return {
+        items : shopStore.getShopCart()
+    };
+}
+
+var ShopCart = React.createClass({
+	getInitialState: function(){
+		return getShopCartState();
+	},
+
+	toggleShow: function() {
+		this.setState({ showFull: this.state.showFull ? false : true });
+	},
+
+	editShopCart: function(item_id){
+
+	},
+
+	render: function() {
+		var printItem = function(item, index){
+			return(
+				<tr key={index}>
+					<td className="remove"><div title="Удалить" ><i className="fa fa-times"></i></div></td>
+					<td className="img"><img src={ item.img ? item.img :  '/img/no_img.png' } /></td>
+					<td>{ item.name }</td>
+					<td>категория: { item.category_name }</td>
+					<td className="qty"><input defaultValue={ item.value } /> { item.unit_name }</td>
+					<td>{ item.value*item.price }</td>
+					<td className="change"><button onClick={this.editShopCart.bind(null, item.id)}>Изменить</button></td>
+				</tr>
+			)
+		}.bind(this)
+
+		return(
+			<div className="shopcart-preview">
+				<div className="label" onClick={this.toggleShow} >
+					<div className="icon"><i className={ this.state.showFull ? 'fa fa-chevron-down' : 'fa fa-chevron-up' }></i></div>
+					<div className="icon-text">Моя корзина</div>
+				</div>
+				{ this.state.showFull ? 
+					(
+						<div className="preview-content">
+							<h1>Моя корзина</h1>
+							<div>
+								<table cellSpacing="0" cellPadding="0">
+									<tr>
+										<th></th>
+										<th></th>
+										<th>Наименование</th>
+										<th>Категория</th>
+										<th>Количество</th>
+										<th>Цена</th>
+										<th></th>
+									</tr>
+									{ this.state.items.length > 0 ? this.state.items.map(printItem) : null }
+								</table>
+							</div>
+						</div>
+					) : null
+				}
+			</div>
+		)
+	},
+
+    // Add change listeners to stores
+    componentDidMount: function() {
+        shopActions.loadShopCart();
+    	shopStore.addChangeShopCartListener(this._onChange);
+    },
+
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+    	shopStore.removeChangeShopCartListener(this._onChange);
+    },
+
+    // Method to setState based upon Store changes
+    _onChange: function() {
+    	this.setState(getShopCartState());
+    }
+})
 
 module.exports = Shop;

@@ -9,6 +9,7 @@
 	require_once (SiteData::$lib.'item.php');
 	require_once (SiteData::$lib.'company.php');
 	require_once (SiteData::$lib.'category.php');
+	require_once (SiteData::$lib.'shopcart.php');
 	
 	$user = User::getInstance();
 	$user->upd_session_array();
