@@ -513,6 +513,13 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .workarea table td.icon-td i:hover {
   color: #212121;
 }
+.page-content .page-data .workarea .company-info-table {
+  font-size: 16px;
+}
+.page-content .page-data .workarea .company-info-table td {
+  padding: 3px;
+  text-align: left;
+}
 .page-content .page-data .workarea .search-results {
   background: #FFFFFF;
   width: 200px;
@@ -570,5 +577,8 @@ body .sign-in-div .auth-title:nth-child(2) {
   margin-top: 10px;
 }
 .page-content .page-data .workarea .company button.cancel {
+  margin-right: 10px;
+}
+.page-content .page-data .workarea .manager .cancel {
   margin-right: 10px;
 }

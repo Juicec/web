@@ -16,6 +16,18 @@ var managerActions = {
 	    	actionType: ActionConstants.MANAGER_GETUSERS,
 	    	userId: userId
 	  	})
+	},
+	confirm_user: function(userEmail){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_CONFIRMUSER,
+	    	userEmail: userEmail
+	  	})
+	},
+	deleteUser: function(userEmail){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_DELETEUSER,
+	    	userEmail: userEmail
+	  	})
 	}
 }
 module.exports = managerActions;

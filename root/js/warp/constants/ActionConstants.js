@@ -19,5 +19,7 @@ module.exports = keyMirror({
     CATEGORY_SAVE_NEW       : null,
     ITEM_LOAD               : null,
     ITEM_SAVE_NEW           : null,
-    SHOP_LOAD               : null
+    SHOP_LOAD               : null,
+    MANAGER_CONFIRMUSER     : null,
+    MANAGER_DELETEUSER      : null
 });
