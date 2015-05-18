@@ -42,16 +42,17 @@
 				return false;
 		}
 
-		public function update($name, $price, $description = null, $img = null, $category_id = null) {
+		public function update($name, $price, $description = null, $img = null, $category_id = null, $unit_id = null) {
 			if($this->item_data && $this->user->role_id == 3 && !empty($name) && !empty($price)){
-				$sql = 'UPDATE items SET name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE id = ?';
-				$this->db->execute($sql, array($name, $price, $description, $img, $category_id, $this->item_data['id']));
+				$sql = 'UPDATE items SET name = ?, price = ?, description = ?, img = ?, category_id = ?, unit_id = ? WHERE id = ?';
+				$this->db->execute($sql, array($name, $price, $description, $img, $category_id, $unit_id, $this->item_data['id']));
 
 				$this->item_data['name'] = $name;
 				$this->item_data['price'] = $price;
 				$this->item_data['description'] = $description;
 				$this->item_data['img'] = $img;
 				$this->item_data['category_id'] = $category_id;
+				$this->item_data['unit_id'] = $unit_id;
 
 				return $this->item_data;
 			}
@@ -70,7 +71,7 @@
 		}
 
 		public function get_items() {
-			$sql = 'SELECT i.id, i.name, i.price, i.description, i.img, ic.name as category_name, u.short_name as unit_name, i.category_id
+			$sql = 'SELECT i.id, i.name, i.price, i.description, i.img, ic.name as category_name, u.short_name as unit_name, i.category_id, i.unit_id
 					FROM items as i, units as u, items_categories as ic 
 					WHERE u.id = i.unit_id AND ic.id = i.category_id';
 			return $this->db->query($sql, array());

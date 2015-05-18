@@ -22,6 +22,20 @@ var itemActions = {
 	    	actionType: ActionConstants.CATEGORY_SAVE_NEW,
 	    	data: data
 	  	})
+	},
+
+	update: function(data){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.ITEM_UPDATE,
+	    	data: data
+	  	})
+	},
+
+	deleteItem: function(itemId){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.ITEM_DELETE,
+	    	itemId: itemId
+	  	})
 	}
 };
 

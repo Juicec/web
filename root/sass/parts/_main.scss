@@ -165,7 +165,7 @@ table{
 
 .pop-up{
 	background: $white;
-	position: fixed;
+	position: absolute;
 	width: 200px;
 	border: 1px solid $main2;
 	border-radius: 5px;
@@ -675,8 +675,8 @@ body{
 					&.img{
 						width: 100px;
 						img{
-							width: 100px;
-							height: 100px;
+							max-width: 100px;
+							max-height: 100px;
 						}
 					}
 					&.tableCompanyPointer{
@@ -775,7 +775,20 @@ body{
 					.cancel{
 						margin-right: 10px;
 					}
+			}
+
+			.items{
+				img{
+					margin-top: 15px;
 				}
+				button{
+					margin-top: 10px;
+					&.cancel{
+						margin-right: 10px;
+					}
+				}
+				
+			}
 		}
 	}
 }

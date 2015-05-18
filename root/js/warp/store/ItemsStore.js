@@ -44,6 +44,45 @@ function setItems(){
     })
 }
 
+function updateItem(data){
+    Utils.post({
+        url : 'update_item',
+        data: data,
+        success : function(reqest){
+            if(reqest.status_code == 0){
+                for(var key in _items){
+                    if(_items[key].id == data.id){
+                        _items[key].name = data.name;
+                        _items[key].description =data.description;
+                        _items[key].price = data.price;
+                        _items[key].unit_id = data.unit_id;
+                        _items[key].category_id = data.category_id;
+                        _items[key].img = data.img;
+                    }
+                }
+                itemsStore.emitChangeAdminItems();
+            }
+        }.bind(this)
+    })
+}
+
+function deleteItem(itemId){
+    Utils.post({
+        url : 'remove_item',
+        data: {"id" : itemId},
+        success : function(reqest){
+            if(reqest.status_code == 0){
+                for(var key in _items){
+                    if(_items[key].id == itemId){
+                        delete _items[key];
+                    }
+                }
+                itemsStore.emitChangeAdminItems();
+            }
+        }.bind(this)
+    })
+}
+
 var itemsStore = _.extend({}, EventEmitter.prototype, {
     getItems: function() {
         return _items;
@@ -82,7 +121,12 @@ AppDispatcher.register(function(payload) {
         case actionConstants.CATEGORY_SAVE_NEW:
             saveNewCategory(action.data);
             break;                 
-
+        case actionConstants.ITEM_UPDATE:
+            updateItem(action.data);
+            break; 
+        case actionConstants.ITEM_DELETE:
+            deleteItem(action.itemId);
+            break;    
         default:
             return true;
     }

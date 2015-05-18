@@ -174,7 +174,7 @@ table {
 
 .pop-up {
   background: #FFFFFF;
-  position: fixed;
+  position: absolute;
   width: 200px;
   border: 1px solid #FFC107;
   border-radius: 5px;
@@ -662,8 +662,8 @@ body .sign-in-div .auth-title:nth-child(2) {
   width: 100px;
 }
 .page-content .page-data .workarea table td.img img {
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
 }
 .page-content .page-data .workarea table td.tableCompanyPointer {
   cursor: pointer;
@@ -748,5 +748,14 @@ body .sign-in-div .auth-title:nth-child(2) {
   margin-right: 10px;
 }
 .page-content .page-data .workarea .manager .cancel {
+  margin-right: 10px;
+}
+.page-content .page-data .workarea .items img {
+  margin-top: 15px;
+}
+.page-content .page-data .workarea .items button {
+  margin-top: 10px;
+}
+.page-content .page-data .workarea .items button.cancel {
   margin-right: 10px;
 }

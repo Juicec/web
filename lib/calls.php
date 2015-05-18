@@ -222,6 +222,36 @@
 			}
 		}
 
+		public function update_item(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id == 3 && !empty($_REQUEST['name']) && !empty($_REQUEST['id']) && is_numeric($_REQUEST['price']) &&
+				!empty($_REQUEST['description'])&& is_numeric($_REQUEST['category_id']) && is_numeric($_REQUEST['unit_id'])){
+				
+				$_item = new Item($_REQUEST["id"]);
+				$new_data = $_item->update($_REQUEST['name'], $_REQUEST['price'], $_REQUEST['description'], $_REQUEST['img'] , $_REQUEST['category_id'] , $_REQUEST['unit_id']);
+				if(!empty($new_data)){
+					$this->return_json(array('item' => $new_data));
+				}
+				else{
+					$this->return_error(2);
+				}
+				
+			}
+			else{
+				$this->return_error(1);
+			}
+		}
+
+		public function remove_item(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id == 3 && !empty($_REQUEST['id'])){				
+				$_item = new Item($_REQUEST["id"]);
+				$_item->remove();
+				$this->return_json($_REQUEST);
+			}
+			else{
+				$this->return_error(1);
+			}
+		}
+
 		public function save_category() {
 			if ($_SESSION['is_login'] && $_SESSION['user']->role_id == 3 && !empty($_REQUEST['name'])) {
 				$_category = new Category();

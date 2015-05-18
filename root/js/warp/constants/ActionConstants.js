@@ -23,5 +23,7 @@ module.exports = keyMirror({
     SHOP_CART_ADD           : null,
     SHOP_CART_LOAD          : null,
     MANAGER_CONFIRMUSER     : null,
-    MANAGER_DELETEUSER      : null
+    MANAGER_DELETEUSER      : null,
+    ITEM_UPDATE             : null,
+    ITEM_DELETE             : null
 });
