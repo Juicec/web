@@ -46,5 +46,52 @@
 			}
 			return 0;
 		}
+
+		public function get_cart_users($company_id){
+			$sql = 'SELECT 	sc.user_id,
+							ui.first_name,
+							ui.last_name,
+							ui.email,
+							ui.phone
+					FROM shop_cart AS sc, user_info AS ui 
+					WHERE sc.company_id = ? AND sc.user_id = ui.user_id
+					GROUP BY sc.user_id';
+			return $this->db->query($sql, array($company_id));
+		}
+
+		public function get_user_shop_cart($company_id){
+			
+			$sql = 'SELECT 	ui.first_name as owner,
+							sc.item_id,
+							sc.value,
+							i.name,
+							i.description,
+							i.price,
+							i.img,
+							ic.name,
+							u.short_name
+					FROM shop_cart AS sc, items AS i, items_categories AS ic, units AS u, user_info AS ui
+					WHERE sc.item_id = i.id AND i.category_id = ic.id AND i.unit_id = u.id AND ui.user_id = sc.user_id AND sc.company_id = ?';
+			return $this->db->query($sql, array($company_id));
+		}
+
+		public function get_total($company_id){
+			$sql = 'SELECT	sc.item_id,
+							i.name,
+							i.name,
+							i.description,
+							i.price,
+							i.img,
+							ic.name,
+							u.short_name,
+					SUM(sc.value) as value 
+					FROM shop_cart AS sc
+					LEFT JOIN items AS i ON i.id = sc.item_id
+					LEFT JOIN items_categories AS ic ON i.category_id = ic.id
+					LEFT JOIN units AS u ON i.unit_id = u.id
+					WHERE sc.company_id = ?
+					GROUP BY sc.item_id';
+			return $this->db->query($sql, array($company_id));
+		}
 	}
 ?>

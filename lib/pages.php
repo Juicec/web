@@ -19,11 +19,9 @@
 		}
 
 		public function test(){
-			$_sc = new ShopCart();
-			var_dump($_sc->add_new_product(1, 3));
-			//var_dump($_sc->check_for_existence(1));
-			//var_dump($_SESSION);
-			//$this->user->make_new_user('asd@asd.com', 123, 'ODY4OTA1NjM=');
+			$this->sc = new ShopCart();
+			$result = $this->sc->get_total(25);
+			var_dump($result);
 		}
 
 		public function auth(){

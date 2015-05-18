@@ -6,6 +6,9 @@ var Utils = require('../utils/Utils');
 
 var _companyData = [];
 var _companyUsers = [];
+var _cartUsers = [];
+var _userCart = [];
+var _totalCart = [];
 
 
 function getCompanyInfo(userId) {
@@ -60,9 +63,51 @@ function deleteUser(userEmail){
     });
 }
 
+function getCartUsers(company_id){
+    Utils.post({
+        url : 'get_cart_users',
+        data: {'company_id': company_id},
+        success: function(data){
+            _cartUsers = data.users;
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
+function getUserCart(company_id){
+    Utils.post({
+        url : 'get_user_cart',
+        data: {'company_id': company_id},
+        success: function(data){
+            _userCart = data.items;
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
+function getTotalCart(company_id){
+     Utils.post({
+        url : 'get_total_cart',
+        data: {'company_id': company_id},
+        success: function(data){
+            _totalCart = data.items;
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
 var managerStore = _.extend({}, EventEmitter.prototype, {
     getCompanyData: function() {
         return _companyData;
+    },
+    cartUsers: function(){
+        return _cartUsers;
+    },
+    userCart: function(){
+        return _userCart;
+    },
+    totalCart: function(){
+        return _totalCart;
     },
     getCompanyUsers: function() {
         return _companyUsers;
@@ -101,6 +146,15 @@ AppDispatcher.register(function(payload) {
         case actionConstants.MANAGER_DELETEUSER:
             deleteUser(action.userEmail);
             break;    
+        case actionConstants.MANAGER_CARTUSERS:
+            getCartUsers(action.company_id);
+            break; 
+        case actionConstants.MANAGER_USERCART:
+            getUserCart(action.company_id);
+            break; 
+        case actionConstants.MANAGER_TOTALCART:
+            getTotalCart(action.company_id);
+            break;
         default:
             return true;
     }

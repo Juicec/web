@@ -25,5 +25,8 @@ module.exports = keyMirror({
     MANAGER_CONFIRMUSER     : null,
     MANAGER_DELETEUSER      : null,
     ITEM_UPDATE             : null,
-    ITEM_DELETE             : null
+    ITEM_DELETE             : null,
+    MANAGER_CARTUSERS       : null,
+    MANAGER_USERCART        : null,
+    MANAGER_TOTALCART       : null
 });

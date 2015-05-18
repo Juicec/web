@@ -306,5 +306,32 @@
 			else
 				$this->return_error(1); 
 		}
+
+		public function get_cart_users(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
+				$this->sc = new ShopCart();
+				$this->return_json(array('users' => $this->sc->get_cart_users($_REQUEST['company_id'])));
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function get_user_cart(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
+				$this->sc = new ShopCart();
+				$this->return_json(array('items' => $this->sc->get_user_shop_cart($_REQUEST['company_id'])));
+			}
+			else
+				$this->return_error(1);	
+		}
+
+		public function get_total_cart(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
+				$this->sc = new ShopCart();
+				$this->return_json(array('items' => $this->sc->get_total($_REQUEST['company_id'])));
+			}
+			else
+				$this->return_error(1);	
+		}
 	}
 ?>

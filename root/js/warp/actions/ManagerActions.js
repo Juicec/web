@@ -28,6 +28,24 @@ var managerActions = {
 	    	actionType: ActionConstants.MANAGER_DELETEUSER,
 	    	userEmail: userEmail
 	  	})
+	},
+	getCartUsers: function(company_id){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_CARTUSERS,
+	    	company_id: company_id
+	  	})
+	},
+	getUserCart: function(company_id){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_USERCART,
+	    	company_id: company_id
+	  	})
+	},
+	getTotalCart: function(company_id){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_TOTALCART,
+	    	company_id: company_id
+	  	})
 	}
 }
 module.exports = managerActions;
