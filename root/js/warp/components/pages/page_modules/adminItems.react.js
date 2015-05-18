@@ -76,7 +76,23 @@ var AdminItemsModule = React.createClass({
     }
 });
 
+function getItemRowState(){
+    return {
+        editWindow: false,
+        deleteWindow: false
+    };
+}
+
 var ItemRow = React.createClass({
+    getInitialState: function(){
+        return getItemRowState();
+    },
+    toggleEditItem: function(){
+        this.setState({ editWindow : this.state.editWindow ? false : true });
+    },
+    toggleDeleteItem: function(){
+        this.setState({ deleteWindow : this.state.deleteWindow ? false : true });
+    },
     render: function() {
         var item = this.props.item;
         return(
@@ -87,9 +103,180 @@ var ItemRow = React.createClass({
                 <td>{ item.description }</td>
                 <td>{ item.category_name }</td>
                 <td><b>{ item.price }</b> <i>РУБ за { item.unit_name }</i></td>
-                <td className="tableCompanyPointer icon-td"><div><i className="fa fa-pencil-square-o"></i></div></td>
-                <td className="tableCompanyPointer icon-td"><div><i className="fa fa-times"></i></div></td>
+                <td className="tableCompanyPointer icon-td">{ this.state.editWindow ? <EditItem item={ item } onEdit={ this.toggleEditItem }/> : null }<div onClick={ this.toggleEditItem }><i className="fa fa-pencil-square-o"></i></div></td>
+                <td className="tableCompanyPointer icon-td">{ this.state.deleteWindow ? <DeleteWindow itemId={ item.id } onDelete={ this.toggleDeleteItem }/> : null}<div onClick={ this.toggleDeleteItem }><i className="fa fa-times"></i></div></td>
             </tr>
+        )
+    }
+});
+
+var DeleteWindow = React.createClass({
+    deleteItem: function(){
+        itemActions.deleteItem(this.props.itemId);
+        this.props.onDelete();
+    },
+    render: function(){
+        return(
+            <div>
+                <div className="black-flow" onClick={ this.props.onDelete }></div>
+                <div className="pop-up items">
+                    <div>Вы действительно хотите удалить товар? Удаление - необратимая операция!</div>
+                    <button className="cancel" onClick={ this.props.onDelete }>Отмена</button>
+                    <button className="delete" onClick={ this.deleteItem }>Удалить</button>
+                </div>
+            </div>
+        );
+    }
+});
+
+var EditItem = React.createClass({
+    getInitialState: function(){
+        return {
+            name: this.props.item.name,
+            description: this.props.item.description,
+            img: this.props.item.img,
+            showACcat: false,
+            showACunit: false,
+            category: {
+                id: this.props.item.category_id,
+                name: this.props.item.category_name
+            },            
+            unit: {
+                id: this.props.item.unit_id,
+                name: this.props.item.unit_name
+            },
+            categories: [],
+            units: [],
+            price: this.props.item.price
+        };
+    },
+    changeName: function(e) {
+        this.setState({ name: e.target.value });
+    },
+    priceChange: function(e){
+        this.setState({ price: e.target.value});
+    },
+    selectCategory: function(category){
+        this.setState({ category: category, showACcat: false });
+    },
+    selectUnit: function(unit){
+        this.setState({ unit: unit, showACunit: false });
+    },
+    getUnit: function(e) {
+        this.setState({ showACunit: true });
+        Utils.post({
+            url : 'get_units',
+            success : function(data){
+                if(data.status_code == 0){
+                    this.setState({ units: data.units });
+                }
+            }.bind(this)
+        })
+    },
+    changeImg: function(e){
+        Utils.post({
+            url : 'upload',
+            data : { 'userfile' : e.target.files[0] },
+            success: function(data){
+                if(data.status_code == 0){
+                    this.setState({ img: data.path });
+                }
+            }.bind(this)
+        });
+    },
+    descriptionChange: function(e){
+        this.setState({ description: e.target.value });
+    },
+    getCategories: function(e){
+        this.setState({ showACcat: true, category: { name: e.target.value } });
+        Utils.post({
+            url : 'get_categories',
+            data : { 'key' : e.target.value },
+            success : function(data){
+                if(data.status_code == 0){
+                    this.setState({ categories: data.categories });
+                }
+            }.bind(this)
+        })
+    },
+    saveItem: function(){
+        var data = {
+            name        : this.state.name,
+            price       : this.state.price,
+            description : this.state.description,
+            img         : this.state.img,
+            category_id : this.state.category.id,
+            unit_id     : this.state.unit.id,
+            id          : this.props.item.id
+        };
+        itemActions.update(data);
+        this.props.onEdit();
+    },
+    render: function(){
+        var printCategories = function(category, index){
+            return(
+                <li key={index} onClick={ this.selectCategory.bind(null, category) } >
+                   { category.name } 
+                </li>
+            )
+        }.bind(this);
+
+        var printUnits = function(unit, index){
+            return(
+                <li key={index} onClick={ this.selectUnit.bind(null, unit) } >
+                   { unit.short_name } 
+                </li>
+            )
+        }.bind(this);
+
+        var item = this.props.item;
+        return(
+            <div>
+                <div className="black-flow" onClick={ this.props.onEdit }></div>
+                <div className="pop-up items">
+                    <div className="note">Имя товара:</div>
+                    <input type="text" value={ this.state.name } onChange={ this.changeName } />
+
+                    <div className="note">Описание:</div>
+                    <textarea onChange={ this.descriptionChange }>{ this.state.description }</textarea>
+
+                    <div className="autocomplete">
+                        <div className="note">Категория</div>
+                        <input type="text" onClick={this.getCategories} onChange={this.getCategories} value={ this.state.category.name } />
+                        { this.state.showACcat ?
+                            (
+                                <ul className="values">
+                                    <h4>Выберите категорию</h4>
+                                    { this.state.categories.length > 0 ? this.state.categories.map(printCategories) : <h5>Not found</h5> }
+                                </ul>
+                            ) : null
+                        }
+                    </div>
+
+                    <div className="note">Цена (РУБ):</div>
+                    <input type="text" onChange={ this.priceChange } value={ this.state.price } />
+
+                    <div className="autocomplete">
+                        <div className="note">Единица</div>
+                        <input className={ this.state.error_unit ? 'error' : null} type="text" onClick={this.getUnit} value={ this.state.unit.name } onChange={ this.cap } />
+                        { this.state.showACunit ?
+                            (
+                                <ul className="values">
+                                    <h4>Единица товара:</h4>
+                                    { this.state.units.length > 0 ? this.state.units.map(printUnits) : <h5>Not found</h5> }
+                                </ul>
+                            ) : null
+                        }
+                    </div>
+
+                    <div className="note">Изображение</div>
+                    <input type="file" onChange={this.changeImg}/>
+                    <img src={ this.state.img }  width="160"/>    
+                   
+                    <button onClick={ this.props.onEdit } className="cancel">Отмена</button>
+                    <button onClick={ this.saveItem }>Сохранить</button>
+                </div>
+            </div>
         )
     }
 });
