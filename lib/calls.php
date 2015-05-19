@@ -333,5 +333,15 @@
 			else
 				$this->return_error(1);	
 		}
+
+		public function toggle_sale_closed(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
+				$this->sc = new ShopCart();
+				$this->sc->toggle_sale_closed($_REQUEST['company_id']);
+				$this->return_json($_REQUEST);
+			}
+			else
+				$this->return_error(1);
+		}
 	}
 ?>

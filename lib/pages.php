@@ -20,8 +20,7 @@
 
 		public function test(){
 			$this->sc = new ShopCart();
-			$result = $this->sc->get_total(25);
-			var_dump($result);
+			$this->sc->toggle_sale_closed(25);
 		}
 
 		public function auth(){

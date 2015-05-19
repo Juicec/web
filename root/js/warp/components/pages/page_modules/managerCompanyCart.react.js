@@ -8,13 +8,17 @@ function getManagerCompanyCartModuleState(){
 	return{
 		cartUsers: ManagerStore.cartUsers(),
 		totalCart: ManagerStore.totalCart(),
-		totalPrice: 0
+		totalPrice: 0,
+		companyInfo: ManagerStore.getCompanyData()
 	};
 }
 
 var ManagerCompanyCart = React.createClass({
 	getInitialState: function(){
 		return getManagerCompanyCartModuleState();
+	},
+	toggleSaleClosed: function(){
+		managerActions.toggleSaleClosed(this.state.companyInfo.id);
 	},
 	render: function(){
 		var cartUsersNode =  function(user, index) {
@@ -46,6 +50,7 @@ var ManagerCompanyCart = React.createClass({
                     	<table>
                     		<tr>
                     			<th>Итого на компанию: { MainStore.convertIntToCurrency(this.state.totalPrice) } РУБ</th>
+                    			<th>{ this.state.companyInfo.sale_closed == "0" ? <button onClick={ this.toggleSaleClosed }>Закрыть заказы</button> : <button onClick={ this.toggleSaleClosed }>Открыть заказы</button> }</th>
                     		</tr>
                     	</table>	
                     	<table className="single-user-cart">
@@ -53,6 +58,7 @@ var ManagerCompanyCart = React.createClass({
 								<th>Номер</th><th>Изображение</th><th>Название</th><th>Описание</th><th>Цена</th><th>Кол-во</th><th>Сумма</th>
 							</tr>
 							{ this.state.totalCart.length > 0 ? this.state.totalCart.map(totalCartUsersNode) : null }
+
 						</table>
                     </div>
                 </div>
@@ -62,6 +68,7 @@ var ManagerCompanyCart = React.createClass({
 	componentDidMount: function(){
         managerActions.getCartUsers(this.props.user.company_id);
         managerActions.getTotalCart(this.props.user.company_id);
+        managerActions.getCompanyInfo(this.props.user.user_id);
         ManagerStore.addChangeAllListener(this._onChange);
     },
     // Remove change listers from stores

@@ -43,6 +43,9 @@ var ManagerCompanyInfoModule = React.createClass({
                         <tr>
                             <td>Описание компании</td><td>{ this.state.companyInfo.description }</td>
                         </tr>
+                        <tr>
+                            <td>Статус заказов</td><td>{ this.state.companyInfo.sale_closed == 0 ? "Открыты" : "Закрыты" }</td>
+                        </tr>
                     </table>
                  </div>
             </div>

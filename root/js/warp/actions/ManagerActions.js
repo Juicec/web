@@ -46,6 +46,12 @@ var managerActions = {
 	    	actionType: ActionConstants.MANAGER_TOTALCART,
 	    	company_id: company_id
 	  	})
+	},
+	toggleSaleClosed: function(company_id){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_TOGGLESALECLOSED,
+	    	company_id: company_id
+	  	})
 	}
 }
 module.exports = managerActions;

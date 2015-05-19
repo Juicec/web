@@ -96,6 +96,17 @@ function getTotalCart(company_id){
     });
 }
 
+function toggleSaleClosed(company_id){
+    Utils.post({
+        url : 'toggle_sale_closed',
+        data: {'company_id': company_id},
+        success: function(data){
+            _companyData.sale_closed = Math.abs(_companyData.sale_closed - 1);
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
 var managerStore = _.extend({}, EventEmitter.prototype, {
     getCompanyData: function() {
         return _companyData;
@@ -154,7 +165,10 @@ AppDispatcher.register(function(payload) {
             break; 
         case actionConstants.MANAGER_TOTALCART:
             getTotalCart(action.company_id);
-            break;
+            break; 
+        case actionConstants.MANAGER_TOGGLESALECLOSED:
+            toggleSaleClosed(action.company_id);
+            break; 
         default:
             return true;
     }

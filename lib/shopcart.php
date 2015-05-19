@@ -53,7 +53,7 @@
 							ui.last_name,
 							ui.email,
 							ui.phone
-					FROM shop_cart AS sc, user_info AS ui 
+					FROM shop_cart AS sc, user_info AS ui, company AS c 
 					WHERE sc.company_id = ? AND sc.user_id = ui.user_id
 					GROUP BY sc.user_id';
 			return $this->db->query($sql, array($company_id));
@@ -92,6 +92,14 @@
 					WHERE sc.company_id = ?
 					GROUP BY sc.item_id';
 			return $this->db->query($sql, array($company_id));
+		}
+
+		public function toggle_sale_closed($company_id){
+			$sql = 'UPDATE company
+					SET sale_closed=IF(sale_closed=0, 1, 0)
+					WHERE id = ?';
+			$this->db->execute($sql, array($company_id));		
+
 		}
 	}
 ?>

@@ -158,7 +158,8 @@
 							c.description,
 							c.reg_key,
 							c.created_on,
-							c.phone
+							c.phone,
+							c.sale_closed
 						FROM company as c
 						LEFT JOIN company_users as cu ON cu.company_id = c.id AND cu.role_id = 2
 						LEFT JOIN user_info as ui ON ui.user_id = cu.user_id 
