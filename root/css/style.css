@@ -633,6 +633,9 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .workarea.manager-company-cart {
   text-align: center;
 }
+.page-content .page-data .workarea.manager-company-cart .col {
+  display: table-cell;
+}
 .page-content .page-data .workarea .summary-manager-company-cart table {
   padding: 0;
   margin-top: 15px;

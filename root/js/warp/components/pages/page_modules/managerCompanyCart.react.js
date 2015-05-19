@@ -1,12 +1,14 @@
 var React = require('react');
 var ManagerStore = require('../../../store/ManagerStore');
+var MainStore = require('../../../store/MainStore');
 var managerActions = require('../../../actions/ManagerActions');
 var _ = require('underscore');
 
 function getManagerCompanyCartModuleState(){
 	return{
 		cartUsers: ManagerStore.cartUsers(),
-		totalCart: ManagerStore.totalCart()
+		totalCart: ManagerStore.totalCart(),
+		totalPrice: 0
 	};
 }
 
@@ -26,6 +28,10 @@ var ManagerCompanyCart = React.createClass({
                 <TotalCartUsersNodes key={ index + 1 } item={ item }/>
             );
         };
+        
+        for(var key in this.state.totalCart){
+        	this.state.totalPrice += this.state.totalCart[key].value*this.state.totalCart[key].price;
+        }
 
 		return(
 			<div>
@@ -39,7 +45,7 @@ var ManagerCompanyCart = React.createClass({
                     <div className="summary-manager-company-cart">
                     	<table>
                     		<tr>
-                    			<th>Итого на компанию: </th>
+                    			<th>Итого на компанию: { MainStore.convertIntToCurrency(this.state.totalPrice) } РУБ</th>
                     		</tr>
                     	</table>	
                     	<table className="single-user-cart">
@@ -79,9 +85,9 @@ var TotalCartUsersNodes = React.createClass({
 				<td><img src={ item.img } /></td>
 				<td>{ item.name }</td>
 				<td>{ item.description }</td>
-				<td>{ item.price } руб/{ item.short_name }</td>
-				<td>{ item.value }</td>
-				<td>{ item.value * item.price } руб</td>
+				<td>{ MainStore.convertIntToCurrency(item.price) } руб/{ item.short_name }</td>
+				<td>{ MainStore.convertIntToCurrency(item.value) }</td>
+				<td>{ MainStore.convertIntToCurrency(item.value * item.price) } руб</td>
 			</tr>
 		);
 	}
@@ -148,9 +154,9 @@ var ItemNodes = React.createClass({
 				<td><img src={ item.img } /></td>
 				<td>{ item.name }</td>
 				<td>{ item.description }</td>
-				<td>{ item.price } руб/{ item.short_name }</td>
-				<td>{ item.value }</td>
-				<td>{ item.value * item.price } руб</td>
+				<td>{ MainStore.convertIntToCurrency(item.price) } руб/{ item.short_name }</td>
+				<td>{ MainStore.convertIntToCurrency(item.value) }</td>
+				<td>{ MainStore.convertIntToCurrency(item.value * item.price) } руб</td>
 			</tr>		
 		);
 	}

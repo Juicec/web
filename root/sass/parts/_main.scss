@@ -648,6 +648,9 @@ body{
 			margin: 10px 10px;
 			&.manager-company-cart{
 				text-align: center;
+				.col{
+					display: table-cell;
+				}
 			}
 			.summary-manager-company-cart{
 				table{

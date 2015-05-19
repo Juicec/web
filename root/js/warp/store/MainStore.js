@@ -6,6 +6,9 @@ var Utils = require('../utils/Utils');
 
 var _userData = {};
 var _regStatus = false;
+var currencyText = '';
+
+
 
 function setUserData(pageType) {
     Utils.post({
@@ -72,6 +75,19 @@ function signUp(reg_data){
 }
 
 var mainStore = _.extend({}, EventEmitter.prototype, {
+    convertIntToCurrency: function(number){
+        var textPrice = number.toString();
+        var i = 0;
+        var currencyText = '';
+        for(i = textPrice.length-3; i >=0; i = i - 3){
+            var sub = textPrice.substring(i,i+3);
+            currencyText = ' '+sub+currencyText;
+        }
+        var sub = textPrice.substring(0,i+3);
+        currencyText = sub+currencyText;
+        return currencyText;
+    },
+
     getUserData: function() {
         return _userData;
     },
