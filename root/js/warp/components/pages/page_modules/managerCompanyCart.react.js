@@ -77,18 +77,42 @@ var ManagerCompanyCart = React.createClass({
 
 
 var TotalCartUsersNodes = React.createClass({
+	getInitialState: function(){
+		return {
+			zoomImage: false
+		};
+	},
+	toggleZoomImage: function(){
+		this.setState({ zoomImage : this.state.zoomImage ? false : true });
+	},
 	render: function(){
 		var item = this.props.item;
 		return (
 			<tr key={ this.props.key }>
 				<td>{ item.item_id }</td>
-				<td><img src={ item.img } /></td>
+				<td><ZoomImage onZoom={ this.toggleZoomImage } img={ item.img }  classNameProp = { this.state.zoomImage ? "pop-up-image in" : "pop-up-image" }/><img onClick={ this.toggleZoomImage } src={ item.img } /></td>
 				<td>{ item.name }</td>
 				<td>{ item.description }</td>
 				<td>{ MainStore.convertIntToCurrency(item.price) } руб/{ item.short_name }</td>
 				<td>{ MainStore.convertIntToCurrency(item.value) }</td>
 				<td>{ MainStore.convertIntToCurrency(item.value * item.price) } руб</td>
 			</tr>
+		);
+	}
+});
+
+var ZoomImage = React.createClass({
+	render: function(){
+		return(
+			<div>
+				<div className={ this.props.classNameProp == "pop-up-image in" ? "black-flow zoom-in" : "black-flow zoom-out"} onClick={ this.props.onZoom }></div>
+				<div className={ this.props.classNameProp }>
+					<div className="close-pop-up-image" onClick={ this.props.onZoom }>
+						<i className="fa fa-times"></i>
+					</div>
+					<img src={ this.props.img } onClick={this.nothing} />
+				</div>
+			</div>
 		);
 	}
 });
@@ -146,12 +170,20 @@ var CartUsersNodes = React.createClass({
 });
 
 var ItemNodes = React.createClass({
+	getInitialState: function(){
+		return {
+			zoomImage: false
+		};
+	},
+	toggleZoomImage: function(){
+		this.setState({ zoomImage : this.state.zoomImage ? false : true });
+	},
 	render: function(){
 		var item = this.props.item;
 		return(
 			<tr key={ this.props.key }>
 				<td>{ item.item_id }</td>
-				<td><img src={ item.img } /></td>
+				<td><ZoomImage onZoom={ this.toggleZoomImage } img={ item.img }  classNameProp = { this.state.zoomImage ? "pop-up-image in" : "pop-up-image" }/><img onClick={ this.toggleZoomImage } src={ item.img } /></td>
 				<td>{ item.name }</td>
 				<td>{ item.description }</td>
 				<td>{ MainStore.convertIntToCurrency(item.price) } руб/{ item.short_name }</td>
