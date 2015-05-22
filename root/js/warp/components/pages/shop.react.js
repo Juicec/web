@@ -175,18 +175,28 @@ var ShopCart = React.createClass({
 	},
 
 	editShopCart: function(item_id){
-
+        var qty = React.findDOMNode(this.refs['item_'+item_id]).value;
+        if(parseInt(qty)){
+            shopActions.editShopCart(item_id, qty);
+        }
+        else{
+            alert('Количество должно быть числом!')
+        }
 	},
+
+    removeFromSH: function(item_id){
+        shopActions.deleteFromShopCart(item_id);
+    },
 
 	render: function() {
 		var printItem = function(item, index){
 			return(
 				<tr key={index}>
-					<td className="remove"><div title="Удалить" ><i className="fa fa-times"></i></div></td>
+					<td className="remove"><div title="Удалить"  onClick={this.removeFromSH.bind(null, item.id)}><i className="fa fa-times"></i></div></td>
 					<td className="img"><img src={ item.img ? item.img :  '/img/no_img.png' } /></td>
 					<td>{ item.name }</td>
 					<td>категория: { item.category_name }</td>
-					<td className="qty"><input defaultValue={ item.value } /> { item.unit_name }</td>
+					<td className="qty"><input ref={ 'item_'+item.id } defaultValue={ item.value } /> { item.unit_name }</td>
 					<td>{ item.value*item.price }</td>
 					<td className="change"><button onClick={this.editShopCart.bind(null, item.id)}>Изменить</button></td>
 				</tr>
@@ -205,16 +215,18 @@ var ShopCart = React.createClass({
 							<h1>Моя корзина</h1>
 							<div>
 								<table cellSpacing="0" cellPadding="0">
-									<tr>
-										<th></th>
-										<th></th>
-										<th>Наименование</th>
-										<th>Категория</th>
-										<th>Количество</th>
-										<th>Цена</th>
-										<th></th>
-									</tr>
-									{ this.state.items.length > 0 ? this.state.items.map(printItem) : null }
+                                    <tbody>
+								        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Наименование</th>
+                                            <th>Категория</th>
+                                            <th>Количество</th>
+                                            <th>Цена</th>
+                                            <th></th>
+                                        </tr>
+                                        { this.state.items.length > 0 ? this.state.items.map(printItem) : null }
+                                    </tbody>
 								</table>
 							</div>
 						</div>

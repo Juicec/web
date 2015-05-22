@@ -34,7 +34,31 @@ function addToShopCart(data) {
         data : { item_id : data.item_id, qty : data.qty },
         success : function(reqest){
             if(reqest.status_code == 0){
-            	console.log(reqest);
+            	loadShopCart();
+            }
+        }.bind(this)
+    })
+}
+
+function removeFromSH(item_id){
+    Utils.post({
+        url : 'delete_from_shopcart',
+        data: { item_id : item_id },
+        success : function(reqest){
+            if(reqest.status_code == 0){
+                loadShopCart();
+            }
+        }
+    })
+}
+
+function editShopCart(item_id, qty) {
+    Utils.post({
+        url : 'edit_shopcart',
+        data : { item_id : item_id, qty : qty },
+        success : function(reqest){
+            if(reqest.status_code == 0){
+                loadShopCart();
             }
         }.bind(this)
     })
@@ -112,6 +136,14 @@ AppDispatcher.register(function(payload) {
 
         case actionConstants.SHOP_CART_LOAD:
             loadShopCart();
+            break;          
+
+        case actionConstants.SHOP_CART_REMOVE:
+            removeFromSH(action.item_id);
+            break;          
+
+        case actionConstants.SHOP_CART_EDIT:
+            editShopCart(action.item_id, action.qty);
             break;  
 
         default:

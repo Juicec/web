@@ -74,12 +74,12 @@ function getCartUsers(company_id){
     });
 }
 
-function getUserCart(company_id){
+function getUserCart(company_id, user_id){
     Utils.post({
         url : 'get_user_cart',
-        data: {'company_id': company_id},
+        data: {'company_id': company_id, 'user_id': user_id},
         success: function(data){
-            _userCart = data.items;
+            _userCart[user_id] = data.items;
             managerStore.emitChangeAll();
         }
     });
@@ -102,7 +102,6 @@ function toggleSaleClosed(company_id){
         data: {'company_id': company_id},
         success: function(data){
             _companyData.sale_closed = Math.abs(_companyData.sale_closed - 1);
-            managerStore.emitChangeAll();
         }
     });
 }
@@ -114,8 +113,8 @@ var managerStore = _.extend({}, EventEmitter.prototype, {
     cartUsers: function(){
         return _cartUsers;
     },
-    userCart: function(){
-        return _userCart;
+    userCart: function(user_id){
+        return Array.isArray(_userCart[user_id]) ? _userCart[user_id] : [];
     },
     totalCart: function(){
         return _totalCart;
@@ -161,7 +160,7 @@ AppDispatcher.register(function(payload) {
             getCartUsers(action.company_id);
             break; 
         case actionConstants.MANAGER_USERCART:
-            getUserCart(action.company_id);
+            getUserCart(action.company_id, action.user_id);
             break; 
         case actionConstants.MANAGER_TOTALCART:
             getTotalCart(action.company_id);

@@ -47,7 +47,7 @@ var ManagerCompanyCart = React.createClass({
                 <div className="workarea manager-company-cart">
                     { this.state.cartUsers.length > 0 ? this.state.cartUsers.map(cartUsersNode) : null }
                     <div className="summary-manager-company-cart">
-                    	<table>
+                    	<table className="head-table">
                     		<tr>
                     			<th>Итого на компанию: { MainStore.convertIntToCurrency(this.state.totalPrice) } РУБ</th>
                     			<th>{ this.state.companyInfo.sale_closed == "0" ? <button onClick={ this.toggleSaleClosed }>Закрыть заказы</button> : <button onClick={ this.toggleSaleClosed }>Открыть заказы</button> }</th>
@@ -55,7 +55,7 @@ var ManagerCompanyCart = React.createClass({
                     	</table>	
                     	<table className="single-user-cart">
 							<tr>
-								<th>Номер</th><th>Изображение</th><th>Название</th><th>Описание</th><th>Цена</th><th>Кол-во</th><th>Сумма</th>
+								<th>Номер</th><th>Изображение</th><th>Название</th><th>Категория</th><th>Цена</th><th>Кол-во</th><th>Сумма</th>
 							</tr>
 							{ this.state.totalCart.length > 0 ? this.state.totalCart.map(totalCartUsersNode) : null }
 
@@ -99,7 +99,7 @@ var TotalCartUsersNodes = React.createClass({
 				<td>{ item.item_id }</td>
 				<td><ZoomImage onZoom={ this.toggleZoomImage } img={ item.img }  classNameProp = { this.state.zoomImage ? "pop-up-image in" : "pop-up-image" }/><img onClick={ this.toggleZoomImage } src={ item.img } /></td>
 				<td>{ item.name }</td>
-				<td>{ item.description }</td>
+				<td>{ item.cat_name }</td>
 				<td>{ MainStore.convertIntToCurrency(item.price) } руб/{ item.short_name }</td>
 				<td>{ MainStore.convertIntToCurrency(item.value) }</td>
 				<td>{ MainStore.convertIntToCurrency(item.value * item.price) } руб</td>
@@ -124,15 +124,15 @@ var ZoomImage = React.createClass({
 	}
 });
 
-function getCartUsersNodes(){
+function getCartUsersNodes(user_id){
 	return{
-		cartUsers: ManagerStore.userCart()
+		cartUsers: ManagerStore.userCart(user_id)
 	};
 }
 
 var CartUsersNodes = React.createClass({
 	getInitialState: function(){
-		return getCartUsersNodes();
+		return getCartUsersNodes(this.props.user.id);
 	},
 	render: function(){
 		var itemsNode =  function(item, index) {
@@ -144,7 +144,7 @@ var CartUsersNodes = React.createClass({
         }.bind(this);
 		return(
 			<div key={ this.props.key } className="cart-users">
-				<table>
+				<table className="head-table">
 					<tr>
 						<td>{ this.props.user.first_name }</td>
 						<td>{ this.props.user.last_name }</td>
@@ -154,7 +154,7 @@ var CartUsersNodes = React.createClass({
 				</table>
 				<table className="single-user-cart">
 					<tr>
-						<th>Номер</th><th>Изображение</th><th>Название</th><th>Описание</th><th>Цена</th><th>Кол-во</th><th>Сумма</th>
+						<th>Номер</th><th>Изображение</th><th>Название</th><th>Категория</th><th>Цена</th><th>Кол-во</th><th>Сумма</th>
 					</tr>
 					{ this.state.cartUsers.length > 0 ? this.state.cartUsers.map(itemsNode) : null }
 				</table>		
@@ -162,7 +162,7 @@ var CartUsersNodes = React.createClass({
 		);
 	},
 	componentDidMount: function(){
-        managerActions.getUserCart(this.props.company_id);
+        managerActions.getUserCart(this.props.company_id, this.props.user.user_id);
         ManagerStore.addChangeAllListener(this._onChange);
     },
     // Remove change listers from stores
@@ -172,7 +172,7 @@ var CartUsersNodes = React.createClass({
 
     // Method to setState based upon Store changes
     _onChange: function() {
-        this.setState(getCartUsersNodes(this.props.user.id));
+        this.setState(getCartUsersNodes(this.props.user.user_id));
     }
 });
 
@@ -192,7 +192,7 @@ var ItemNodes = React.createClass({
 				<td>{ item.item_id }</td>
 				<td><ZoomImage onZoom={ this.toggleZoomImage } img={ item.img }  classNameProp = { this.state.zoomImage ? "pop-up-image in" : "pop-up-image" }/><img onClick={ this.toggleZoomImage } src={ item.img } /></td>
 				<td>{ item.name }</td>
-				<td>{ item.description }</td>
+				<td>{ item.cat_name }</td>
 				<td>{ MainStore.convertIntToCurrency(item.price) } руб/{ item.short_name }</td>
 				<td>{ MainStore.convertIntToCurrency(item.value) }</td>
 				<td>{ MainStore.convertIntToCurrency(item.value * item.price) } руб</td>

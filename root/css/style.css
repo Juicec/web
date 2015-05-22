@@ -676,6 +676,16 @@ body .sign-in-div .auth-title:nth-child(2) {
 .page-content .page-data .workarea.manager-company-cart .col {
   display: table-cell;
 }
+.page-content .page-data .workarea .head-table {
+  border-radius: 0px;
+  background: #3F51B5;
+  color: white;
+  box-shadow: none;
+}
+.page-content .page-data .workarea .head-table tr td, .page-content .page-data .workarea .head-table tr th {
+  padding: 5px 0;
+  vertical-align: middle;
+}
 .page-content .page-data .workarea .summary-manager-company-cart table {
   padding: 0;
   margin-top: 15px;
@@ -763,8 +773,8 @@ body .sign-in-div .auth-title:nth-child(2) {
 }
 .page-content .page-data .workarea .single-user-cart tr td img {
   cursor: pointer;
-  max-height: 100px;
-  max-width: 100px;
+  max-height: 50px;
+  max-width: 50px;
 }
 .page-content .page-data .workarea .search-results {
   background: #FFFFFF;

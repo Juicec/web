@@ -59,7 +59,7 @@
 			return $this->db->query($sql, array($company_id));
 		}
 
-		public function get_user_shop_cart($company_id){
+		public function get_user_shop_cart($company_id, $user_id){
 			
 			$sql = 'SELECT 	ui.first_name as owner,
 							sc.item_id,
@@ -68,21 +68,20 @@
 							i.description,
 							i.price,
 							i.img,
-							ic.name,
+							ic.name as cat_name,
 							u.short_name
 					FROM shop_cart AS sc, items AS i, items_categories AS ic, units AS u, user_info AS ui
-					WHERE sc.item_id = i.id AND i.category_id = ic.id AND i.unit_id = u.id AND ui.user_id = sc.user_id AND sc.company_id = ?';
-			return $this->db->query($sql, array($company_id));
+					WHERE sc.item_id = i.id AND i.category_id = ic.id AND i.unit_id = u.id AND ui.user_id = sc.user_id AND sc.company_id = ? AND sc.user_id = ?';
+			return $this->db->query($sql, array($company_id, $user_id));
 		}
 
 		public function get_total($company_id){
 			$sql = 'SELECT	sc.item_id,
 							i.name,
-							i.name,
 							i.description,
 							i.price,
 							i.img,
-							ic.name,
+							ic.name as cat_name,
 							u.short_name,
 					SUM(sc.value) as value 
 					FROM shop_cart AS sc
@@ -100,6 +99,18 @@
 					WHERE id = ?';
 			$this->db->execute($sql, array($company_id));		
 
+		}
+
+		public function delete_item($item_id){
+			$sql = 'DELETE FROM shop_cart WHERE company_id = ? AND user_id = ? AND item_id = ?';
+			$this->db->execute($sql, array($this->user->company_id, $this->user->user_id, $item_id));
+			return true;
+		}
+
+		public function edit_item($item_id, $qty){
+			$sql = 'UPDATE shop_cart SET value = ? WHERE user_id = ? AND item_id = ? AND company_id = ?';
+			$this->db->execute($sql, array($qty, $this->user->user_id, $item_id, $this->user->company_id));
+			return true;
 		}
 	}
 ?>

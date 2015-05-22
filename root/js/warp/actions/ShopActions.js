@@ -17,6 +17,22 @@ var shopActions = {
 	  	})
 	},	
 
+	deleteFromShopCart: function(item_id){
+	  	AppDispatcher.handleAction({
+	    	actionType: ActionConstants.SHOP_CART_REMOVE,
+	    	item_id: item_id
+	  	})
+	},	
+
+	editShopCart: function(item_id, qty){
+	  	AppDispatcher.handleAction({
+	    	actionType: ActionConstants.SHOP_CART_EDIT,
+	    	item_id: item_id,
+	    	qty: qty
+	  	})
+	},	
+
+
 	loadShopCart: function(data){
 	  	AppDispatcher.handleAction({
 	    	actionType: ActionConstants.SHOP_CART_LOAD

@@ -692,6 +692,18 @@ body{
 					display: table-cell;
 				}
 			}
+			.head-table{
+				border-radius: 0px;
+				background: $main1;
+				color: white;
+				box-shadow: none;
+				tr{
+					td, th{
+						padding: 5px 0;
+						vertical-align: middle;
+					}
+				}
+			}
 			.summary-manager-company-cart{
 				table{
 					padding: 0;
@@ -783,8 +795,8 @@ body{
 						width: 14%;
 						img{
 							cursor: pointer;
-							max-height: 100px;
-							max-width: 100px;
+							max-height: 50px;
+							max-width: 50px;
 						}
 					}
 				}

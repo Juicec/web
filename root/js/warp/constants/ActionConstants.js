@@ -22,6 +22,8 @@ module.exports = keyMirror({
     SHOP_LOAD                   : null,
     SHOP_CART_ADD               : null,
     SHOP_CART_LOAD              : null,
+    SHOP_CART_EDIT              : null,
+    SHOP_CART_REMOVE            : null,
     MANAGER_CONFIRMUSER         : null,
     MANAGER_DELETEUSER          : null,
     ITEM_UPDATE                 : null,

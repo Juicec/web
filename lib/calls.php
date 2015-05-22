@@ -319,7 +319,7 @@
 		public function get_user_cart(){
 			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
 				$this->sc = new ShopCart();
-				$this->return_json(array('items' => $this->sc->get_user_shop_cart($_REQUEST['company_id'])));
+				$this->return_json(array('items' => $this->sc->get_user_shop_cart($_REQUEST['company_id'], $_REQUEST['user_id'])));
 			}
 			else
 				$this->return_error(1);	
@@ -339,6 +339,26 @@
 				$this->sc = new ShopCart();
 				$this->sc->toggle_sale_closed($_REQUEST['company_id']);
 				$this->return_json($_REQUEST);
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function delete_from_shopcart(){
+			if ($_SESSION['is_login'] && is_numeric($_REQUEST['item_id'])){
+				$this->sc = new ShopCart();
+				$this->sc->delete_item($_REQUEST['item_id']);
+				$this->return_json(array());
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function edit_shopcart(){
+			if ($_SESSION['is_login'] && is_numeric($_REQUEST['item_id']) && is_numeric($_REQUEST['qty'])){
+				$this->sc = new ShopCart();
+				$this->sc->edit_item($_REQUEST['item_id'], $_REQUEST['qty']);
+				$this->return_json(array());
 			}
 			else
 				$this->return_error(1);

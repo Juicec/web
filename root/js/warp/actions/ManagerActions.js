@@ -35,10 +35,11 @@ var managerActions = {
 	    	company_id: company_id
 	  	})
 	},
-	getUserCart: function(company_id){
+	getUserCart: function(company_id, user_id){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MANAGER_USERCART,
-	    	company_id: company_id
+	    	company_id: company_id,
+	    	user_id: user_id
 	  	})
 	},
 	getTotalCart: function(company_id){
