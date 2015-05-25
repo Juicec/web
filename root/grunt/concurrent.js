@@ -13,6 +13,9 @@ module.exports = {
         'compass:all',
         'browserify:dev',
     ],
+    devThird: [
+        'extract_sourcemap:new'
+    ],
 
     // Production tasks
     prodFirst: [

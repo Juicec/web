@@ -3,7 +3,8 @@ module.exports = {
         options:      {
   		  	transform:  [ require('grunt-react').browserify ],
   		  	browserifyOptions: {
-         		debug: true
+         		debug: true,
+         		exorcist: "js/dist/js/flux_bundle.js.map"
      		}	
   		},
   		src:        'js/warp/app.js',
