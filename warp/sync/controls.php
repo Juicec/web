@@ -67,7 +67,7 @@
         		$_SESSION['is_login'] = false;
 		}
 		
-		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone){
+		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone, $department_id, $department_name){
 			if (empty($this->get_user_data_by_email($email))){
 				$_company = new Company();
 				$company = $_company->get_company_data_by_key($reg_key);
@@ -80,7 +80,14 @@
 					$this->db->insert($sql, array($user_id, $email, $first_name, $last_name, $this->encrypt_password($password), $phone));
 					$sql = 'INSERT INTO user_roles (user_id, role_id) VALUES (?,?)';
 					$this->db->insert($sql, array($user_id, 1));
-					$_company->add_user_to_company($user_id);
+					if($department_id == 0){
+						$sql = 'INSERT INTO company_department (name) VALUES(?)';
+						$new_department_id = $this->db->insert($sql,array($department_name));
+						$_company->add_user_to_company($user_id, $new_department_id);
+					}
+					else{
+						$_company->add_user_to_company($user_id, $department_id);
+					}
 					return 0;
 				}
 				else
@@ -163,6 +170,7 @@
 				return $this->db->query($sql, array());
 			}
 		}
+
 
 		public function get_user_company_id($user_id) {
 			$sql = 'SELECT c.id FROM company as c, company_users as cu WHERE c.id = cu.company_id AND cu.user_id = ?';

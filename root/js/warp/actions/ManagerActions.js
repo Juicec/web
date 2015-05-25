@@ -29,10 +29,11 @@ var managerActions = {
 	    	userEmail: userEmail
 	  	})
 	},
-	getCartUsers: function(company_id){
+	getCartUsers: function(company_id, dep_id){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MANAGER_CARTUSERS,
-	    	company_id: company_id
+	    	company_id: company_id,
+	    	dep_id: dep_id
 	  	})
 	},
 	getUserCart: function(company_id, user_id){
@@ -51,6 +52,12 @@ var managerActions = {
 	toggleSaleClosed: function(company_id){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MANAGER_TOGGLESALECLOSED,
+	    	company_id: company_id
+	  	})
+	},
+	getDepartmentsIds: function(company_id){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_GETDEPARTMENTS,
 	    	company_id: company_id
 	  	})
 	}

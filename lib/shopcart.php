@@ -47,22 +47,21 @@
 			return 0;
 		}
 
-		public function get_cart_users($company_id){
+		public function get_cart_users($company_id, $department_id){
 			$sql = 'SELECT 	sc.user_id,
 							ui.first_name,
 							ui.last_name,
 							ui.email,
 							ui.phone
-					FROM shop_cart AS sc, user_info AS ui, company AS c 
-					WHERE sc.company_id = ? AND sc.user_id = ui.user_id
+					FROM shop_cart AS sc, user_info AS ui, company AS c, company_users AS cu 
+					WHERE sc.company_id = ? AND sc.user_id = ui.user_id AND cu.user_id = ui.user_id AND cu.department_id = ?
 					GROUP BY sc.user_id';
-			return $this->db->query($sql, array($company_id));
+			return $this->db->query($sql, array($company_id, $department_id));
 		}
 
 		public function get_user_shop_cart($company_id, $user_id){
 			
-			$sql = 'SELECT 	ui.first_name as owner,
-							sc.item_id,
+			$sql = 'SELECT 	sc.item_id,
 							sc.value,
 							i.name,
 							i.description,
@@ -71,7 +70,7 @@
 							ic.name as cat_name,
 							u.short_name
 					FROM shop_cart AS sc, items AS i, items_categories AS ic, units AS u, user_info AS ui
-					WHERE sc.item_id = i.id AND i.category_id = ic.id AND i.unit_id = u.id AND ui.user_id = sc.user_id AND sc.company_id = ? AND sc.user_id = ?';
+					WHERE sc.item_id = i.id AND i.category_id = ic.id AND i.unit_id = u.id AND ui.user_id = sc.user_id  AND sc.company_id = ? AND sc.user_id = ?';
 			return $this->db->query($sql, array($company_id, $user_id));
 		}
 

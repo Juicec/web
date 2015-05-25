@@ -154,6 +154,8 @@ table{
 		width: 94%;
 		z-index: 100;
 		li{
+			line-height: normal!important;
+			display: block!important;
 			cursor: pointer;
 			padding: 0 5px;
 			&:hover{
@@ -192,9 +194,11 @@ table{
 	transform: scale(0);
 	opacity: 0.5;
 	transition: all 0.5s ease;
+	transform-origin: 50% 50% 0;
 	&.in{
 		opacity: 1;
 		transform: scale(1);
+		transform-origin: 50% 50% 0;
 	}
 	img{
 		cursor: auto!important;
@@ -773,30 +777,67 @@ body{
 				}
 			}
 			.cart-users{
+				position: relative;
 				table{
 					padding: 0;
 					margin-top: 15px;
 					text-align: center;
 					td{
-						width: 25%;
+						width: 20%;
+					}
+				}
+				.toggle-user-cart{
+					width: 40px;
+					height: 20px;
+					background: $main1;
+					border-radius: 3px;
+					margin-top: -5px;
+					margin-left: -20px;
+					left: 50%;
+					position: absolute;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					transform: scale(0.8);
+					z-index: 100;
+					i{
+						transition: all 0.2s ease;
+						color: $white;
+						&.inverse{
+							transition: all 0.2s ease;
+							transform: rotate(180deg);
+						}
+					}
+					&:hover{
+						transition: all 0.2s ease;
+						transform: scale(1);
 					}
 				}
 			}
 			.single-user-cart{
+				height: 20px;
+				transform: scale(0);
+				transition: all 0.4s ease;
+				&.show{
+					transform: scale(1);
+					transition: all 0.4s ease;
+					height: auto;
+				}
+				table{
 				text-align: center;
 				width: 90%;
 				border-radius: 0;
 				display: inline;
-				tr{
-					th{
-						text-align: center;
-					}
-					td{
-						width: 14%;
-						img{
-							cursor: pointer;
-							max-height: 50px;
-							max-width: 50px;
+					tr{
+						th{
+							text-align: center;
+						}
+						td{
+							width: 14%;
+							img{
+								cursor: pointer;
+								max-height: 50px;
+								max-width: 50px;
+							}
 						}
 					}
 				}

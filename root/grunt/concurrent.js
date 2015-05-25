@@ -11,7 +11,7 @@ module.exports = {
     ],
     devSecond: [
         'compass:all',
-        'browserify:dev',
+        'browserify:dev'
     ],
 
     // Production tasks

@@ -20,7 +20,8 @@
 
 		public function test(){
 			$this->sc = new ShopCart();
-			$this->sc->toggle_sale_closed(25);
+			$res = $this->sc->get_cart_users(25,3);
+			var_dump($res);
 		}
 
 		public function auth(){

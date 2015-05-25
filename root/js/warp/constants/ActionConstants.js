@@ -31,5 +31,7 @@ module.exports = keyMirror({
     MANAGER_CARTUSERS           : null,
     MANAGER_USERCART            : null,
     MANAGER_TOTALCART           : null,
-    MANAGER_TOGGLESALECLOSED    : null
+    MANAGER_TOGGLESALECLOSED    : null,
+    MAIN_GET_DEPARTMENT         : null,
+    MANAGER_GETDEPARTMENTS      : null
 });

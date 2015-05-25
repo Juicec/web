@@ -1,10 +1,13 @@
 module.exports = {
 
     new: {
+        options: {
+            sourceMap: true,
+        },
         expand: true,
-        cwd: 'dist/prod/js',
+        cwd: 'js/dist/js',
         src: '**/*.js',
-        dest: 'dist/prod/js',
+        dest: 'js/dist/js',
         ext: '.min.js'
     },
 

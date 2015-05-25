@@ -52,7 +52,9 @@ function signUp(reg_data){
                 'first_name': reg_data.first_name, 
                 'last_name': reg_data.last_name, 
                 'company_key': reg_data.regKey,
-                'phone': reg_data.phone
+                'phone': reg_data.phone,
+                'departmentId': reg_data.departmentId,
+                'departmentName': reg_data.departmentName
             },
         success: function(request){
             if(request.status_code == 0){
@@ -72,6 +74,10 @@ function signUp(reg_data){
             mainStore.emitChangeReg();
         }
     });
+}
+
+function searchDepartment(key){
+    
 }
 
 var mainStore = _.extend({}, EventEmitter.prototype, {
@@ -149,7 +155,9 @@ AppDispatcher.register(function(payload) {
         case actionConstants.MAIN_REG:
             signUp(action.reg_data);
             break;              
-
+        case actionConstants.MAIN_GET_DEPARTMENT:
+            searchDepartment(action.key);
+            break
         default:
             return true;
     }

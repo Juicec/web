@@ -2,11 +2,15 @@ var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
 var Utils = require('../../utils/Utils');
+var _ = require('underscore');
 
 
 function getSignUpState() {
 	return {
-		status: MainStore.getRegStatus()
+		status: MainStore.getRegStatus(),
+		chooseInput: '',
+		departments: [],
+		departmentId: 0
 	}
 }
 
@@ -20,11 +24,13 @@ var SignUp = React.createClass({
 		this.state.pass_error = false;
 		this.state.phone_error = false;
 		this.state.regKey_error = false;
+		this.state.department_error = false;
 
 		email = React.findDOMNode(this.refs.email).value;
 		password = React.findDOMNode(this.refs.pass).value;
 		phone = React.findDOMNode(this.refs.phone).value;
 		regKey = React.findDOMNode(this.refs.regKey).value;
+		department = React.findDOMNode(this.refs.department).value;
 
 		if (email == ''){
 			this.setState({ email_error: true });
@@ -38,6 +44,9 @@ var SignUp = React.createClass({
 		else if (regKey == ''){
 			this.setState({ regKey_error: true });
 		}
+		else if (department == ''){
+			this.setState({ department_error: true });
+		}
 		else{
 			var regData = {
 				"email" 		: email,
@@ -46,6 +55,8 @@ var SignUp = React.createClass({
 				"last_name" 	: React.findDOMNode(this.refs.lastName).value,
 				"phone"	 		: phone,
 				'regKey' 		: regKey,
+				'departmentId'	: this.state.departmentId,
+				'departmentName': this.state.chooseInput
 			}
 			mainActions.signUp(regData);
 		}
@@ -53,7 +64,37 @@ var SignUp = React.createClass({
 	auth: function(){
 		this.props.auth();
 	},
+	chooseDepartment: function(data){
+        this.setState({
+            departments: [],
+            chooseInput: data.name,
+            departmentId: data.id
+        });
+    },
+	getDepartments: function(e){
+		if(_.isEmpty(e.target.value)){
+            this.setState({
+                departments: []
+            });
+        }else{
+            Utils.post({
+		        url : 'search_departments',
+		        data: {'key': e.target.value},
+		        success: function(request){
+		            if(request.status_code == 0){
+		                this.setState({ departments: request.departments});
+		            }
+		        }.bind(this)
+		    });
+        }
+		this.setState({chooseInput: event.target.value});
+	},
 	render: function() {
+		 var searchedDepartments = function(department, index) {
+            return (
+                <SearchedDepartments department={ department } key={ index } onChoose={ this.chooseDepartment}/>
+            );
+        }.bind(this);
 		if (this.state.status === 0){
 			return(
 				<div>
@@ -88,6 +129,10 @@ var SignUp = React.createClass({
 					<div className="note">Код компании<em>*</em></div>
 					<input className={ this.state.status == 2 || this.state.regKey_error ? 'error' : null } type="text" ref="regKey" />
 					<div className="note error-note">{ this.state.status == 2 ? 'Неверный код регистрации' : null}</div>
+
+					<div className="note">Отдел<em>*</em></div>
+					<input className={ this.state.department_error ? 'error' : null } type="text" ref="department" onChange={ this.getDepartments } value={ this.state.chooseInput }/>
+                    { this.state.departments.length > 0 ? <div className="autocomplete"><ul className="values">{ this.state.departments.map(searchedDepartments) }</ul></div> : null }
 	
 					<button onClick={this.handleRes}>Зарегистрироваться</button>
 					<div className="note footnote">
@@ -111,6 +156,20 @@ var SignUp = React.createClass({
     // Method to setState based upon Store changes
     _onChange: function() {
     	this.setState(getSignUpState());
+    }
+});
+
+var SearchedDepartments = React.createClass({
+    click: function(e){
+        this.props.onChoose(e.target.dataset);
+    },
+    render: function() {
+        var department = this.props.department;
+        return (
+            <li key={ this.props.key } onClick={ this.click }>
+                <span data-id={ department.id } data-name={ department.name }>{ department.name }</span>
+            </li>
+        );
     }
 });
 

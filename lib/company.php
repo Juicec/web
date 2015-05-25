@@ -114,10 +114,10 @@
 				return false;
 		}
 
-		public function add_user_to_company($user_id){
+		public function add_user_to_company($user_id, $department_id){
 			if($this->company_data){
-				$sql = 'INSERT INTO company_users (user_id,	company_id) VALUES (?,?)';
-				$this->db->insert($sql, array($user_id, $this->company_data['id']));
+				$sql = 'INSERT INTO company_users (user_id,	company_id, department_id) VALUES (?,?,?)';
+				$this->db->insert($sql, array($user_id, $this->company_data['id'], $department_id));
 				return true;
 			}
 			else
@@ -204,6 +204,34 @@
 					LEFT JOIN user_roles AS ur ON ur.user_id = ui.user_id
 					WHERE ui.email = ?';
 			$this->db->execute($sql, array($user_email));		
+		}
+
+		public function search_department($key){
+			if (!empty($key)){
+				$cool_key = '%'.mb_convert_case($key, MB_CASE_LOWER, "UTF-8").'%';
+	
+				$sql = 'SELECT 
+							id,
+							name
+						FROM company_department
+						WHERE lower(name) LIKE ?';
+				return $this->db->query($sql, array($cool_key));
+			}
+			else{
+				$sql = 'SELECT 
+							name
+						FROM company_department';
+				return $this->db->query($sql, array());
+			}
+		}
+
+		public function get_departments($company_id){
+			$sql = 'SELECT 	cd.name,
+							cd.id as dep_id
+					FROM company_department cd, company_users cu
+					WHERE cd.id = cu.department_id AND cu.company_id = ?
+					GROUP BY cd.id';
+			return $this->db->query($sql, array($company_id));
 		}
 	}
 ?>

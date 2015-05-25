@@ -26,6 +26,12 @@ var mainActions = {
 	    	actionType: ActionConstants.MAIN_REG,
 	    	reg_data: reg_data
 	  	})
+	},
+	get_departments: function(key){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MAIN_GET_DEPARTMENT,
+	    	key: key
+	  	})
 	}
 };
 

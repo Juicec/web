@@ -45,7 +45,7 @@
 		public function register(){
 			if(!empty($_REQUEST['email']) && !empty($_REQUEST['password']) && 
 				!empty($_REQUEST['first_name']) && !empty($_REQUEST['last_name']) && !empty($_REQUEST['company_key'])){
-				$status = $this->user->make_new_user($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['company_key'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['phone']);
+				$status = $this->user->make_new_user($_REQUEST['email'], $_REQUEST['password'], $_REQUEST['company_key'], $_REQUEST['first_name'], $_REQUEST['last_name'], $_REQUEST['phone'], $_REQUEST['departmentId'], $_REQUEST['departmentName']);
 				$this->return_json(array('reg_status' => $status));
 			}
 			else{
@@ -132,6 +132,15 @@
 				$this->return_error(1);
 		}
 
+		public function search_departments(){
+			$this->company = new Company();
+			if (!empty($_REQUEST['key'])){
+				$data = $this->company->search_department($_REQUEST['key']);
+				$this->return_json(array('departments' => $data));
+			}
+			else
+				$this->return_error(1);
+		}
 
 		public function company_manager_set(){
 			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'] && !empty($_REQUEST['email']))){
@@ -308,9 +317,9 @@
 		}
 
 		public function get_cart_users(){
-			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id']) && !empty($_REQUEST['department_id'])){
 				$this->sc = new ShopCart();
-				$this->return_json(array('users' => $this->sc->get_cart_users($_REQUEST['company_id'])));
+				$this->return_json(array('users' => $this->sc->get_cart_users($_REQUEST['company_id'], $_REQUEST['department_id'])));
 			}
 			else
 				$this->return_error(1);
@@ -359,6 +368,15 @@
 				$this->sc = new ShopCart();
 				$this->sc->edit_item($_REQUEST['item_id'], $_REQUEST['qty']);
 				$this->return_json(array());
+			}
+			else
+				$this->return_error(1);
+		}
+
+		public function get_departments(){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'])){
+				$this->company = new Company();
+				$this->return_json(array('departments' => $this->company->get_departments($_REQUEST['company_id'])));
 			}
 			else
 				$this->return_error(1);

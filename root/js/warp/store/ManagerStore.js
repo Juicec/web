@@ -9,6 +9,7 @@ var _companyUsers = [];
 var _cartUsers = [];
 var _userCart = [];
 var _totalCart = [];
+var _departments = [];
 
 
 function getCompanyInfo(userId) {
@@ -63,12 +64,12 @@ function deleteUser(userEmail){
     });
 }
 
-function getCartUsers(company_id){
+function getCartUsers(company_id, dep_id){
     Utils.post({
         url : 'get_cart_users',
-        data: {'company_id': company_id},
+        data: {'company_id': company_id, 'department_id': dep_id},
         success: function(data){
-            _cartUsers = data.users;
+            _cartUsers[dep_id] = data.users;
             managerStore.emitChangeAll();
         }
     });
@@ -106,18 +107,32 @@ function toggleSaleClosed(company_id){
     });
 }
 
+function getDepartmentsIds(company_id){
+    Utils.post({
+        url : 'get_departments',
+        data: {'company_id': company_id},
+        success: function(data){
+            _departments = data.departments;
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
 var managerStore = _.extend({}, EventEmitter.prototype, {
     getCompanyData: function() {
         return _companyData;
     },
-    cartUsers: function(){
-        return _cartUsers;
+    cartUsers: function(dep_id){
+        return Array.isArray(_cartUsers[dep_id]) ? _cartUsers[dep_id] : [];
     },
     userCart: function(user_id){
         return Array.isArray(_userCart[user_id]) ? _userCart[user_id] : [];
     },
     totalCart: function(){
         return _totalCart;
+    },
+    getDepartments: function(){
+        return _departments;
     },
     getCompanyUsers: function() {
         return _companyUsers;
@@ -157,7 +172,7 @@ AppDispatcher.register(function(payload) {
             deleteUser(action.userEmail);
             break;    
         case actionConstants.MANAGER_CARTUSERS:
-            getCartUsers(action.company_id);
+            getCartUsers(action.company_id, action.dep_id);
             break; 
         case actionConstants.MANAGER_USERCART:
             getUserCart(action.company_id, action.user_id);
@@ -167,6 +182,9 @@ AppDispatcher.register(function(payload) {
             break; 
         case actionConstants.MANAGER_TOGGLESALECLOSED:
             toggleSaleClosed(action.company_id);
+            break;
+        case actionConstants.MANAGER_GETDEPARTMENTS:
+            getDepartmentsIds(action.company_id);
             break; 
         default:
             return true;
