@@ -66,14 +66,9 @@
         		$_SESSION['is_login'] = false;
 		}
 		
-<<<<<<< HEAD
+
 		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone, $department_id, $department_name){
 			if (empty($this->get_user_data_by_email($email))){
-=======
-		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone){
-			$data = $this->get_user_data_by_email($email);
-			if (empty($data)){
->>>>>>> origin/master
 				$_company = new Company();
 				$company = $_company->get_company_data_by_key($reg_key);
 				if (!empty($company)){
