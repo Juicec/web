@@ -131,10 +131,11 @@ var managerActions = {
 	    	userEmail: userEmail
 	  	})
 	},
-	getCartUsers: function(company_id){
+	getCartUsers: function(company_id, dep_id){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MANAGER_CARTUSERS,
-	    	company_id: company_id
+	    	company_id: company_id,
+	    	dep_id: dep_id
 	  	})
 	},
 	getUserCart: function(company_id, user_id){
@@ -153,6 +154,12 @@ var managerActions = {
 	toggleSaleClosed: function(company_id){
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MANAGER_TOGGLESALECLOSED,
+	    	company_id: company_id
+	  	})
+	},
+	getDepartmentsIds: function(company_id){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MANAGER_GETDEPARTMENTS,
 	    	company_id: company_id
 	  	})
 	}
@@ -230,6 +237,12 @@ var mainActions = {
 		AppDispatcher.handleAction({
 	    	actionType: ActionConstants.MAIN_REG,
 	    	reg_data: reg_data
+	  	})
+	},
+	get_departments: function(key){
+		AppDispatcher.handleAction({
+	    	actionType: ActionConstants.MAIN_GET_DEPARTMENT,
+	    	key: key
 	  	})
 	}
 };
@@ -337,11 +350,15 @@ var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
 var Utils = require('../../utils/Utils');
+var _ = require('underscore');
 
 
 function getSignUpState() {
 	return {
-		status: MainStore.getRegStatus()
+		status: MainStore.getRegStatus(),
+		chooseInput: '',
+		departments: [],
+		departmentId: 0
 	}
 }
 
@@ -355,11 +372,13 @@ var SignUp = React.createClass({displayName: "SignUp",
 		this.state.pass_error = false;
 		this.state.phone_error = false;
 		this.state.regKey_error = false;
+		this.state.department_error = false;
 
 		email = React.findDOMNode(this.refs.email).value;
 		password = React.findDOMNode(this.refs.pass).value;
 		phone = React.findDOMNode(this.refs.phone).value;
 		regKey = React.findDOMNode(this.refs.regKey).value;
+		department = React.findDOMNode(this.refs.department).value;
 
 		if (email == ''){
 			this.setState({ email_error: true });
@@ -373,6 +392,9 @@ var SignUp = React.createClass({displayName: "SignUp",
 		else if (regKey == ''){
 			this.setState({ regKey_error: true });
 		}
+		else if (department == ''){
+			this.setState({ department_error: true });
+		}
 		else{
 			var regData = {
 				"email" 		: email,
@@ -381,6 +403,8 @@ var SignUp = React.createClass({displayName: "SignUp",
 				"last_name" 	: React.findDOMNode(this.refs.lastName).value,
 				"phone"	 		: phone,
 				'regKey' 		: regKey,
+				'departmentId'	: this.state.departmentId,
+				'departmentName': this.state.chooseInput
 			}
 			mainActions.signUp(regData);
 		}
@@ -388,7 +412,37 @@ var SignUp = React.createClass({displayName: "SignUp",
 	auth: function(){
 		this.props.auth();
 	},
+	chooseDepartment: function(data){
+        this.setState({
+            departments: [],
+            chooseInput: data.name,
+            departmentId: data.id
+        });
+    },
+	getDepartments: function(e){
+		if(_.isEmpty(e.target.value)){
+            this.setState({
+                departments: []
+            });
+        }else{
+            Utils.post({
+		        url : 'search_departments',
+		        data: {'key': e.target.value},
+		        success: function(request){
+		            if(request.status_code == 0){
+		                this.setState({ departments: request.departments});
+		            }
+		        }.bind(this)
+		    });
+        }
+		this.setState({chooseInput: event.target.value});
+	},
 	render: function() {
+		 var searchedDepartments = function(department, index) {
+            return (
+                React.createElement(SearchedDepartments, {department:  department, key:  index, onChoose:  this.chooseDepartment})
+            );
+        }.bind(this);
 		if (this.state.status === 0){
 			return(
 				React.createElement("div", null, 
@@ -423,6 +477,10 @@ var SignUp = React.createClass({displayName: "SignUp",
 					React.createElement("div", {className: "note"}, "Код компании", React.createElement("em", null, "*")), 
 					React.createElement("input", {className:  this.state.status == 2 || this.state.regKey_error ? 'error' : null, type: "text", ref: "regKey"}), 
 					React.createElement("div", {className: "note error-note"},  this.state.status == 2 ? 'Неверный код регистрации' : null), 
+
+					React.createElement("div", {className: "note"}, "Отдел", React.createElement("em", null, "*")), 
+					React.createElement("input", {className:  this.state.department_error ? 'error' : null, type: "text", ref: "department", onChange:  this.getDepartments, value:  this.state.chooseInput}), 
+                     this.state.departments.length > 0 ? React.createElement("div", {className: "autocomplete"}, React.createElement("ul", {className: "values"},  this.state.departments.map(searchedDepartments) )) : null, 
 	
 					React.createElement("button", {onClick: this.handleRes}, "Зарегистрироваться"), 
 					React.createElement("div", {className: "note footnote"}, 
@@ -446,6 +504,20 @@ var SignUp = React.createClass({displayName: "SignUp",
     // Method to setState based upon Store changes
     _onChange: function() {
     	this.setState(getSignUpState());
+    }
+});
+
+var SearchedDepartments = React.createClass({displayName: "SearchedDepartments",
+    click: function(e){
+        this.props.onChoose(e.target.dataset);
+    },
+    render: function() {
+        var department = this.props.department;
+        return (
+            React.createElement("li", {key:  this.props.key, onClick:  this.click}, 
+                React.createElement("span", {"data-id":  department.id, "data-name":  department.name},  department.name)
+            )
+        );
     }
 });
 
@@ -545,7 +617,7 @@ var AuthForm = React.createClass({displayName: "AuthForm",
 });
 
 module.exports = AuthForm;
-},{"../../actions/mainActions":5,"../../store/MainStore":25,"../../utils/Utils":29,"react":190}],9:[function(require,module,exports){
+},{"../../actions/mainActions":5,"../../store/MainStore":25,"../../utils/Utils":29,"react":190,"underscore":191}],9:[function(require,module,exports){
 var React = require('react');
 var MainStore = require('../../store/MainStore');
 var mainActions = require('../../actions/mainActions');
@@ -1838,10 +1910,10 @@ var _ = require('underscore');
 
 function getManagerCompanyCartModuleState(){
 	return{
-		cartUsers: ManagerStore.cartUsers(),
 		totalCart: ManagerStore.totalCart(),
 		totalPrice: 0,
-		companyInfo: ManagerStore.getCompanyData()
+		companyInfo: ManagerStore.getCompanyData(),
+		departments: ManagerStore.getDepartments()
 	};
 }
 
@@ -1853,21 +1925,23 @@ var ManagerCompanyCart = React.createClass({displayName: "ManagerCompanyCart",
 		managerActions.toggleSaleClosed(this.state.companyInfo.id);
 	},
 	render: function(){
-		var cartUsersNode =  function(user, index) {
-            return (
-                React.createElement(CartUsersNodes, {user:  user, key:  index + 1, company_id:  this.props.user.company_id})
-            );
-        }.bind(this);
+		var departments = function(department, index){
+			return(
+				React.createElement(Department, {department:  department, key:  index, company_id:  this.props.user.company_id})
+			);
+		}.bind(this);
 
         var totalCartUsersNode =  function(item, index) {
             return (
                 React.createElement(TotalCartUsersNodes, {key:  index + 1, item:  item })
             );
         };
-        
-        for(var key in this.state.totalCart){
-        	this.state.totalPrice += this.state.totalCart[key].value*this.state.totalCart[key].price;
-        }
+
+        if(this.state.totalPrice == 0){
+	        for(var key in this.state.totalCart){
+	        	this.state.totalPrice += this.state.totalCart[key].value*this.state.totalCart[key].price;
+	        }
+	    }
 
 		return(
 			React.createElement("div", null, 
@@ -1877,7 +1951,7 @@ var ManagerCompanyCart = React.createClass({displayName: "ManagerCompanyCart",
                     )
                 ), 
                 React.createElement("div", {className: "workarea manager-company-cart"}, 
-                     this.state.cartUsers.length > 0 ? this.state.cartUsers.map(cartUsersNode) : null, 
+                	 this.state.departments.length > 0 ? this.state.departments.map(departments) : null, 
                     React.createElement("div", {className: "summary-manager-company-cart"}, 
                     	React.createElement("table", {className: "head-table"}, 
                     		React.createElement("tr", null, 
@@ -1898,9 +1972,9 @@ var ManagerCompanyCart = React.createClass({displayName: "ManagerCompanyCart",
 		);
 	},
 	componentDidMount: function(){
-        managerActions.getCartUsers(this.props.user.company_id);
         managerActions.getTotalCart(this.props.user.company_id);
         managerActions.getCompanyInfo(this.props.user.user_id);
+        managerActions.getDepartmentsIds(this.props.user.company_id);
         ManagerStore.addChangeAllListener(this._onChange);
     },
     // Remove change listers from stores
@@ -1914,6 +1988,43 @@ var ManagerCompanyCart = React.createClass({displayName: "ManagerCompanyCart",
     }
 });
 
+function getDepartmentState(dep_id){
+	return{
+		cartUsers: ManagerStore.cartUsers(dep_id)
+	};
+}
+
+
+var Department  =React.createClass({displayName: "Department",
+	getInitialState: function(){
+		return getDepartmentState(this.props.department.dep_id);
+	},
+	render: function(){
+		var cartUsersNode =  function(user, index) {
+            return (
+                React.createElement(CartUsersNodes, {user:  user, key:  index + 1, company_id:  this.props.company_id})
+            );
+        }.bind(this);
+		return(
+			React.createElement("div", null, 
+				 this.state.cartUsers.length > 0 ? React.createElement("div", null, React.createElement("h1", null,  this.props.department.name), " ",  this.state.cartUsers.map(cartUsersNode) ) : null		
+			)
+		);
+	},
+	componentDidMount: function(){
+        managerActions.getCartUsers(this.props.company_id, this.props.department.dep_id);
+        ManagerStore.addChangeAllListener(this._onChange);
+    },
+    // Remove change listers from stores
+    componentWillUnmount: function() {
+        ManagerStore.removeChangeAllListener(this._onChange);
+    },
+
+    // Method to setState based upon Store changes
+    _onChange: function() {
+        this.setState(getDepartmentState(this.props.department.dep_id));
+    }
+});
 
 var TotalCartUsersNodes = React.createClass({displayName: "TotalCartUsersNodes",
 	getInitialState: function(){
@@ -1929,7 +2040,7 @@ var TotalCartUsersNodes = React.createClass({displayName: "TotalCartUsersNodes",
 		return (
 			React.createElement("tr", {key:  this.props.key}, 
 				React.createElement("td", null,  item.item_id), 
-				React.createElement("td", null, React.createElement(ZoomImage, {onZoom:  this.toggleZoomImage, img:  item.img, classNameProp:  this.state.zoomImage ? "pop-up-image in" : "pop-up-image"}), React.createElement("img", {onClick:  this.toggleZoomImage, src:  item.img})), 
+				React.createElement("td", null, React.createElement(ZoomImage, {onZoom:  this.toggleZoomImage, img:  item.img, classNameProp:  this.state.zoomImage ? "pop-up-image in" : "pop-up-image"}), React.createElement("img", {src:  item.img})), 
 				React.createElement("td", null,  item.name), 
 				React.createElement("td", null,  item.cat_name), 
 				React.createElement("td", null,  MainStore.convertIntToCurrency(item.price), " руб/",  item.short_name), 
@@ -1944,7 +2055,7 @@ var ZoomImage = React.createClass({displayName: "ZoomImage",
 	render: function(){
 		return(
 			React.createElement("div", null, 
-				React.createElement("div", {className:  this.props.classNameProp == "pop-up-image in" ? "black-flow zoom-in" : "black-flow zoom-out", onClick:  this.props.onZoom}), 
+				React.createElement("div", {className:  this.props.classNameProp == "pop-up-image in" ? "black-flow zoom-in" : "black-flow zoom-out"}), 
 				React.createElement("div", {className:  this.props.classNameProp}, 
 					React.createElement("div", {className: "close-pop-up-image", onClick:  this.props.onZoom}, 
 						React.createElement("i", {className: "fa fa-times"})
@@ -1958,7 +2069,9 @@ var ZoomImage = React.createClass({displayName: "ZoomImage",
 
 function getCartUsersNodes(user_id){
 	return{
-		cartUsers: ManagerStore.userCart(user_id)
+		userCart: ManagerStore.userCart(user_id),
+		totalCost: 0,
+		cartShow: false
 	};
 }
 
@@ -1966,13 +2079,20 @@ var CartUsersNodes = React.createClass({displayName: "CartUsersNodes",
 	getInitialState: function(){
 		return getCartUsersNodes(this.props.user.id);
 	},
+	toggleCartShow: function(){
+		this.setState({ cartShow : this.state.cartShow ? false : true});
+	},
 	render: function(){
+		if(this.state.totalCost == 0){
+			for(var key in this.state.userCart){
+	        	this.state.totalCost += this.state.userCart[key].value*this.state.userCart[key].price;
+	        }
+	    }
+
 		var itemsNode =  function(item, index) {
-			if(item.owner==this.props.user.first_name){
 				return (
                 	React.createElement(ItemNodes, {item:  item, key:  index + 1, user:  this.props.user})
             	);
-			}   
         }.bind(this);
 		return(
 			React.createElement("div", {key:  this.props.key, className: "cart-users"}, 
@@ -1981,15 +2101,19 @@ var CartUsersNodes = React.createClass({displayName: "CartUsersNodes",
 						React.createElement("td", null,  this.props.user.first_name), 
 						React.createElement("td", null,  this.props.user.last_name), 
 						React.createElement("td", null,  this.props.user.email), 
-						React.createElement("td", null,  this.props.user.phone)
+						React.createElement("td", null,  this.props.user.phone), 
+						React.createElement("td", null, "Итого: ",  MainStore.convertIntToCurrency(this.state.totalCost), " РУБ")
 					)
 				), 
-				React.createElement("table", {className: "single-user-cart"}, 
-					React.createElement("tr", null, 
-						React.createElement("th", null, "Номер"), React.createElement("th", null, "Изображение"), React.createElement("th", null, "Название"), React.createElement("th", null, "Категория"), React.createElement("th", null, "Цена"), React.createElement("th", null, "Кол-во"), React.createElement("th", null, "Сумма")
-					), 
-					 this.state.cartUsers.length > 0 ? this.state.cartUsers.map(itemsNode) : null
-				)		
+				React.createElement("div", {className: "toggle-user-cart", onClick:  this.toggleCartShow}, React.createElement("i", {className:  this.state.cartShow ? "fa fa-caret-down inverse" : "fa fa-caret-down"})), 
+				React.createElement("div", {className:  this.state.cartShow ? "single-user-cart show" : "single-user-cart"}, 
+					React.createElement("table", null, 
+						React.createElement("tr", null, 
+							React.createElement("th", null, "Номер"), React.createElement("th", null, "Изображение"), React.createElement("th", null, "Название"), React.createElement("th", null, "Категория"), React.createElement("th", null, "Цена"), React.createElement("th", null, "Кол-во"), React.createElement("th", null, "Сумма")
+						), 
+						 this.state.userCart.length > 0 ? this.state.userCart.map(itemsNode) : null
+					)	
+				)	
 			)
 		);
 	},
@@ -2022,7 +2146,7 @@ var ItemNodes = React.createClass({displayName: "ItemNodes",
 		return(
 			React.createElement("tr", {key:  this.props.key}, 
 				React.createElement("td", null,  item.item_id), 
-				React.createElement("td", null, React.createElement(ZoomImage, {onZoom:  this.toggleZoomImage, img:  item.img, classNameProp:  this.state.zoomImage ? "pop-up-image in" : "pop-up-image"}), React.createElement("img", {onClick:  this.toggleZoomImage, src:  item.img})), 
+				React.createElement("td", null, React.createElement(ZoomImage, {onZoom:  this.toggleZoomImage, img:  item.img, classNameProp:  this.state.zoomImage ? "pop-up-image in" : "pop-up-image"}), React.createElement("img", {src:  item.img})), 
 				React.createElement("td", null,  item.name), 
 				React.createElement("td", null,  item.cat_name), 
 				React.createElement("td", null,  MainStore.convertIntToCurrency(item.price), " руб/",  item.short_name), 
@@ -2507,7 +2631,9 @@ module.exports = keyMirror({
     MANAGER_CARTUSERS           : null,
     MANAGER_USERCART            : null,
     MANAGER_TOTALCART           : null,
-    MANAGER_TOGGLESALECLOSED    : null
+    MANAGER_TOGGLESALECLOSED    : null,
+    MAIN_GET_DEPARTMENT         : null,
+    MANAGER_GETDEPARTMENTS      : null
 });
 
 },{"react/lib/keyMirror":175}],22:[function(require,module,exports){
@@ -2956,7 +3082,9 @@ function signUp(reg_data){
                 'first_name': reg_data.first_name, 
                 'last_name': reg_data.last_name, 
                 'company_key': reg_data.regKey,
-                'phone': reg_data.phone
+                'phone': reg_data.phone,
+                'departmentId': reg_data.departmentId,
+                'departmentName': reg_data.departmentName
             },
         success: function(request){
             if(request.status_code == 0){
@@ -2976,6 +3104,10 @@ function signUp(reg_data){
             mainStore.emitChangeReg();
         }
     });
+}
+
+function searchDepartment(key){
+    
 }
 
 var mainStore = _.extend({}, EventEmitter.prototype, {
@@ -3053,7 +3185,9 @@ AppDispatcher.register(function(payload) {
         case actionConstants.MAIN_REG:
             signUp(action.reg_data);
             break;              
-
+        case actionConstants.MAIN_GET_DEPARTMENT:
+            searchDepartment(action.key);
+            break
         default:
             return true;
     }
@@ -3074,6 +3208,7 @@ var _companyUsers = [];
 var _cartUsers = [];
 var _userCart = [];
 var _totalCart = [];
+var _departments = [];
 
 
 function getCompanyInfo(userId) {
@@ -3128,12 +3263,12 @@ function deleteUser(userEmail){
     });
 }
 
-function getCartUsers(company_id){
+function getCartUsers(company_id, dep_id){
     Utils.post({
         url : 'get_cart_users',
-        data: {'company_id': company_id},
+        data: {'company_id': company_id, 'department_id': dep_id},
         success: function(data){
-            _cartUsers = data.users;
+            _cartUsers[dep_id] = data.users;
             managerStore.emitChangeAll();
         }
     });
@@ -3171,18 +3306,32 @@ function toggleSaleClosed(company_id){
     });
 }
 
+function getDepartmentsIds(company_id){
+    Utils.post({
+        url : 'get_departments',
+        data: {'company_id': company_id},
+        success: function(data){
+            _departments = data.departments;
+            managerStore.emitChangeAll();
+        }
+    });
+}
+
 var managerStore = _.extend({}, EventEmitter.prototype, {
     getCompanyData: function() {
         return _companyData;
     },
-    cartUsers: function(){
-        return _cartUsers;
+    cartUsers: function(dep_id){
+        return Array.isArray(_cartUsers[dep_id]) ? _cartUsers[dep_id] : [];
     },
     userCart: function(user_id){
         return Array.isArray(_userCart[user_id]) ? _userCart[user_id] : [];
     },
     totalCart: function(){
         return _totalCart;
+    },
+    getDepartments: function(){
+        return _departments;
     },
     getCompanyUsers: function() {
         return _companyUsers;
@@ -3222,7 +3371,7 @@ AppDispatcher.register(function(payload) {
             deleteUser(action.userEmail);
             break;    
         case actionConstants.MANAGER_CARTUSERS:
-            getCartUsers(action.company_id);
+            getCartUsers(action.company_id, action.dep_id);
             break; 
         case actionConstants.MANAGER_USERCART:
             getUserCart(action.company_id, action.user_id);
@@ -3232,6 +3381,9 @@ AppDispatcher.register(function(payload) {
             break; 
         case actionConstants.MANAGER_TOGGLESALECLOSED:
             toggleSaleClosed(action.company_id);
+            break;
+        case actionConstants.MANAGER_GETDEPARTMENTS:
+            getDepartmentsIds(action.company_id);
             break; 
         default:
             return true;
@@ -9659,7 +9811,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
         console.debug(
           'Download the React DevTools for a better development experience: ' +
-          'https://fb.me/react-devtools'
+          'http://fb.me/react-devtools'
         );
       }
     }
@@ -9686,7 +9838,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (!expectedFeatures[i]) {
         console.error(
           'One or more ES5 shim/shams expected by React are not available: ' +
-          'https://fb.me/react-warning-polyfills'
+          'http://fb.me/react-warning-polyfills'
         );
         break;
       }
@@ -9694,7 +9846,7 @@ if ("production" !== process.env.NODE_ENV) {
   }
 }
 
-React.version = '0.13.3';
+React.version = '0.13.2';
 
 module.exports = React;
 
@@ -11203,7 +11355,7 @@ var ReactClass = {
         ("production" !== process.env.NODE_ENV ? warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
-          'JSX instead. See: https://fb.me/react-legacyfactory'
+          'JSX instead. See: http://fb.me/react-legacyfactory'
         ) : null);
       }
 
@@ -11416,38 +11568,20 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  */
 if ("production" !== process.env.NODE_ENV) {
   var deprecatedAPIs = {
-    getDOMNode: [
-      'getDOMNode',
-      'Use React.findDOMNode(component) instead.'
-    ],
-    isMounted: [
-      'isMounted',
-      'Instead, make sure to clean up subscriptions and pending requests in ' +
-      'componentWillUnmount to prevent memory leaks.'
-    ],
-    replaceProps: [
-      'replaceProps',
-      'Instead, call React.render again at the top level.'
-    ],
-    replaceState: [
-      'replaceState',
-      'Refactor your code to use setState instead (see ' +
-      'https://github.com/facebook/react/issues/3236).'
-    ],
-    setProps: [
-      'setProps',
-      'Instead, call React.render again at the top level.'
-    ]
+    getDOMNode: 'getDOMNode',
+    isMounted: 'isMounted',
+    replaceProps: 'replaceProps',
+    replaceState: 'replaceState',
+    setProps: 'setProps'
   };
-  var defineDeprecationWarning = function(methodName, info) {
+  var defineDeprecationWarning = function(methodName, displayName) {
     try {
       Object.defineProperty(ReactComponent.prototype, methodName, {
         get: function() {
           ("production" !== process.env.NODE_ENV ? warning(
             false,
-            '%s(...) is deprecated in plain JavaScript React classes. %s',
-            info[0],
-            info[1]
+            '%s(...) is deprecated in plain JavaScript React classes.',
+            displayName
           ) : null);
           return undefined;
         }
@@ -11798,7 +11932,6 @@ var ReactCompositeComponentMixin = {
     this._pendingReplaceState = false;
     this._pendingForceUpdate = false;
 
-    var childContext;
     var renderedElement;
 
     var previouslyMounting = ReactLifeCycle.currentlyMountingInstance;
@@ -11813,8 +11946,7 @@ var ReactCompositeComponentMixin = {
         }
       }
 
-      childContext = this._getValidatedChildContext(context);
-      renderedElement = this._renderValidatedComponent(childContext);
+      renderedElement = this._renderValidatedComponent();
     } finally {
       ReactLifeCycle.currentlyMountingInstance = previouslyMounting;
     }
@@ -11828,7 +11960,7 @@ var ReactCompositeComponentMixin = {
       this._renderedComponent,
       rootID,
       transaction,
-      this._mergeChildContext(context, childContext)
+      this._processChildContext(context)
     );
     if (inst.componentDidMount) {
       transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
@@ -11958,7 +12090,7 @@ var ReactCompositeComponentMixin = {
    * @return {object}
    * @private
    */
-  _getValidatedChildContext: function(currentContext) {
+  _processChildContext: function(currentContext) {
     var inst = this._instance;
     var childContext = inst.getChildContext && inst.getChildContext();
     if (childContext) {
@@ -11983,13 +12115,6 @@ var ReactCompositeComponentMixin = {
           name
         ) : invariant(name in inst.constructor.childContextTypes));
       }
-      return childContext;
-    }
-    return null;
-  },
-
-  _mergeChildContext: function(currentContext, childContext) {
-    if (childContext) {
       return assign({}, currentContext, childContext);
     }
     return currentContext;
@@ -12249,10 +12374,6 @@ var ReactCompositeComponentMixin = {
       return inst.state;
     }
 
-    if (replace && queue.length === 1) {
-      return queue[0];
-    }
-
     var nextState = assign({}, replace ? queue[0] : inst.state);
     for (var i = replace ? 1 : 0; i < queue.length; i++) {
       var partial = queue[i];
@@ -12322,14 +12443,13 @@ var ReactCompositeComponentMixin = {
   _updateRenderedComponent: function(transaction, context) {
     var prevComponentInstance = this._renderedComponent;
     var prevRenderedElement = prevComponentInstance._currentElement;
-    var childContext = this._getValidatedChildContext();
-    var nextRenderedElement = this._renderValidatedComponent(childContext);
+    var nextRenderedElement = this._renderValidatedComponent();
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
         prevComponentInstance,
         nextRenderedElement,
         transaction,
-        this._mergeChildContext(context, childContext)
+        this._processChildContext(context)
       );
     } else {
       // These two IDs are actually the same! But nothing should rely on that.
@@ -12345,7 +12465,7 @@ var ReactCompositeComponentMixin = {
         this._renderedComponent,
         thisID,
         transaction,
-        this._mergeChildContext(context, childContext)
+        this._processChildContext(context)
       );
       this._replaceNodeWithMarkupByID(prevComponentID, nextMarkup);
     }
@@ -12383,12 +12503,11 @@ var ReactCompositeComponentMixin = {
   /**
    * @private
    */
-  _renderValidatedComponent: function(childContext) {
+  _renderValidatedComponent: function() {
     var renderedComponent;
     var previousContext = ReactContext.current;
-    ReactContext.current = this._mergeChildContext(
-      this._currentElement._context,
-      childContext
+    ReactContext.current = this._processChildContext(
+      this._currentElement._context
     );
     ReactCurrentOwner.current = this;
     try {
@@ -12759,7 +12878,6 @@ var ReactDOM = mapObject({
 
   // SVG
   circle: 'circle',
-  clipPath: 'clipPath',
   defs: 'defs',
   ellipse: 'ellipse',
   g: 'g',
@@ -12912,13 +13030,11 @@ function assertValidProps(props) {
       'Can only set one of `children` or `props.dangerouslySetInnerHTML`.'
     ) : invariant(props.children == null));
     ("production" !== process.env.NODE_ENV ? invariant(
-      typeof props.dangerouslySetInnerHTML === 'object' &&
-      '__html' in props.dangerouslySetInnerHTML,
+      props.dangerouslySetInnerHTML.__html != null,
       '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. ' +
-      'Please visit https://fb.me/react-invariant-dangerously-set-inner-html ' +
+      'Please visit http://fb.me/react-invariant-dangerously-set-inner-html ' +
       'for more information.'
-    ) : invariant(typeof props.dangerouslySetInnerHTML === 'object' &&
-    '__html' in props.dangerouslySetInnerHTML));
+    ) : invariant(props.dangerouslySetInnerHTML.__html != null));
   }
   if ("production" !== process.env.NODE_ENV) {
     ("production" !== process.env.NODE_ENV ? warning(
@@ -15731,7 +15847,7 @@ function warnAndMonitorForKeyUse(message, element, parentType) {
 
   ("production" !== process.env.NODE_ENV ? warning(
     false,
-    message + '%s%s See https://fb.me/react-warning-keys for more information.',
+    message + '%s%s See http://fb.me/react-warning-keys for more information.',
     parentOrOwnerAddendum,
     childOwnerAddendum
   ) : null);
@@ -20565,7 +20681,6 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
 var SVGDOMPropertyConfig = {
   Properties: {
-    clipPath: MUST_USE_ATTRIBUTE,
     cx: MUST_USE_ATTRIBUTE,
     cy: MUST_USE_ATTRIBUTE,
     d: MUST_USE_ATTRIBUTE,
@@ -20611,7 +20726,6 @@ var SVGDOMPropertyConfig = {
     y: MUST_USE_ATTRIBUTE
   },
   DOMAttributeNames: {
-    clipPath: 'clip-path',
     fillOpacity: 'fill-opacity',
     fontFamily: 'font-family',
     fontSize: 'font-size',
@@ -23432,7 +23546,6 @@ var shouldWrap = {
   // Force wrapping for SVG elements because if they get created inside a <div>,
   // they will be initialized in the wrong namespace (and will not display).
   'circle': true,
-  'clipPath': true,
   'defs': true,
   'ellipse': true,
   'g': true,
@@ -23475,7 +23588,6 @@ var markupWrap = {
   'th': trWrap,
 
   'circle': svgWrap,
-  'clipPath': svgWrap,
   'defs': svgWrap,
   'ellipse': svgWrap,
   'g': svgWrap,
