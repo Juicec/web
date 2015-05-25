@@ -18,7 +18,7 @@
 		function __construct() {
 			try {
 				$dsn = 'mysql:dbname='.SiteData::$db_name.';host='.SiteData::$db_ip;
-				$this->db = new PDO($dsn, SiteData::$db_user, SiteData::get_db_pw());
+				$this->db = new PDO($dsn, SiteData::get_db_name(), SiteData::get_db_pw(), array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 				$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			} catch (PDOException $e) {
 				die('Подключение не удалось: ' . $e->getMessage());

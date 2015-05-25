@@ -17,7 +17,8 @@ module.exports = {
             'js/warp/**/*.js',
         ],
         tasks: [
-            'browserify:dev'
+            'browserify:dev',
+            'extract_sourcemap:new'
         ]
     },
 

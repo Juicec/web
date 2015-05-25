@@ -1,0 +1,51 @@
+[25-May-2015 12:24:20 UTC] PHP Fatal error:  Can't use method return value in write context in /home/frolad/public_html/web/warp/sync/controls.php on line 71
+[25-May-2015 12:24:20 UTC] PHP Fatal error:  Can't use method return value in write context in /home/frolad/public_html/web/warp/sync/controls.php on line 71
+[25-May-2015 12:25:46 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 137
+[25-May-2015 12:25:47 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 137
+[25-May-2015 12:26:31 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 137
+[25-May-2015 12:26:32 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 137
+[25-May-2015 12:26:33 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 137
+[25-May-2015 12:26:34 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 137
+[25-May-2015 12:27:00 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 147
+[25-May-2015 12:27:00 UTC] PHP Parse error:  syntax error, unexpected '&&' (T_BOOLEAN_AND), expecting ')' in /home/frolad/public_html/web/lib/calls.php on line 147
+[25-May-2015 12:27:17 UTC] PHP Fatal error:  Can't use method return value in write context in /home/frolad/public_html/web/lib/company.php on line 32
+[25-May-2015 12:27:18 UTC] PHP Fatal error:  Can't use method return value in write context in /home/frolad/public_html/web/lib/company.php on line 32
+[25-May-2015 12:28:08 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/warp/sync/controls.php:59) in /home/frolad/public_html/web/lib/pages.php on line 29
+[25-May-2015 12:41:10 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:10 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:41:10 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:19 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:19 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:41:19 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:19 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:19 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:41:19 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:41:19 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:19 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:41:19 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:41:19 UTC] PHP Warning:  PDO::setAttribute() expects exactly 2 parameters, 3 given in /home/frolad/public_html/web/warp/sync/model.php on line 22
+[25-May-2015 12:41:19 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:41:19 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/warp/sync/model.php:22) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:42:43 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:42:45 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:42:45 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:42:45 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:42:45 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:42:45 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:42:45 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:42:45 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:42:59 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48
+[25-May-2015 12:42:59 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:42:59 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48
+[25-May-2015 12:43:00 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48
+[25-May-2015 12:43:00 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48
+[25-May-2015 12:43:00 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:43:00 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:43:00 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:43:00 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:43:01 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48
+[25-May-2015 12:43:01 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:43:01 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/view.php on line 46
+[25-May-2015 12:43:01 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48
+[25-May-2015 12:43:01 UTC] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home/frolad/public_html/web/root/config.php:48) in /home/frolad/public_html/web/warp/sync/controls.php on line 33
+[25-May-2015 12:43:01 UTC] PHP Warning:  getenv() expects exactly 1 parameter, 0 given in /home/frolad/public_html/web/root/config.php on line 48

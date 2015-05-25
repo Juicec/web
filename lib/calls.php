@@ -143,7 +143,7 @@
 		}
 
 		public function company_manager_set(){
-			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'] && !empty($_REQUEST['email']))){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id']) && !empty($_REQUEST['email'])){
 				$this->company = new Company($_REQUEST['company_id']);
 				$user_id = $this->company->set_company_manager($_REQUEST['email']);
 				$this->return_json($_REQUEST);
@@ -153,7 +153,7 @@
 		}
 
 		public function company_manager_delete(){
-			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id'] && !empty($_REQUEST['email']))){
+			if ($_SESSION['is_login'] && $_SESSION['user']->role_id != 1 && !empty($_REQUEST['company_id']) && !empty($_REQUEST['email'])){
 				$this->company = new Company($_REQUEST['company_id']);
 				$user_id = $this->company->delete_company_manager($_REQUEST['email']);
 				$this->return_json($_REQUEST);
