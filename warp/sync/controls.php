@@ -56,7 +56,6 @@
 		
 		public function upd_session_array($direct = false){
 			if ((isset($_SESSION["logged_in"]) && !is_numeric($_SESSION["logged_in"])) || $direct) {
-				echo 123;
 				$session_this = clone $this;
 				unset($session_this->db);
 	            $_SESSION['user'] = $session_this;
@@ -68,7 +67,8 @@
 		}
 		
 		public function make_new_user($email, $password, $reg_key, $first_name = 'anonymous', $last_name = 'anonymous', $phone){
-			if (empty($this->get_user_data_by_email($email))){
+			$data = $this->get_user_data_by_email($email);
+			if (empty($data)){
 				$_company = new Company();
 				$company = $_company->get_company_data_by_key($reg_key);
 				if (!empty($company)){

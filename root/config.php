@@ -42,7 +42,14 @@ class SiteData {
 	
 	public static $db_ip = 'localhost';
 	public static $db_name = 'myhope';
-	public static $db_user = 'root';
+	public static $db_user = 'myhope';
+	
+	public static function get_db_name() {
+		if ($_SERVER["SERVER_ADDR"] == '166.62.28.80')
+			return 'myhope';
+		else
+			return 'root';
+	}
 
 	public static function get_db_pw() { 
 		$username = getenv("username");

@@ -29,7 +29,8 @@
 
 		//+++++
 		public function add_new($name, $description = null, $phone = null) {
-			if (empty($this->get_company_data_by_name($name)) && $this->user->role_id == 3){
+			$data = $this->get_company_data_by_name($name);
+			if (empty($data) && $this->user->role_id == 3){
 				$reg_key = $this->generate_reg_key();
 				$sql = 'INSERT INTO company (name, description, reg_key, phone) VALUES (?, ?, ?, ?)';
 				$company_id = $this->db->insert($sql, array($name, $description, $reg_key, $phone));
